@@ -1,0 +1,134 @@
+<html>
+
+<head><title>Typing</title></head>
+
+<body>
+
+<div id="selectDiv">
+	<p>Enter raw GitHub link</p>
+	<p class="small">Or, leave blank for default code</p>
+	<input id="githubinput" type="text" size=50></input>
+	<button id="githubbutton" style="display: inline-block;">-></button>
+</div>
+
+<div id="writingDiv" class="displaynone">
+	<div id="timer">00:00</div>
+	<div tabindex="0" id="words"></div>
+</div>
+
+<div id="resultDiv" class="displaynone">
+	Your speed is <span id="cpmDiv"></span> CPM!
+	<br/>
+	Accuracy: <span id="accuracy"></span>%
+</div>
+
+<script>
+var _0x5984=['writingDiv','resultDiv','selectDiv','contains','2939tYjwnD','162482LwfPlJ','addEventListener','running','keydown','preventDefault','displaynone','div','appendChild','active','split','push','then','if\x20__name__\x20==\x20\x22__main__\x22:\x0a\x20\x20\x20\x20print(\x22Hello,\x20world!\x22)\x0a\x20\x20\x20\x20print(\x22-\x20Christoffer\x22)','childNodes','removeChild','309kmBWyB','finalElement','text','add','classList','length','411829jTbizL','round','remove','removeEventListener','getElementById','1CvxUGL','cpmDiv','value','error','createElement','floor','correct','character','now','innerHTML','236298fSRYbe','githubbutton','replaceAll','73640LGwfKZ','Backspace','key','last','546360lDMOuk','2692707wgsyNF','words'];var _0x1a474f=_0x15f6;(function(_0x138f49,_0x512fd5){var _0x172633=_0x15f6;while(!![]){try{var _0x109982=parseInt(_0x172633(0x1f5))+-parseInt(_0x172633(0x203))*parseInt(_0x172633(0x213))+-parseInt(_0x172633(0x1fc))+-parseInt(_0x172633(0x204))+parseInt(_0x172633(0x1eb))*-parseInt(_0x172633(0x1e6))+parseInt(_0x172633(0x1f8))+parseInt(_0x172633(0x1fd));if(_0x109982===_0x512fd5)break;else _0x138f49['push'](_0x138f49['shift']());}catch(_0xa5a50f){_0x138f49['push'](_0x138f49['shift']());}}}(_0x5984,0xedbff));var wordsDiv=document['getElementById'](_0x1a474f(0x1fe)),myCode=_0x1a474f(0x210),lines=myCode[_0x1a474f(0x20d)]('\x0a'),allCharacters=[];function generateCode(){var _0x8dde59=_0x1a474f;lines=myCode[_0x8dde59(0x20d)]('\x0a'),allCharacters=[];for(var _0x54a840=0x0;_0x54a840<lines['length'];_0x54a840++){var _0x5641a6=lines[_0x54a840],_0x2e0f71=document[_0x8dde59(0x1ef)](_0x8dde59(0x20a));for(var _0x395190=0x0;_0x395190<_0x5641a6[_0x8dde59(0x1e5)];_0x395190++){const _0x266e9e=document[_0x8dde59(0x1ef)](_0x8dde59(0x1f2));_0x266e9e[_0x8dde59(0x1f4)]=_0x5641a6[_0x395190],_0x54a840>0x0&&_0x395190==_0x5641a6[_0x8dde59(0x1e5)]-0x1&&_0x266e9e[_0x8dde59(0x1e4)][_0x8dde59(0x216)](_0x8dde59(0x1fb)),_0x2e0f71[_0x8dde59(0x20b)](_0x266e9e),allCharacters[_0x8dde59(0x20e)](_0x266e9e);}if(_0x5641a6[_0x8dde59(0x1e5)]>0x0)wordsDiv[_0x8dde59(0x20b)](_0x2e0f71);}allCharacters[0x0][_0x8dde59(0x1e4)]['add'](_0x8dde59(0x20c)),allCharacters[allCharacters['length']-0x1]['classList'][_0x8dde59(0x216)](_0x8dde59(0x214));}function _0x15f6(_0x2e512f,_0x33447a){return _0x15f6=function(_0x59848b,_0x15f6e0){_0x59848b=_0x59848b-0x1e4;var _0x4c4dd8=_0x5984[_0x59848b];return _0x4c4dd8;},_0x15f6(_0x2e512f,_0x33447a);}var characterProgress=0x0,numCorrect=0x0,numErrors=0x0,elapsedTime=0x0,intervalId=undefined,isTimerRunning=![];function startTimer(){var _0x247972=_0x1a474f;if(isTimerRunning)return;isTimerRunning=!![];const _0x20df51=document[_0x247972(0x1ea)]('timer');_0x20df51[_0x247972(0x1e4)][_0x247972(0x216)](_0x247972(0x206));var _0x36d1cf=Date[_0x247972(0x1f3)]();intervalId=setInterval(function(){var _0x3c5734=_0x247972,_0x4c5241=Date[_0x3c5734(0x1f3)]();elapsedTime=Math[_0x3c5734(0x1f0)]((_0x4c5241-_0x36d1cf)/0x3e8);var _0x4e6905=Math[_0x3c5734(0x1f0)](elapsedTime/0x3c),_0x1a7d78=elapsedTime-_0x4e6905*0x3c,_0x11cf2d='';if(_0x4e6905<0xa)_0x11cf2d='0'+_0x4e6905;else _0x11cf2d+=_0x4e6905;var _0x3e4cfc='';if(_0x1a7d78<0xa)_0x3e4cfc='0'+_0x1a7d78;else _0x3e4cfc+=_0x1a7d78;_0x20df51[_0x3c5734(0x1f4)]=_0x11cf2d+':'+_0x3e4cfc;},0x64);}function writing_done(){var _0x496ee0=_0x1a474f;clearInterval(intervalId),document[_0x496ee0(0x1ea)](_0x496ee0(0x1fe))[_0x496ee0(0x1e9)](_0x496ee0(0x207),onKeyDown_handler);var _0x53eddb=myCode[_0x496ee0(0x1f7)]('\x0a','')['length'],_0x57ea1f=Math['round'](0x3c*(_0x53eddb/elapsedTime)),_0x4bfd69=Math[_0x496ee0(0x1e7)](0x64*numCorrect/_0x53eddb);document[_0x496ee0(0x1ea)](_0x496ee0(0x1ff))['classList'][_0x496ee0(0x216)](_0x496ee0(0x209)),document[_0x496ee0(0x1ea)](_0x496ee0(0x200))[_0x496ee0(0x1e4)][_0x496ee0(0x1e8)](_0x496ee0(0x209)),document[_0x496ee0(0x1ea)](_0x496ee0(0x1ec))[_0x496ee0(0x1f4)]=''+_0x57ea1f,document[_0x496ee0(0x1ea)]('accuracy')[_0x496ee0(0x1f4)]=''+_0x4bfd69;}function onKeyDown_handler(_0x3f0a09){var _0x179f28=_0x1a474f;_0x3f0a09[_0x179f28(0x208)](),startTimer();if(_0x3f0a09[_0x179f28(0x1fa)]==_0x179f28(0x1f9)){if(characterProgress===0x0)return![];allCharacters[characterProgress][_0x179f28(0x1e4)][_0x179f28(0x1e8)](_0x179f28(0x20c)),characterProgress--,allCharacters[characterProgress][_0x179f28(0x1e4)][_0x179f28(0x202)](_0x179f28(0x1f1))?numCorrect--:numErrors--,allCharacters[characterProgress][_0x179f28(0x1e4)][_0x179f28(0x1e8)](_0x179f28(0x1f1)),allCharacters[characterProgress]['classList'][_0x179f28(0x1e8)]('error'),allCharacters[characterProgress][_0x179f28(0x1e4)][_0x179f28(0x216)]('active');}if(_0x3f0a09[_0x179f28(0x1fa)][_0x179f28(0x1e5)]>0x1)return![];allCharacters[characterProgress][_0x179f28(0x1f4)]===_0x3f0a09[_0x179f28(0x1fa)]?(allCharacters[characterProgress]['classList'][_0x179f28(0x216)](_0x179f28(0x1f1)),numCorrect++):(allCharacters[characterProgress][_0x179f28(0x1e4)]['add'](_0x179f28(0x1ee)),numErrors++);allCharacters[characterProgress][_0x179f28(0x1e4)][_0x179f28(0x1e8)](_0x179f28(0x20c));if(allCharacters[characterProgress][_0x179f28(0x1e4)][_0x179f28(0x202)](_0x179f28(0x214)))return writing_done(),![];if(allCharacters[characterProgress][_0x179f28(0x1e4)]['contains']('last')){var _0x461ca1=wordsDiv[_0x179f28(0x211)][0x0];for(let _0x1e824e=0x0;_0x1e824e<_0x461ca1[_0x179f28(0x211)][_0x179f28(0x1e5)];_0x1e824e++){var _0x228adb=allCharacters['indexOf'](_0x461ca1[_0x179f28(0x211)][_0x1e824e]);allCharacters['splice'](_0x228adb,0x1);}return wordsDiv[_0x179f28(0x212)](wordsDiv[_0x179f28(0x211)][0x0]),characterProgress=wordsDiv[_0x179f28(0x211)][0x0][_0x179f28(0x211)][_0x179f28(0x1e5)],allCharacters[characterProgress][_0x179f28(0x1e4)][_0x179f28(0x216)](_0x179f28(0x20c)),![];}return characterProgress++,allCharacters[characterProgress][_0x179f28(0x1e4)][_0x179f28(0x216)]('active'),![];}document['getElementById']('words')[_0x1a474f(0x205)](_0x1a474f(0x207),onKeyDown_handler),document['getElementById'](_0x1a474f(0x1f6))[_0x1a474f(0x205)]('click',function(){var _0x5ee3bf=_0x1a474f,_0x235a58=document[_0x5ee3bf(0x1ea)]('githubinput')[_0x5ee3bf(0x1ed)];if(_0x235a58[_0x5ee3bf(0x1e5)]===0x0){generateCode(),document['getElementById']('selectDiv')[_0x5ee3bf(0x1e4)][_0x5ee3bf(0x216)](_0x5ee3bf(0x209)),document['getElementById']('writingDiv')['classList']['remove'](_0x5ee3bf(0x209));return;}fetch(_0x235a58)[_0x5ee3bf(0x20f)](_0x440de4=>{var _0x1bcdaf=_0x5ee3bf;_0x440de4[_0x1bcdaf(0x215)]()[_0x1bcdaf(0x20f)](_0x55d695=>{var _0x2c471d=_0x1bcdaf;myCode=_0x55d695,generateCode(),document[_0x2c471d(0x1ea)](_0x2c471d(0x201))['classList'][_0x2c471d(0x216)](_0x2c471d(0x209)),document[_0x2c471d(0x1ea)](_0x2c471d(0x1ff))['classList']['remove'](_0x2c471d(0x209));});});});
+</script>
+
+<style>
+
+body {
+	background: #323437;
+}
+
+#timer {
+	font-family: monospace;
+	font-size: 48px;
+	color: #646669;;
+}
+
+#words {
+	font-family: monospace;
+	font-size: 24px;
+	overflow: hidden;
+	height: 100px;
+	min-width: 800px;
+	margin: 0 auto;
+	background: #323437;
+	padding: 15px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-ms-transform: translateX(-50%) translateY(-50%);
+	-webkit-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+}
+
+#resultDiv {
+	font-family: monospace;
+	font-size: 36px;
+	overflow: hidden;
+	height: 100px;
+	color: #d1d0c5;
+	margin: 0 auto;
+	background: #323437;
+	padding: 15px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-ms-transform: translateX(-50%) translateY(-50%);
+	-webkit-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+	text-align: center;
+}
+
+#selectDiv {
+	font-family: monospace;
+	font-size: 36px;
+	overflow: hidden;
+	height: 250px;
+	color: #d1d0c5;
+	margin: 0 auto;
+	background: #323437;
+	padding: 15px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-ms-transform: translateX(-50%) translateY(-50%);
+	-webkit-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+	text-align: center;
+}
+
+character {
+	white-space: pre;
+	color: #646669;
+}
+
+.correct {
+	color: #d1d0c5;
+}
+
+#timer.running {
+	color: #d1d0c5;
+}
+
+.error {
+	color: #ca4754;
+}
+
+.active {
+	border-bottom: 2px dashed yellow;
+}
+
+.displaynone {
+	display: none;
+}
+
+p.small {
+	margin-top: -25px;
+	font-size: 14px;
+}
+
+button,input {
+	outline: none;
+	border: none;
+	height: 25px;
+}
+
+</style>
+
+</body>
+
+</html>
