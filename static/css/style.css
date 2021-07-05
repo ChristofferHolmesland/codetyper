@@ -1,0 +1,99 @@
+
+body {
+	background: #323437;
+}
+
+#timer {
+	font-family: monospace;
+	font-size: 48px;
+	color: #646669;;
+}
+
+#words {
+	font-family: monospace;
+	font-size: 24px;
+	overflow: hidden;
+	height: 100px;
+	min-width: 800px;
+	margin: 0 auto;
+	background: #323437;
+	padding: 15px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-ms-transform: translateX(-50%) translateY(-50%);
+	-webkit-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+}
+
+#resultDiv {
+	font-family: monospace;
+	font-size: 36px;
+	overflow: hidden;
+	height: 100px;
+	color: #d1d0c5;
+	margin: 0 auto;
+	background: #323437;
+	padding: 15px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-ms-transform: translateX(-50%) translateY(-50%);
+	-webkit-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+	text-align: center;
+}
+
+#selectDiv {
+	font-family: monospace;
+	font-size: 36px;
+	overflow: hidden;
+	height: 250px;
+	color: #d1d0c5;
+	margin: 0 auto;
+	background: #323437;
+	padding: 15px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-ms-transform: translateX(-50%) translateY(-50%);
+	-webkit-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+	text-align: center;
+}
+
+character {
+	white-space: pre;
+	color: #646669;
+}
+
+.correct {
+	color: #d1d0c5;
+}
+
+#timer.running {
+	color: #d1d0c5;
+}
+
+.error {
+	color: #ca4754;
+}
+
+.active {
+	border-bottom: 2px dashed yellow;
+}
+
+.displaynone {
+	display: none;
+}
+
+p.small {
+	margin-top: -25px;
+	font-size: 14px;
+}
+
+button,input {
+	outline: none;
+	border: none;
+	height: 25px;
+}
