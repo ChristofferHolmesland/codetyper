@@ -3,17 +3,22 @@
 		<title>codetyper</title>
 		<link rel="stylesheet" href="static/css/style.css">
 	</head>
-
+	<style>
+		.btn {
+			background-color: #007bff;
+			color: #fff;
+		}
+		.btn:hover {
+			background-color: #1e90ff;
+		}
+	</style>
 	<body>
 
 		<div id="selectDiv">
 			<p>Enter raw GitHub link</p>
 			<p class="small">Or, leave blank for default code</p>
 			<input id="githubinput" type="text" size=50></input>
-			<button id="githubbutton" style="display: inline-block;">-></button>
-		</div>
-
-		<div id="writingDiv" class="displaynone">
+			<button id="githubbutton" style="display: inline-block;">-></button><br>
 			<button class="btn" id="java">Java</button>
 			<button class="btn" id="c">C</button>
 			<button class="btn" id="cpp">C++</button>
@@ -22,6 +27,9 @@
 			<button class="btn" id="go">Go</button>
 			<button class="btn" id="kotlin">Kotlin</button>
 			<button class="btn" id="js">JavaScript</button>
+		</div>
+
+		<div id="writingDiv" class="displaynone">
 			<div id="timer">00:00</div>
 			<div tabindex="0" id="words"></div>
 		</div>

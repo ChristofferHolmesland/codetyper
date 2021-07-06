@@ -48,7 +48,11 @@ body {
 	font-family: monospace;
 	font-size: 36px;
 	overflow: hidden;
-	height: 250px;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	position: absolute;
 	color: #d1d0c5;
 	margin: 0 auto;
 	background: #323437;

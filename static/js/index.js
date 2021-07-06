@@ -10,34 +10,23 @@ const js = document.getElementById("js");
 
 var myCodeArr = [`if __name__ == "__main__":
 	print("Hello, world!")
-	print(" - Christoffer")`, `public class Main {
-        public static void main(String[] args) {
-          String greeting = "Hello";
-          System.out.println(greeting);
-        }
-    }`, `#include <stdio.h>
-	int main() {
-	   printf("Hello, World!");
-	   return 0;
-	}
-	`, `#include <iostream>
-	int main() {
-		std::cout << "Hello World!";
-		return 0;
-	}
-	`, `class Hello {         
-        static void Main(string[] args)
-        {
-            System.Console.WriteLine("Hello World!");
-        }
-    }`, `package main
-import "fmt"
-func main() {
-	fmt.Println("hello world")
+	print(" - Christoffer")`, `public static void main(String[] args) {
+    String greeting = "Hello";
+    System.out.println(greeting);
+}`, `int main() {
+	printf("Hello, World!");
+	return 0;
+}`, `int main() {
+	std::cout << "Hello World!";
+	return 0;
+}`, `static void Main(string[] args) {
+    System.Console.WriteLine("Hello World!");
+}`, `func main() {
+	fmt.Println("Hello, Worl!")
 }`, `fun main() {
     println("Hello, World!")
 }`, `function main() {
-	console.log("Hello, world!")
+	console.log("Hello, World!")
 };
 main();`];
 
@@ -45,6 +34,7 @@ var myCode;
 
 java.addEventListener('click', () => {
 	myCode = myCodeArr[1]
+	console.log(myCode);
 })
 
 c.addEventListener('click', () => {
@@ -234,3 +224,5 @@ document.getElementById("githubbutton").addEventListener("click", function() {
 		});
 	});
 });
+
+document.body.innerHTML.search('<').replaceAll('<', '\<')
