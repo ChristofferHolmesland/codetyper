@@ -18,6 +18,7 @@
 			<p>Enter raw GitHub link</p>
 			<p class="small">Or, leave blank for default code</p>
 			<input id="githubinput" type="text" size=50></input>
+
 			<button id="githubbutton" style="display: inline-block;">-></button><br>
 			<button class="btn githubbutton" id="java">Java</button>
 			<button class="btn githubbutton" id="c">C</button>
@@ -27,6 +28,14 @@
 			<button class="btn githubbutton" id="go">Go</button>
 			<button class="btn githubbutton" id="kotlin">Kotlin</button>
 			<button class="btn githubbutton" id="js">JavaScript</button>
+			
+			<br />
+			<div id="limits">
+				<p>Limits</p>
+				<label>Number of lines:</label>
+				<input id="line_limit" type="number" min="1" placeholder="No limit"></input>
+			</div>
+
 		</div>
 
 		<div id="writingDiv" class="displaynone">

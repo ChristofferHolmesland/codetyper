@@ -85,7 +85,14 @@ var allCharacters = [];
 function generateCode() {
 	lines = myCode.split("\n");
 	allCharacters = [];
-
+	
+	line_limit = document.getElementById("line_limit").value;
+	if (line_limit.length > 0) {
+		line_limit = parseInt(line_limit);
+		lines = lines.splice(0, line_limit);
+		myCode = lines.join("\n");
+	}
+	
 	for (var i = 0; i < lines.length; i++) {
 		var line = lines[i];
 		
