@@ -106,3 +106,13 @@ button,input {
 	border: none;
 	height: 25px;
 }
+
+#limits {
+	padding-top: 5px;
+	font-size: 12px;
+}
+
+#limits > input {
+	height: 16px;
+	width: 75px;
+}
