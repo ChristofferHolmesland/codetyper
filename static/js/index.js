@@ -1,9 +1,80 @@
 var wordsDiv = document.getElementById("words");
+const java = document.getElementById("java");
+const c = document.getElementById("c");
+const cpp = document.getElementById("cpp");
+const csharp = document.getElementById("csharp");
+const py = document.getElementById("py");
+const go = document.getElementById("go");
+const kotlin = document.getElementById("kotlin");
+const js = document.getElementById("js");
 
-var myCode = `if __name__ == "__main__":
-    print("Hello, world!")
-    print(" - Christoffer")`;
+var myCodeArr = [`if __name__ == "__main__":
+	print("Hello, world!")
+	print(" - Christoffer")`, `public class Main {
+        public static void main(String[] args) {
+          String greeting = "Hello";
+          System.out.println(greeting);
+        }
+    }`, `#include <stdio.h>
+	int main() {
+	   printf("Hello, World!");
+	   return 0;
+	}
+	`, `#include <iostream>
+	int main() {
+		std::cout << "Hello World!";
+		return 0;
+	}
+	`, `class Hello {         
+        static void Main(string[] args)
+        {
+            System.Console.WriteLine("Hello World!");
+        }
+    }`, `package main
+import "fmt"
+func main() {
+	fmt.Println("hello world")
+}`, `fun main() {
+    println("Hello, World!")
+}`, `function main() {
+	console.log("Hello, world!")
+};
+main();`];
 
+var myCode;
+
+java.addEventListener('click', () => {
+	myCode = myCodeArr[1]
+})
+
+c.addEventListener('click', () => {
+	myCode = myCodeArr[2]
+})
+
+cpp.addEventListener('click', () => {
+	myCode = myCodeArr[3]
+})
+
+csharp.addEventListener('click', () => {
+	myCode = myCodeArr[4]
+})
+
+py.addEventListener('click', () => {
+	myCode = myCodeArr[0]
+})
+
+go.addEventListener('click', () => {
+	myCode = myCodeArr[5]
+})
+
+kotlin.addEventListener('click', () => {
+	myCode = myCodeArr[6]
+})
+
+js.addEventListener('click', () => {
+	myCode = myCodeArr[7]
+})
+myCode = myCodeArr[0]
 var lines = myCode.split("\n");
 var allCharacters = [];
 	
