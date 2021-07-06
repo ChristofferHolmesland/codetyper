@@ -131,6 +131,13 @@ function startTimer() {
 	const timer = document.getElementById("timer");
 	timer.classList.add("running");
 	
+	var time_limit = document.getElementById("time_limit").value;
+	if (time_limit.length > 0) {
+		time_limit = parseInt(time_limit);
+	} else {
+		time_limit = false;
+	}
+	
 	var startTime = Date.now();
 	
 	intervalId = setInterval(function() {
@@ -149,6 +156,10 @@ function startTimer() {
 		else secondsText += seconds;
 		
 		timer.innerHTML = minutesText + ":" + secondsText;
+		
+		if (time_limit && elapsedTime >= time_limit) {
+			writing_done();
+		}
 	}, 100);
 }
 
@@ -157,8 +168,7 @@ function writing_done() {
 	document.getElementById("words").removeEventListener("keydown", onKeyDown_handler);
 	
 	var length = myCode.replaceAll("\n", "").length;
-	var wpmLength = myCode.replaceAll("\n", "").split(" ")
-	var cpm = Math.round(60 * (length / elapsedTime));
+	var cpm = Math.round(60 * ((numCorrect + numErrors) / elapsedTime));
 	var accuracy = Math.round(100 * numCorrect / length);
 	
 	document.getElementById("writingDiv").classList.add("displaynone");
