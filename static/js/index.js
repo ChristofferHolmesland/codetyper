@@ -91,10 +91,7 @@ function onKeyDown_handler(key) {
 	
 	startTimer();
 
-	while (lines[0] == true) {
-        if (allCharacters[characterProgress].key == 8) return false;
-    }
-    if (key.key == 8) {
+    if (key.key =="BackSpace") {
         if (characterProgress === 0) return false;
 		
 		allCharacters[characterProgress].classList.remove("active");
