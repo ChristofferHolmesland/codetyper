@@ -8,7 +8,6 @@ var codeSnippets = [
   `if __name__ == "__main__":
       print("Hello, world!")
       print(" - Christoffer")`,
-
   `import hashlib, gzip, sys
    def hasher(string):
        return str(hashlib.sha1(string.encode()).hexdigest())`,
