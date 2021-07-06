@@ -114,11 +114,12 @@ function writing_done() {
 function onKeyDown_handler(key) {
 	key.preventDefault();
 
-	startTimer();
+	if (key.key != "Backspace" && characterProgress === 0) {
+		startTimer();
+	}
 
 	if (key.key == "Backspace") {
 		if (characterProgress === 0) return false;
-
 		allCharacters[characterProgress].classList.remove("active");
 		characterProgress--;
 
