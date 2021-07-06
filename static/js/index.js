@@ -91,22 +91,26 @@ function onKeyDown_handler(key) {
 	
 	startTimer();
 
-    if (key.key =="BackSpace") {
+    while (lines[0] == true) {
+        if (allCharacters[characterProgress].key == 8) return false;
+    }
+    if (key.key == 8) {
         if (characterProgress === 0) return false;
-		
-		allCharacters[characterProgress].classList.remove("active");
-		characterProgress--;
-		
-		if (allCharacters[characterProgress].classList.contains("correct")) {
-			numCorrect--;
-		} else {
-			numErrors--;
-		}
-		
-		allCharacters[characterProgress].classList.remove("correct");
-		allCharacters[characterProgress].classList.remove("error");
-		allCharacters[characterProgress].classList.add("active");
-	}
+
+        allCharacters[characterProgress].classList.remove("active");
+        characterProgress--;
+
+        if (allCharacters[characterProgress].classList.contains("correct")) {
+            numCorrect--;
+        } else {
+            numErrors-- && numerrorspace--;
+        }
+
+        allCharacters[characterProgress].classList.remove("correct");
+        allCharacters[characterProgress].classList.remove("error");
+        allCharacters[characterProgress].classList.remove("errorspace");
+        allCharacters[characterProgress].classList.add("active");
+    }
 
 	if (key.key.length > 1) return false;
 	
