@@ -1,9 +1,84 @@
 var wordsDiv = document.getElementById("words");
+const java = document.getElementById("java");
+const c = document.getElementById("c");
+const cpp = document.getElementById("cpp");
+const csharp = document.getElementById("csharp");
+const py = document.getElementById("py");
+const go = document.getElementById("go");
+const kotlin = document.getElementById("kotlin");
+const js = document.getElementById("js");
 
-var myCode = `if __name__ == "__main__":
-    print("Hello, world!")
-    print(" - Christoffer")`;
+var myCodeArr = [`if __name__ == "__main__":
+	print("Hello, world!")
+	print(" - Christoffer")`, `public static void main(String[] args) {
+    String greeting = "Hello";
+    System.out.println(greeting);
+}`, `int main() {
+	printf("Hello, World!");
+	return 0;
+}`, `int main() {
+	std::cout << "Hello World!";
+	return 0;
+}`, `static void Main(string[] args) {
+    System.Console.WriteLine("Hello World!");
+}`, `func main() {
+	fmt.Println("Hello, Worl!")
+}`, `fun main() {
+    println("Hello, World!")
+}`, `function main() {
+	console.log("Hello, World!");
+};
+main();`];
 
+function callFunc() {
+	generateCode();
+	document.getElementById("selectDiv").classList.add("displaynone");
+	document.getElementById("writingDiv").classList.remove("displaynone");
+	return;
+}
+
+var myCode;
+
+java.addEventListener('click', () => {
+	myCode = myCodeArr[1];
+	callFunc()
+})
+
+c.addEventListener('click', () => {
+	myCode = myCodeArr[2]
+	callFunc()
+})
+
+cpp.addEventListener('click', () => {
+	myCode = myCodeArr[3]
+	callFunc()
+})
+
+csharp.addEventListener('click', () => {
+	myCode = myCodeArr[4]
+	callFunc()
+})
+
+py.addEventListener('click', () => {
+	myCode = myCodeArr[0]
+	callFunc()
+})
+
+go.addEventListener('click', () => {
+	myCode = myCodeArr[5]
+	callFunc()
+})
+
+kotlin.addEventListener('click', () => {
+	myCode = myCodeArr[6]
+	callFunc()
+})
+
+js.addEventListener('click', () => {
+	myCode = myCodeArr[7]
+	callFunc()
+})
+myCode = myCodeArr[0]
 var lines = myCode.split("\n");
 var allCharacters = [];
 	
@@ -75,7 +150,7 @@ function writing_done() {
 	document.getElementById("words").removeEventListener("keydown", onKeyDown_handler);
 	
 	var length = myCode.replaceAll("\n", "").length;
-	
+	var wpmLength = myCode.replaceAll("\n", "").split(" ")
 	var cpm = Math.round(60 * (length / elapsedTime));
 	var accuracy = Math.round(100 * numCorrect / length);
 	
@@ -114,8 +189,14 @@ function onKeyDown_handler(key) {
 		allCharacters[characterProgress].classList.add("correct");
 		numCorrect++;
 	} else {
-		allCharacters[characterProgress].classList.add("error");
-		numErrors++;
+		// Error Code
+		// if (allCharacters[characterProgress].innerHTML == " " && key.key != " ") {
+		// 	allCharacters[characterProgress].classList.add("spacerror")
+		// 	numErrors++;
+		// } else {
+		// 	allCharacters[characterProgress].classList.add("error")
+		// }
+		allCharacters[characterProgress].classList.add("error")
 	}
 	
 	allCharacters[characterProgress].classList.remove("active")
@@ -163,3 +244,5 @@ document.getElementById("githubbutton").addEventListener("click", function() {
 		});
 	});
 });
+
+document.body.innerHTML.search('<').replaceAll('&lt;', '\<')
