@@ -26,43 +26,57 @@ var myCodeArr = [`if __name__ == "__main__":
 }`, `fun main() {
     println("Hello, World!")
 }`, `function main() {
-	console.log("Hello, World!")
+	console.log("Hello, World!");
 };
 main();`];
+
+function callFunc() {
+	generateCode();
+	document.getElementById("selectDiv").classList.add("displaynone");
+	document.getElementById("writingDiv").classList.remove("displaynone");
+	return;
+}
 
 var myCode;
 
 java.addEventListener('click', () => {
-	myCode = myCodeArr[1]
-	console.log(myCode);
+	myCode = myCodeArr[1];
+	callFunc()
 })
 
 c.addEventListener('click', () => {
 	myCode = myCodeArr[2]
+	callFunc()
 })
 
 cpp.addEventListener('click', () => {
 	myCode = myCodeArr[3]
+	callFunc()
 })
 
 csharp.addEventListener('click', () => {
 	myCode = myCodeArr[4]
+	callFunc()
 })
 
 py.addEventListener('click', () => {
 	myCode = myCodeArr[0]
+	callFunc()
 })
 
 go.addEventListener('click', () => {
 	myCode = myCodeArr[5]
+	callFunc()
 })
 
 kotlin.addEventListener('click', () => {
 	myCode = myCodeArr[6]
+	callFunc()
 })
 
 js.addEventListener('click', () => {
 	myCode = myCodeArr[7]
+	callFunc()
 })
 myCode = myCodeArr[0]
 var lines = myCode.split("\n");
@@ -225,4 +239,4 @@ document.getElementById("githubbutton").addEventListener("click", function() {
 	});
 });
 
-document.body.innerHTML.search('<').replaceAll('<', '\<')
+document.body.innerHTML.search('<').replaceAll('&lt;', '\<')
