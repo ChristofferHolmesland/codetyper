@@ -150,7 +150,7 @@ function writing_done() {
 	document.getElementById("words").removeEventListener("keydown", onKeyDown_handler);
 	
 	var length = myCode.replaceAll("\n", "").length;
-	
+	var wpmLength = myCode.replaceAll("\n", "").split(" ")
 	var cpm = Math.round(60 * (length / elapsedTime));
 	var accuracy = Math.round(100 * numCorrect / length);
 	
@@ -189,8 +189,14 @@ function onKeyDown_handler(key) {
 		allCharacters[characterProgress].classList.add("correct");
 		numCorrect++;
 	} else {
-		allCharacters[characterProgress].classList.add("error");
-		numErrors++;
+		// Error Code
+		// if (allCharacters[characterProgress].innerHTML == " " && key.key != " ") {
+		// 	allCharacters[characterProgress].classList.add("spacerror")
+		// 	numErrors++;
+		// } else {
+		// 	allCharacters[characterProgress].classList.add("error")
+		// }
+		allCharacters[characterProgress].classList.add("error")
 	}
 	
 	allCharacters[characterProgress].classList.remove("active")

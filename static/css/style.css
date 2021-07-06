@@ -24,6 +24,7 @@ body {
 	-ms-transform: translateX(-50%) translateY(-50%);
 	-webkit-transform: translate(-50%,-50%);
 	transform: translate(-50%,-50%);
+	outline: 2px solid #007bff;
 }
 
 #resultDiv {
@@ -81,6 +82,10 @@ character {
 
 .error {
 	color: #ca4754;
+}
+
+.spacerror {
+	background-color: #ca4754;
 }
 
 .active {
