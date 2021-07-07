@@ -11,8 +11,8 @@ const js = document.getElementById("js");
 var myCodeArr = [`if __name__ == "__main__":
 	print("Hello, world!")
 	print(" - Christoffer")`, `public static void main(String[] args) {
-    String greeting = "Hello";
-    System.out.println(greeting);
+	String greeting = "Hello";
+	System.out.println(greeting);
 }`, `int main() {
 	printf("Hello, World!");
 	return 0;
@@ -20,11 +20,11 @@ var myCodeArr = [`if __name__ == "__main__":
 	std::cout << "Hello World!";
 	return 0;
 }`, `static void Main(string[] args) {
-    System.Console.WriteLine("Hello World!");
+	System.Console.WriteLine("Hello World!");
 }`, `func main() {
 	fmt.Println("Hello, Worl!")
 }`, `fun main() {
-    println("Hello, World!")
+	println("Hello, World!")
 }`, `function main() {
 	console.log("Hello, World!");
 };
@@ -184,7 +184,7 @@ function writing_done() {
 
 	var length = myCode.replaceAll("\n", "").length;
 	var cpm = Math.round(60 * ((numCorrect + numErrors) / elapsedTime));
-    var wpm = Math.round(cpm / 5);
+	var wpm = Math.round(cpm / 5);
 	var accuracy = Math.round(100 * numCorrect / length);
 
 	document.getElementById("writingDiv").classList.add("displaynone");
@@ -233,10 +233,10 @@ function onKeyDown_handler(key) {
 	} else {
 		// Error Code
 		// if (allCharacters[characterProgress].innerHTML == " " && key.key != " ") {
-		// 	allCharacters[characterProgress].classList.add("spacerror")
-		// 	numErrors++;
+		//	allCharacters[characterProgress].classList.add("spacerror")
+		//	numErrors++;
 		// } else {
-		// 	allCharacters[characterProgress].classList.add("error")
+		//	allCharacters[characterProgress].classList.add("error")
 		// }
 		allCharacters[characterProgress].classList.add("error")
 	}
