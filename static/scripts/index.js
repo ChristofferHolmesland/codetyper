@@ -283,6 +283,7 @@ document.getElementById("githubbutton").addEventListener("click", function () {
 		document.getElementById("writingDiv").classList.remove(
 			"displaynone"
 		);
+		document.getElementById("words").focus();
 		return;
 	}
 
@@ -296,6 +297,7 @@ document.getElementById("githubbutton").addEventListener("click", function () {
 			document.getElementById("writingDiv").classList.remove(
 				"displaynone"
 			);
+			document.getElementById("words").focus();
 		});
 	});
 });
