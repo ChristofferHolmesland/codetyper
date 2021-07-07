@@ -59,7 +59,11 @@ body {
 	font-family: monospace;
 	font-size: 36px;
 	overflow: hidden;
-	height: 250px;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	position: absolute;
 	color: var(--select-div-fg);
 	margin: 0 auto;
 	background: var(--main-bg);
@@ -90,6 +94,10 @@ character {
 	color: var(--error);
 }
 
+.spacerror {
+	background-color: #ca4754;
+}
+
 .active {
 	border-bottom: 2px dashed var(--dash);
 }
@@ -108,4 +116,14 @@ input {
 	outline: none;
 	border: none;
 	height: 25px;
+}
+
+#limits {
+	padding-top: 5px;
+	font-size: 12px;
+}
+
+#limits > input {
+	height: 16px;
+	width: 75px;
 }

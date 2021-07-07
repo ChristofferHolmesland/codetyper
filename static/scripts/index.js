@@ -1,19 +1,84 @@
 var wordsDiv = document.getElementById("words");
+const java = document.getElementById("java");
+const c = document.getElementById("c");
+const cpp = document.getElementById("cpp");
+const csharp = document.getElementById("csharp");
+const py = document.getElementById("py");
+const go = document.getElementById("go");
+const kotlin = document.getElementById("kotlin");
+const js = document.getElementById("js");
 
-var codeSnippets = [
-	`if __name__ == "__main__":
-    print("Hello, world!")
-    print(" - Christoffer")`,
-	`import hashlib, gzip, sys
-def hasher(string):
-    return str(hashlib.sha1(string.encode()).hexdigest())`,
-	`<style type="text/css">
-	@import url("styles/index.css");
-</style>`,
-];
+var myCodeArr = [`if __name__ == "__main__":
+	print("Hello, world!")
+	print(" - Christoffer")`, `public static void main(String[] args) {
+    String greeting = "Hello";
+    System.out.println(greeting);
+}`, `int main() {
+	printf("Hello, World!");
+	return 0;
+}`, `int main() {
+	std::cout << "Hello World!";
+	return 0;
+}`, `static void Main(string[] args) {
+    System.Console.WriteLine("Hello World!");
+}`, `func main() {
+	fmt.Println("Hello, Worl!")
+}`, `fun main() {
+    println("Hello, World!")
+}`, `function main() {
+	console.log("Hello, World!");
+};
+main();`];
 
-var myCode = choose(codeSnippets);
+function callFunc() {
+	generateCode();
+	document.getElementById("selectDiv").classList.add("displaynone");
+	document.getElementById("writingDiv").classList.remove("displaynone");
+	return;
+}
 
+var myCode;
+
+java.addEventListener('click', () => {
+	myCode = myCodeArr[1];
+	callFunc()
+})
+
+c.addEventListener('click', () => {
+	myCode = myCodeArr[2]
+	callFunc()
+})
+
+cpp.addEventListener('click', () => {
+	myCode = myCodeArr[3]
+	callFunc()
+})
+
+csharp.addEventListener('click', () => {
+	myCode = myCodeArr[4]
+	callFunc()
+})
+
+py.addEventListener('click', () => {
+	myCode = myCodeArr[0]
+	callFunc()
+})
+
+go.addEventListener('click', () => {
+	myCode = myCodeArr[5]
+	callFunc()
+})
+
+kotlin.addEventListener('click', () => {
+	myCode = myCodeArr[6]
+	callFunc()
+})
+
+js.addEventListener('click', () => {
+	myCode = myCodeArr[7]
+	callFunc()
+})
+myCode = myCodeArr[0]
 var lines = myCode.split("\n");
 var allCharacters = [];
 
@@ -32,7 +97,14 @@ function generateCode() {
 	var lines = myCode.split("\n");
 
 	allCharacters = [];
-
+	
+	line_limit = document.getElementById("line_limit").value;
+	if (line_limit.length > 0) {
+		line_limit = parseInt(line_limit);
+		lines = lines.splice(0, line_limit);
+		myCode = lines.join("\n");
+	}
+	
 	for (var i = 0; i < lines.length; i++) {
 		var line = lines[i];
 
@@ -67,12 +139,19 @@ var isTimerRunning = false;
 function startTimer() {
 	if (isTimerRunning) return;
 	isTimerRunning = true;
-
+	
 	const timer = document.getElementById("timer");
 	timer.classList.add("running");
-
+	
+	var time_limit = document.getElementById("time_limit").value;
+	if (time_limit.length > 0) {
+		time_limit = parseInt(time_limit);
+	} else {
+		time_limit = false;
+	}
+	
 	var startTime = Date.now();
-
+	
 	intervalId = setInterval(function () {
 		var newTime = Date.now();
 		elapsedTime = Math.floor((newTime - startTime) / 1000);
@@ -89,6 +168,10 @@ function startTimer() {
 		else secondsText += seconds;
 
 		timer.innerHTML = minutesText + ":" + secondsText;
+		
+		if (time_limit && elapsedTime >= time_limit) {
+			writing_done();
+		}
 	}, 100);
 }
 
@@ -100,9 +183,8 @@ function writing_done() {
 	);
 
 	var length = myCode.replaceAll("\n", "").length;
-
-	var cpm = Math.round(60 * (length / elapsedTime));
-	var accuracy = Math.round((100 * numCorrect) / length);
+	var cpm = Math.round(60 * ((numCorrect + numErrors) / elapsedTime));
+	var accuracy = Math.round(100 * numCorrect / length);
 
 	document.getElementById("writingDiv").classList.add("displaynone");
 	document.getElementById("resultDiv").classList.remove("displaynone");
@@ -147,8 +229,14 @@ function onKeyDown_handler(key) {
 		allCharacters[characterProgress].classList.add("correct");
 		numCorrect++;
 	} else {
-		allCharacters[characterProgress].classList.add("error");
-		numErrors++;
+		// Error Code
+		// if (allCharacters[characterProgress].innerHTML == " " && key.key != " ") {
+		// 	allCharacters[characterProgress].classList.add("spacerror")
+		// 	numErrors++;
+		// } else {
+		// 	allCharacters[characterProgress].classList.add("error")
+		// }
+		allCharacters[characterProgress].classList.add("error")
 	}
 
 	allCharacters[characterProgress].classList.remove("active");
@@ -208,3 +296,6 @@ document.getElementById("githubbutton").addEventListener("click", function () {
 		});
 	});
 });
+
+document.body.innerHTML.search('<').replaceAll('&lt;', '\<')
+
