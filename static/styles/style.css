@@ -1,12 +1,23 @@
+:root {
+	--main-bg: #2e3440;
+	--timer-fg: #d8dee9;
+	--timer-running: #81a1c1;
+	--select-div-fg: #eceff4;
+	--error: #bf616a;
+	--result-fg: #eceff4;
+	--character: #d8dee9;
+	--correct: #a3be8c;
+	--dash: #ebcb8b;
+}
 
 body {
-	background: #323437;
+	background: var(--main-bg);
 }
 
 #timer {
 	font-family: monospace;
 	font-size: 48px;
-	color: #646669;;
+	color: var(--timer-fg);
 }
 
 #words {
@@ -16,14 +27,14 @@ body {
 	height: 100px;
 	min-width: 800px;
 	margin: 0 auto;
-	background: #323437;
+	background: var(--main-bg);
 	padding: 15px;
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	-ms-transform: translateX(-50%) translateY(-50%);
-	-webkit-transform: translate(-50%,-50%);
-	transform: translate(-50%,-50%);
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
 }
 
 #resultDiv {
@@ -31,16 +42,16 @@ body {
 	font-size: 36px;
 	overflow: hidden;
 	height: 100px;
-	color: #d1d0c5;
+	color: var(--result-fg);
 	margin: 0 auto;
-	background: #323437;
+	background: var(--main-bg);
 	padding: 15px;
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	-ms-transform: translateX(-50%) translateY(-50%);
-	-webkit-transform: translate(-50%,-50%);
-	transform: translate(-50%,-50%);
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
 	text-align: center;
 }
 
@@ -49,38 +60,38 @@ body {
 	font-size: 36px;
 	overflow: hidden;
 	height: 250px;
-	color: #d1d0c5;
+	color: var(--select-div-fg);
 	margin: 0 auto;
-	background: #323437;
+	background: var(--main-bg);
 	padding: 15px;
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	-ms-transform: translateX(-50%) translateY(-50%);
-	-webkit-transform: translate(-50%,-50%);
-	transform: translate(-50%,-50%);
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
 	text-align: center;
 }
 
 character {
 	white-space: pre;
-	color: #646669;
+	color: var(--character);
 }
 
 .correct {
-	color: #d1d0c5;
+	color: var(--correct);
 }
 
 #timer.running {
-	color: #d1d0c5;
+	color: var(--timer-running);
 }
 
 .error {
-	color: #ca4754;
+	color: var(--error);
 }
 
 .active {
-	border-bottom: 2px dashed yellow;
+	border-bottom: 2px dashed var(--dash);
 }
 
 .displaynone {
@@ -92,7 +103,8 @@ p.small {
 	font-size: 14px;
 }
 
-button,input {
+button,
+input {
 	outline: none;
 	border: none;
 	height: 25px;
