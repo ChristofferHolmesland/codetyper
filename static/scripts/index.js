@@ -123,11 +123,7 @@ function onKeyDown_handler(key) {
 		allCharacters[characterProgress].classList.remove("active");
 		characterProgress--;
 
-		if (
-			allCharacters[characterProgress].classList.contains(
-				"correct"
-			)
-		) {
+		if (allCharacters[characterProgress].classList.contains("correct")) {
 			numCorrect--;
 		} else {
 			numErrors--;
