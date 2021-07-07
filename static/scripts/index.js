@@ -34,6 +34,7 @@ function callFunc() {
 	generateCode();
 	document.getElementById("selectDiv").classList.add("displaynone");
 	document.getElementById("writingDiv").classList.remove("displaynone");
+	document.getElementById("words").focus();
 	return;
 }
 
