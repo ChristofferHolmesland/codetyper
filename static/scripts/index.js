@@ -97,14 +97,14 @@ function generateCode() {
 	var lines = myCode.split("\n");
 
 	allCharacters = [];
-	
+
 	line_limit = document.getElementById("line_limit").value;
 	if (line_limit.length > 0) {
 		line_limit = parseInt(line_limit);
 		lines = lines.splice(0, line_limit);
 		myCode = lines.join("\n");
 	}
-	
+
 	for (var i = 0; i < lines.length; i++) {
 		var line = lines[i];
 
@@ -139,19 +139,19 @@ var isTimerRunning = false;
 function startTimer() {
 	if (isTimerRunning) return;
 	isTimerRunning = true;
-	
+
 	const timer = document.getElementById("timer");
 	timer.classList.add("running");
-	
+
 	var time_limit = document.getElementById("time_limit").value;
 	if (time_limit.length > 0) {
 		time_limit = parseInt(time_limit);
 	} else {
 		time_limit = false;
 	}
-	
+
 	var startTime = Date.now();
-	
+
 	intervalId = setInterval(function () {
 		var newTime = Date.now();
 		elapsedTime = Math.floor((newTime - startTime) / 1000);
@@ -168,7 +168,7 @@ function startTimer() {
 		else secondsText += seconds;
 
 		timer.innerHTML = minutesText + ":" + secondsText;
-		
+
 		if (time_limit && elapsedTime >= time_limit) {
 			writing_done();
 		}
@@ -184,12 +184,14 @@ function writing_done() {
 
 	var length = myCode.replaceAll("\n", "").length;
 	var cpm = Math.round(60 * ((numCorrect + numErrors) / elapsedTime));
+    var wpm = Math.round(cpm / 5);
 	var accuracy = Math.round(100 * numCorrect / length);
 
 	document.getElementById("writingDiv").classList.add("displaynone");
 	document.getElementById("resultDiv").classList.remove("displaynone");
 
 	document.getElementById("cpmDiv").innerHTML = "" + cpm;
+	document.getElementById("wpmDiv").innerHTML = "" + wpm;
 	document.getElementById("accuracy").innerHTML = "" + accuracy;
 }
 
