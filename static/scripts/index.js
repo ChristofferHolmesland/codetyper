@@ -287,6 +287,13 @@ document.getElementById("githubbutton").addEventListener("click", function () {
 		return;
 	}
 
+	// Convert normal links to raw
+	if (link.includes("github.com/")) {
+		link = link
+			.replace("github.com", "raw.githubusercontent.com")
+			.replace("/blob", "");
+	}
+
 	fetch(link).then((response) => {
 		response.text().then((data) => {
 			myCode = data;
@@ -301,6 +308,4 @@ document.getElementById("githubbutton").addEventListener("click", function () {
 		});
 	});
 });
-
-document.body.innerHTML.search('<').replaceAll('&lt;', '\<')
 
