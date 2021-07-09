@@ -8,27 +8,39 @@ const go = document.getElementById("go");
 const kotlin = document.getElementById("kotlin");
 const js = document.getElementById("js");
 
-var myCodeArr = [`if __name__ == "__main__":
-	print("Hello, world!")
-	print(" - Christoffer")`, `public static void main(String[] args) {
-	String greeting = "Hello";
-	System.out.println(greeting);
-}`, `int main() {
-	printf("Hello, World!");
-	return 0;
-}`, `int main() {
-	std::cout << "Hello World!";
-	return 0;
-}`, `static void Main(string[] args) {
-	System.Console.WriteLine("Hello World!");
-}`, `func main() {
-	fmt.Println("Hello, Worl!")
-}`, `fun main() {
-	println("Hello, World!")
-}`, `function main() {
-	console.log("Hello, World!");
+const fontChanger = document.getElementById("font");
+fontChanger.addEventListener("keydown", changeFont);
+
+var myCodeArr = [
+	`if __name__ == "__main__":
+    print("Hello, world!")
+    print(" - Christoffer")`,
+	`public static void main(String[] args) {
+    String greeting = "Hello";
+    System.out.println(greeting);
+}`,
+	`int main() {
+    printf("Hello, World!");
+    return 0;
+}`,
+	`int main() {
+    std::cout << "Hello World!";
+    return 0;
+}`,
+	`static void Main(string[] args) {
+    System.Console.WriteLine("Hello World!");
+}`,
+	`func main() {
+    fmt.Println("Hello, World!")
+}`,
+	`fun main() {
+    println("Hello, World!")
+}`,
+	`function main() {
+    console.log("Hello, World!");
 };
-main();`];
+main();`,
+];
 
 function callFunc() {
 	generateCode();
@@ -40,46 +52,46 @@ function callFunc() {
 
 var myCode;
 
-java.addEventListener('click', () => {
+java.addEventListener("click", () => {
 	myCode = myCodeArr[1];
-	callFunc()
-})
+	callFunc();
+});
 
-c.addEventListener('click', () => {
-	myCode = myCodeArr[2]
-	callFunc()
-})
+c.addEventListener("click", () => {
+	myCode = myCodeArr[2];
+	callFunc();
+});
 
-cpp.addEventListener('click', () => {
-	myCode = myCodeArr[3]
-	callFunc()
-})
+cpp.addEventListener("click", () => {
+	myCode = myCodeArr[3];
+	callFunc();
+});
 
-csharp.addEventListener('click', () => {
-	myCode = myCodeArr[4]
-	callFunc()
-})
+csharp.addEventListener("click", () => {
+	myCode = myCodeArr[4];
+	callFunc();
+});
 
-py.addEventListener('click', () => {
-	myCode = myCodeArr[0]
-	callFunc()
-})
+py.addEventListener("click", () => {
+	myCode = myCodeArr[0];
+	callFunc();
+});
 
-go.addEventListener('click', () => {
-	myCode = myCodeArr[5]
-	callFunc()
-})
+go.addEventListener("click", () => {
+	myCode = myCodeArr[5];
+	callFunc();
+});
 
-kotlin.addEventListener('click', () => {
-	myCode = myCodeArr[6]
-	callFunc()
-})
+kotlin.addEventListener("click", () => {
+	myCode = myCodeArr[6];
+	callFunc();
+});
 
-js.addEventListener('click', () => {
-	myCode = myCodeArr[7]
-	callFunc()
-})
-myCode = myCodeArr[0]
+js.addEventListener("click", () => {
+	myCode = myCodeArr[7];
+	callFunc();
+});
+myCode = myCodeArr[0];
 var lines = myCode.split("\n");
 var allCharacters = [];
 
@@ -87,6 +99,17 @@ function decodeHtml(html) {
 	let txt = document.createElement("textarea");
 	txt.innerHTML = html;
 	return txt.value;
+}
+
+function changeFont(key) {
+	if (key.key === "Enter") {
+		const font = document.getElementById("font");
+
+		if (font.value !== "") {
+			const rootCss = document.querySelector(":root");
+			rootCss.style.setProperty("--font-family", font.value);
+		}
+	}
 }
 
 function choose(choices) {
@@ -133,6 +156,7 @@ function generateCode() {
 var characterProgress = 0;
 var numCorrect = 0;
 var numErrors = 0;
+let erroredCharacters = [];
 
 var elapsedTime = 0;
 var intervalId = undefined;
@@ -186,24 +210,81 @@ function writing_done() {
 	var length = myCode.replaceAll("\n", "").length;
 	var cpm = Math.round(60 * ((numCorrect + numErrors) / elapsedTime));
 	var wpm = Math.round(cpm / 5);
-	var accuracy = Math.round(100 * numCorrect / length);
+	var accuracy = Math.round((100 * numCorrect) / length);
 
 	document.getElementById("writingDiv").classList.add("displaynone");
 	document.getElementById("resultDiv").classList.remove("displaynone");
 
 	document.getElementById("cpmDiv").innerHTML = "" + cpm;
 	document.getElementById("wpmDiv").innerHTML = "" + wpm;
-	document.getElementById("accuracy").innerHTML = "" + accuracy;
+	document.getElementById("accuracy").innerHTML = "" + accuracy + "%";
+	if (accuracy < 50) {
+		document.getElementById("accuracy").style.color =
+			"var(--error)";
+		// document.getElementById("correct-words").innerHTML =
+		// 	"" + numCorrect;
+	}
+	console.log(erroredCharacters);
+	var filtered = erroredCharacters.filter(function (value) {
+		return value != "\t";
+	});
+
+	if (filtered.length == 0) {
+		document.getElementById("error-container").style.display =
+			"none";
+		return;
+	}
+	let erroredCharacterList = "";
+	erroredCharacters = new Set(erroredCharacters);
+	const erroredCharactersHTML =
+		document.getElementById("errored-characters");
+
+	erroredCharacters.forEach((character) => {
+		erroredCharacterList += "<li>" + character + "</li>";
+	});
+	erroredCharactersHTML.innerHTML = erroredCharacterList;
+	console.log(erroredCharacterList);
+}
+const lightThemeCheckBox = document.getElementById("light-checkbox");
+
+function switchTheme(e) {
+	if (e.target.checked) {
+		document.documentElement.setAttribute("data-theme", "light");
+	} else {
+		document.documentElement.setAttribute("data-theme", "dark");
+	}
+}
+
+lightThemeCheckBox.addEventListener("change", switchTheme, false);
+
+function areEqual(arr1, arr2) {
+	let n = arr1.length;
+	let m = arr2.length;
+
+	if (n != m) return false;
+
+	arr1.sort();
+	arr2.sort();
+
+	for (let i = 0; i < n; i++) if (arr1[i] != arr2[i]) return false;
+
+	return true;
 }
 
 function onKeyDown_handler(key) {
 	key.preventDefault();
 
-	if (key.key != "Backspace" && characterProgress === 0) {
+	let registeredKey = key.key;
+
+	if (registeredKey != "Backspace" && characterProgress === 0) {
 		startTimer();
 	}
 
-	if (key.key == "Backspace") {
+	if (key.key == "Tab") {
+		registeredKey = "    ";
+	}
+
+	if (registeredKey == "Backspace") {
 		if (characterProgress === 0) return false;
 		allCharacters[characterProgress].classList.remove("active");
 		characterProgress--;
@@ -223,23 +304,59 @@ function onKeyDown_handler(key) {
 		allCharacters[characterProgress].classList.add("active");
 	}
 
-	if (key.key.length > 1) return false;
+	// Changed the length limit to two for the tab key
+	if (registeredKey.length > 2 && registeredKey != "    ") return false;
 
-	if (
-		decodeHtml(allCharacters[characterProgress].innerHTML) ===
-		String(key.key)
-	) {
+	decodedCharacter = decodeHtml(
+		allCharacters[characterProgress].innerHTML
+	);
+
+	try {
+		tabCharList = [
+			allCharacters[characterProgress].innerHTML,
+			allCharacters[characterProgress + 1].innerHTML,
+			allCharacters[characterProgress + 2].innerHTML,
+			allCharacters[characterProgress + 3].innerHTML,
+		];
+	} catch {
+		console.log("Ignoring error in obtaining tab char list");
+	}
+
+	expectedTabCharList = [" ", " ", " ", " "];
+
+	if (decodedCharacter === String(registeredKey)) {
 		allCharacters[characterProgress].classList.add("correct");
 		numCorrect++;
+	} else if (
+		registeredKey === "    " &&
+		areEqual(expectedTabCharList, tabCharList)
+	) {
+		allCharacters[characterProgress].classList.add("correct");
+		allCharacters[characterProgress + 1].classList.add("correct");
+		allCharacters[characterProgress + 2].classList.add("correct");
+		allCharacters[characterProgress + 3].classList.add("correct");
+		allCharacters[characterProgress].classList.remove("active");
+		allCharacters[characterProgress + 4].classList.add("active");
+		characterProgress += 3;
+		numCorrect += 4;
 	} else {
 		// Error Code
-		// if (allCharacters[characterProgress].innerHTML == " " && key.key != " ") {
-		//	allCharacters[characterProgress].classList.add("spacerror")
-		//	numErrors++;
-		// } else {
-		//	allCharacters[characterProgress].classList.add("error")
-		// }
-		allCharacters[characterProgress].classList.add("error")
+		if (
+			allCharacters[characterProgress].innerHTML == " " &&
+			registeredKey.includes(" ") == false
+		) {
+			allCharacters[characterProgress].classList.add(
+				"spacerror"
+			);
+		} else {
+			allCharacters[characterProgress].classList.add("error");
+		}
+		allCharacters[characterProgress].classList.add("error");
+		console.log("err");
+		numErrors++;
+		console.log("changed count");
+		erroredCharacters.push(decodedCharacter);
+		console.log("pushed to list");
 	}
 
 	allCharacters[characterProgress].classList.remove("active");
@@ -308,4 +425,3 @@ document.getElementById("githubbutton").addEventListener("click", function () {
 		});
 	});
 });
-

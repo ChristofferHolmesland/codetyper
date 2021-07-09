@@ -1,48 +1,96 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta charset="UTF-8">
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta charset="UTF-8" />
 
 		<title>codetyper</title>
-		<link rel="stylesheet" href="static/styles/style.css">
+		<link rel="stylesheet" href="static/styles/style.css" />
 	</head>
-	<style>
-		.btn {
-			background-color: #007bff;
-			color: #fff;
-		}
-		.btn:hover {
-			background-color: #1e90ff;
-		}
-	</style>
+	<style></style>
 	<body>
-
+		<header>
+			<div class="theme-switch-wrapper">
+				<label
+					class="theme-switch"
+					for="light-checkbox"
+				>
+					<input
+						type="checkbox"
+						id="light-checkbox"
+					/>
+					<div class="slider round"></div>
+				</label>
+				<p>Light Mode</p>
+			</div>
+			<div>
+				<input id='font' placeholder="Choose Custom Font" />
+			</div>
+		</header>
 		<div id="selectDiv">
-			<p>Enter a GitHub link</p>
-			<p class="small">Or, leave blank for default code</p>
-			<input id="githubinput" type="text" size=50></input>
-
-			<button id="githubbutton" style="display: inline-block;">-></button><br>
-			<button class="btn githubbutton" id="java">Java</button>
-			<button class="btn githubbutton" id="c">C</button>
-			<button class="btn githubbutton" id="cpp">C++</button>
-			<button class="btn githubbutton" id="csharp">C#</button>
-			<button class="btn githubbutton" id="py">Python</button>
-			<button class="btn githubbutton" id="go">Go</button>
-			<button class="btn githubbutton" id="kotlin">Kotlin</button>
-			<button class="btn githubbutton" id="js">JavaScript</button>
-
+			<div class="lang-buttons">
+				<p>Choose a language to start with</p>
+				<br />
+				<button class="btn githubbutton" id="java">
+					Java
+				</button>
+				<button class="btn githubbutton" id="c">
+					C
+				</button>
+				<button class="btn githubbutton" id="cpp">
+					C++
+				</button>
+				<button class="btn githubbutton" id="csharp">
+					C#
+				</button>
+				<button class="btn githubbutton" id="py">
+					Python
+				</button>
+				<button class="btn githubbutton" id="go">
+					Go
+				</button>
+				<button class="btn githubbutton" id="kotlin">
+					Kotlin
+				</button>
+				<button class="btn githubbutton" id="js">
+					JavaScript
+				</button>
+			</div>
+			<br />
+			<div class="code-chooser">
+				<input
+					id="githubinput"
+					type="text"
+					placeholder="Or enter Github link"
+				/>
+				<button id="githubbutton">-></button>
+			</div>
+			<br />
 			<br />
 			<div id="limits">
-				<p>Limits</p>
-				<label>Number of lines:</label>
-				<input id="line_limit" type="number" min="1" placeholder="No limit"></input>
-				<label>Time (seconds):</label>
-				<input id="time_limit" type="number" min="1" placeholder="No limit"></input>
-			</div>
 
+				<label>I want to limit the number of lines to </label>
+				<input
+					id="line_limit"
+					min="1"
+					placeholder="unlimited"
+					class="number-box"
+				/>
+				<label>lines.</label>
+				<br />
+				<label>I want to complete the test in</label>
+				<input
+					id="time_limit"
+					min="1"
+					placeholder="unlimited"
+					class="number-box"
+				/>
+				<label>seconds.</label>
+			</div>
 		</div>
 
 		<div id="writingDiv" class="displaynone">
@@ -51,9 +99,19 @@
 		</div>
 
 		<div id="resultDiv" class="displaynone">
-            Your speed is <span id="cpmDiv"></span> CPM and <span id="wpmDiv"></span> WPM!
-			<br/>
-			Accuracy: <span id="accuracy"></span>%
+			<div class="results-left">
+				Your speed is <span id="cpmDiv"></span> CPM
+				Estimated WPM: <span id="wpmDiv"></span>
+				<br />
+				Accuracy: <span id="accuracy"></span>
+				<br />
+			</div>
+			<span id="errors"></span> <br />
+			<div id="error-container">
+				Errored Characters:
+				<ul id="errored-characters"></ul>
+			</div>
+			<br />
 		</div>
 
 		<script src="static/scripts/index.js"></script>
