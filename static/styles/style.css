@@ -1,5 +1,6 @@
 :root {
 	--main-bg: #2e3440;
+	--main-fg: #eceff4;
 	--header-bg: #3b4252;
 	--timer-fg: #d8dee9;
 	--timer-running: #81a1c1;
@@ -41,6 +42,7 @@ body {
 	background: var(--main-bg);
 	margin: 0;
 	font-family: monospace;
+	color: var(--main-fg);
 }
 
 header {
@@ -58,6 +60,7 @@ header {
 }
 
 .number-box {
+	color: var(--main-fg);
 	background-color: var(--main-bg);
 	padding-right: 4px;
 	padding-top: 3px;
