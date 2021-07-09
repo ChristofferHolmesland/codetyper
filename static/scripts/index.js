@@ -296,25 +296,26 @@ function onKeyDown_handler(key) {
 		allCharacters[characterProgress].innerHTML
 	);
 
-	tabCharList = [
-		allCharacters[characterProgress].innerHTML,
-		allCharacters[characterProgress + 1].innerHTML,
-		allCharacters[characterProgress + 2].innerHTML,
-		allCharacters[characterProgress + 3].innerHTML,
-	];
-
-	console.log(tabCharList);
+	try {
+		tabCharList = [
+			allCharacters[characterProgress].innerHTML,
+			allCharacters[characterProgress + 1].innerHTML,
+			allCharacters[characterProgress + 2].innerHTML,
+			allCharacters[characterProgress + 3].innerHTML,
+		];
+	} catch {
+		console.log("Ignoring error in obtaining tab char list");
+	}
 
 	expectedTabCharList = [" ", " ", " ", " "];
-
-	console.log(expectedTabCharList);
-
-	console.log(areEqual(expectedTabCharList, tabCharList));
 
 	if (decodedCharacter === String(registeredKey)) {
 		allCharacters[characterProgress].classList.add("correct");
 		numCorrect++;
-	} else if (areEqual(expectedTabCharList, tabCharList)) {
+	} else if (
+		registeredKey === "    " &&
+		areEqual(expectedTabCharList, tabCharList)
+	) {
 		allCharacters[characterProgress].classList.add("correct");
 		allCharacters[characterProgress + 1].classList.add("correct");
 		allCharacters[characterProgress + 2].classList.add("correct");

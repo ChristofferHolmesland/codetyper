@@ -58,9 +58,13 @@ header {
 }
 
 .number-box {
+	background-color: var(--main-bg);
 	padding-right: 4px;
 	padding-top: 3px;
 	padding-bottom: 3px;
+	outline: 0;
+	border-bottom-style: solid;
+	border-bottom: var(--result-fg);
 }
 
 .theme-switch-wrapper {
