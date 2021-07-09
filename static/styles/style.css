@@ -1,4 +1,8 @@
 :root {
+	font-size: 12px;
+
+	--font-family: monospace;
+
 	--main-bg: #2e3440;
 	--main-fg: #eceff4;
 	--header-bg: #3b4252;
@@ -41,7 +45,8 @@
 body {
 	background: var(--main-bg);
 	margin: 0;
-	font-family: monospace;
+	font-size: 1rem;
+	font-family: var(--font-family);
 	color: var(--main-fg);
 }
 
@@ -60,14 +65,15 @@ header {
 }
 
 .number-box {
+	display: inline-block;
 	color: var(--main-fg);
 	background-color: var(--main-bg);
-	padding-right: 4px;
 	padding-top: 3px;
+	white-space: pre;
+	text-align: center;
 	padding-bottom: 3px;
 	outline: 0;
-	border-bottom-style: solid;
-	border-bottom: var(--result-fg);
+	font-size: 1rem;
 }
 
 .theme-switch-wrapper {
@@ -138,7 +144,7 @@ header {
 }
 
 #timer {
-	font-family: monospace;
+	font-family: var(--font-family);
 	font-size: 48px;
 	color: var(--timer-fg);
 }
@@ -160,7 +166,7 @@ header {
 }
 
 #resultDiv {
-	font-family: monospace;
+	font-family: var(--font-family);
 	font-size: 36px;
 	overflow: hidden;
 	color: var(--result-fg);
@@ -177,7 +183,7 @@ header {
 }
 
 #selectDiv {
-	font-family: monospace;
+	font-family: var(--font-family);
 	font-size: 26px;
 	overflow-x: none;
 	overflow-y: auto;
@@ -220,6 +226,7 @@ character {
 	float: left;
 	width: calc(100% - 60px);
 	height: 30px;
+	font-size: 1rem;
 	border-radius: 0;
 	border-end-start-radius: var(--input-border-radius);
 	border-start-start-radius: var(--input-border-radius);
@@ -275,6 +282,10 @@ input {
 	border-radius: var(--input-border-radius);
 	line-height: 0;
 	transition: all 100ms ease-in-out;
+}
+
+header input {
+	padding: 10px;
 }
 
 button {

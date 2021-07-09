@@ -8,6 +8,9 @@ const go = document.getElementById("go");
 const kotlin = document.getElementById("kotlin");
 const js = document.getElementById("js");
 
+const fontChanger = document.getElementById("font");
+fontChanger.addEventListener("keydown", changeFont);
+
 var myCodeArr = [
 	`if __name__ == "__main__":
     print("Hello, world!")
@@ -96,6 +99,17 @@ function decodeHtml(html) {
 	let txt = document.createElement("textarea");
 	txt.innerHTML = html;
 	return txt.value;
+}
+
+function changeFont(key) {
+	if (key.key === "Enter") {
+		const font = document.getElementById("font");
+
+		if (font.value !== "") {
+			const rootCss = document.querySelector(":root");
+			rootCss.style.setProperty("--font-family", font.value);
+		}
+	}
 }
 
 function choose(choices) {

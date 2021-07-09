@@ -27,6 +27,9 @@
 				</label>
 				<p>Light Mode</p>
 			</div>
+			<div>
+				<input id='font' placeholder="Choose Custom Font" />
+			</div>
 		</header>
 		<div id="selectDiv">
 			<div class="lang-buttons">
@@ -58,32 +61,35 @@
 				</button>
 			</div>
 			<br />
-			<p style="margin-bottom: 10px">
-				Or enter raw Github link
-			</p>
 			<div class="code-chooser">
-				<input id="githubinput" type="text" />
+				<input
+					id="githubinput"
+					type="text"
+					placeholder="Or enter Github link"
+				/>
 				<button id="githubbutton">-></button>
 			</div>
 			<br />
 			<br />
 			<div id="limits">
-				<p>Limits</p>
-				<label>Number of lines:</label>
+
+				<label>I want to limit the number of lines to </label>
 				<input
 					id="line_limit"
 					min="1"
-					placeholder=" No limit"
+					placeholder="unlimited"
 					class="number-box"
 				/>
-				&nbsp;&nbsp;&nbsp;
-				<label>Time (seconds):</label>
+				<label>lines.</label>
+				<br />
+				<label>I want to complete the test in</label>
 				<input
 					id="time_limit"
 					min="1"
-					placeholder=" No limit"
+					placeholder="unlimited"
 					class="number-box"
 				/>
+				<label>seconds.</label>
 			</div>
 		</div>
 
@@ -101,7 +107,6 @@
 				<br />
 			</div>
 			<span id="errors"></span> <br />
-			-->
 			<div id="error-container">
 				Errored Characters:
 				<ul id="errored-characters"></ul>
