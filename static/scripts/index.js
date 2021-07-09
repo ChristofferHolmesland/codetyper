@@ -43,6 +43,7 @@ function callFunc() {
 	generateCode();
 	document.getElementById("selectDiv").classList.add("displaynone");
 	document.getElementById("writingDiv").classList.remove("displaynone");
+	document.getElementById("words").focus();
 	return;
 }
 
@@ -385,7 +386,15 @@ document.getElementById("githubbutton").addEventListener("click", function () {
 		document.getElementById("writingDiv").classList.remove(
 			"displaynone"
 		);
+		document.getElementById("words").focus();
 		return;
+	}
+
+	// Convert normal links to raw
+	if (link.includes("github.com/")) {
+		link = link
+			.replace("github.com", "raw.githubusercontent.com")
+			.replace("/blob", "");
 	}
 
 	fetch(link).then((response) => {
@@ -398,6 +407,7 @@ document.getElementById("githubbutton").addEventListener("click", function () {
 			document.getElementById("writingDiv").classList.remove(
 				"displaynone"
 			);
+			document.getElementById("words").focus();
 		});
 	});
 });
