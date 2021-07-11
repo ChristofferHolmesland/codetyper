@@ -11,6 +11,8 @@ const js = document.getElementById("js");
 const fontChanger = document.getElementById("font");
 fontChanger.addEventListener("keydown", changeFont);
 
+var codeDifficulty;
+
 var myCodeArr = [
 	`if __name__ == "__main__":
     print("Hello, world!")
@@ -118,7 +120,8 @@ function choose(choices) {
 
 function generateCode() {
 	var lines = myCode.split("\n");
-
+	codeDifficulty = determineDifficulty(lines);
+	console.log(codeDifficulty);
 	allCharacters = [];
 
 	line_limit = document.getElementById("line_limit").value;
@@ -221,6 +224,7 @@ function writing_done() {
 	document.getElementById("cpmDiv").innerHTML = "" + cpm;
 	document.getElementById("wpmDiv").innerHTML = "" + wpm;
 	document.getElementById("accuracy").innerHTML = "" + accuracy + "%";
+	document.getElementById("difficulty").innerHTML = codeDifficulty;
 	if (accuracy < 50) {
 		document.getElementById("accuracy").style.color =
 			"var(--error)";
