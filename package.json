@@ -4,7 +4,7 @@
   "description": "This is a project by members of the KalleTech discord server. We are making a website where you can practice your programming speed.",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prettier": "npx prettier --write static/ && npx prettier --write index.html"
   },
   "repository": {
     "type": "git",
