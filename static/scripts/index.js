@@ -193,6 +193,10 @@ function startTimer() {
 
 		timer.innerHTML = minutesText + ":" + secondsText;
 
+		if (elapsedTime == 3) {
+			checkErrors(numErrors);
+		}
+
 		if (time_limit && elapsedTime >= time_limit) {
 			writing_done();
 		}
