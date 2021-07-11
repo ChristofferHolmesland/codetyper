@@ -1,0 +1,22 @@
+{
+  "name": "codetyper",
+  "version": "1.0.0",
+  "description": "This is a project by members of the KalleTech discord server. We are making a website where you can practice your programming speed.",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChristofferHolmesland/codetyper.git"
+  },
+  "author": "",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/ChristofferHolmesland/codetyper/issues"
+  },
+  "homepage": "https://github.com/ChristofferHolmesland/codetyper#readme",
+  "devDependencies": {
+    "prettier": "2.3.2"
+  }
+}
