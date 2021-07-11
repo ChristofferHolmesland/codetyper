@@ -58,6 +58,26 @@ header {
 	z-index: 10;
 }
 
+sup {
+	font-size: 0.5em;
+	padding: 5px;
+	padding-bottom: 20px;
+	transition: all 200ms ease-in-out;
+}
+
+.results-left {
+	position: absolute;
+	left: 13%;
+	height: 100%;
+	text-align: left;
+	padding: 20px;
+	padding-top: 200px;
+	margin: 0;
+}
+
+.results-center {
+}
+
 .lang-buttons {
 	width: -moz-fit-content;
 	width: fit-content;
@@ -140,7 +160,9 @@ header {
 #errored-characters {
 	overflow-y: scroll;
 	list-style-type: none;
-	height: 20px;
+	height: 20vh;
+
+	display: none;
 }
 
 #timer {
@@ -167,18 +189,16 @@ header {
 
 #resultDiv {
 	font-family: var(--font-family);
-	font-size: 36px;
+	font-size: 2rem;
 	overflow: hidden;
 	color: var(--result-fg);
 	margin: 0 auto;
+	height: calc(100% - 62.15px);
+	width: calc(100% - 15px);
+	padding-left: 15px;
 	background: var(--main-bg);
-	padding: 15px;
 	position: absolute;
-	top: 50%;
-	left: 50%;
-	-ms-transform: translateX(-50%) translateY(-50%);
-	-webkit-transform: translate(-50%, -50%);
-	transform: translate(-50%, -50%);
+	bottom: 0;
 	text-align: center;
 }
 
@@ -244,10 +264,6 @@ character {
 
 .correct {
 	color: var(--correct);
-}
-
-.results-left {
-	float: left;
 }
 
 #timer.running {
