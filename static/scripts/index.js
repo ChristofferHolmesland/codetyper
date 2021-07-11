@@ -49,7 +49,6 @@ function callFunc() {
 	document.getElementById("words").focus();
 	return;
 }
-
 var myCode;
 
 java.addEventListener("click", () => {
@@ -209,7 +208,7 @@ function writing_done() {
 
 	var length = myCode.replaceAll("\n", "").length;
 	var cpm = Math.round(60 * ((numCorrect + numErrors) / elapsedTime));
-	var wpm = Math.round(cpm / 5);
+	var wpm = Math.round(cpm / avgWordLength(myCode));
 	var accuracy = Math.round((100 * numCorrect) / length);
 
 	document.getElementById("writingDiv").classList.add("displaynone");
@@ -221,8 +220,6 @@ function writing_done() {
 	if (accuracy < 50) {
 		document.getElementById("accuracy").style.color =
 			"var(--error)";
-		// document.getElementById("correct-words").innerHTML =
-		// 	"" + numCorrect;
 	}
 	console.log(erroredCharacters);
 	var filtered = erroredCharacters.filter(function (value) {
@@ -304,8 +301,7 @@ function onKeyDown_handler(key) {
 		allCharacters[characterProgress].classList.add("active");
 	}
 
-	// Changed the length limit to two for the tab key
-	if (registeredKey.length > 2 && registeredKey != "    ") return false;
+	if (registeredKey.length > 1 && registeredKey != "    ") return false;
 
 	decodedCharacter = decodeHtml(
 		allCharacters[characterProgress].innerHTML

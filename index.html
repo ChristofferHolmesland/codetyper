@@ -28,7 +28,10 @@
 				<p>Light Mode</p>
 			</div>
 			<div>
-				<input id='font' placeholder="Choose Custom Font" />
+				<input
+					id="font"
+					placeholder="Choose Custom Font"
+				/>
 			</div>
 		</header>
 		<div id="selectDiv">
@@ -72,8 +75,9 @@
 			<br />
 			<br />
 			<div id="limits">
-
-				<label>I want to limit the number of lines to </label>
+				<label
+					>I want to limit the number of lines to
+				</label>
 				<input
 					id="line_limit"
 					min="1"
@@ -100,20 +104,27 @@
 
 		<div id="resultDiv" class="displaynone">
 			<div class="results-left">
-				Your speed is <span id="cpmDiv"></span> CPM
-				Estimated WPM: <span id="wpmDiv"></span>
+				CPM:
+				<span id="cpmDiv"> </span>
 				<br />
-				Accuracy: <span id="accuracy"></span>
+				<br />
+				WPM:
+				<span id="wpmDiv"></span>
+				<br />
+				<br />
+				Acc:
+				<span id="accuracy"> </span>
+				<br />
 				<br />
 			</div>
 			<span id="errors"></span> <br />
-			<div id="error-container">
-				Errored Characters:
+			<div id="error-container" class="results-center">
 				<ul id="errored-characters"></ul>
 			</div>
 			<br />
 		</div>
 
+		<script src="static/scripts/result-screen.js"></script>
 		<script src="static/scripts/index.js"></script>
 	</body>
 </html>
