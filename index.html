@@ -1,99 +1,136 @@
 <!DOCTYPE html>
 <html>
+	<head>
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta charset="UTF-8" />
 
-<head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta charset="UTF-8" />
+		<title>codetyper</title>
+		<link rel="stylesheet" href="static/styles/style.css" />
+	</head>
+	<style></style>
 
-	<title>codetyper</title>
-	<link rel="stylesheet" href="static/styles/style.css" />
-</head>
-<style></style>
+	<body>
+		<header>
+			<div class="theme-switch-wrapper">
+				<label
+					class="theme-switch"
+					for="light-checkbox"
+				>
+					<input
+						type="checkbox"
+						id="light-checkbox"
+					/>
+					<div class="slider round"></div>
+				</label>
+				<p>Light Mode</p>
+			</div>
+			<div>
+				<input
+					id="font"
+					placeholder="Choose Custom Font"
+				/>
+			</div>
+		</header>
+		<div id="selectDiv">
+			<div class="lang-buttons">
+				<p>Choose a language to start with</p>
+				<br />
+				<button class="btn githubbutton" id="java">
+					Java
+				</button>
+				<button class="btn githubbutton" id="c">
+					C
+				</button>
+				<button class="btn githubbutton" id="cpp">
+					C++
+				</button>
+				<button class="btn githubbutton" id="csharp">
+					C#
+				</button>
+				<button class="btn githubbutton" id="py">
+					Python
+				</button>
+				<button class="btn githubbutton" id="go">
+					Go
+				</button>
+				<button class="btn githubbutton" id="kotlin">
+					Kotlin
+				</button>
+				<button class="btn githubbutton" id="js">
+					JavaScript
+				</button>
+			</div>
+			<br />
+			<div class="code-chooser">
+				<input
+					id="githubinput"
+					type="text"
+					placeholder="Or enter Github link"
+				/>
+				<button id="githubbutton">-></button>
+			</div>
+			<br />
+			<br />
+			<div id="limits">
+				<label
+					>I want to limit the number of lines to
+				</label>
+				<input
+					id="line_limit"
+					min="1"
+					placeholder="unlimited"
+					class="number-box"
+				/>
+				<label>lines.</label>
+				<br />
+				<label>I want to complete the test in</label>
+				<input
+					id="time_limit"
+					min="1"
+					placeholder="unlimited"
+					class="number-box"
+				/>
+				<label>seconds.</label>
+			</div>
+		</div>
 
-<body>
-	<header>
-		<div class="theme-switch-wrapper">
-			<label class="theme-switch" for="light-checkbox">
-				<input type="checkbox" id="light-checkbox" />
-				<div class="slider round"></div>
-			</label>
-			<p>Light Mode</p>
+		<div id="writingDiv" class="displaynone">
+			<div id="timer">00:00</div>
+			<div tabindex="0" id="words"></div>
 		</div>
-		<div>
-			<input id="font" placeholder="Choose Custom Font" />
-		</div>
-	</header>
-	<div id="selectDiv">
-		<div class="lang-buttons">
-			<p>Choose a language to start with</p>
-			<br />
-			<button class="btn githubbutton" id="java">
-				Java
-			</button>
-			<button class="btn githubbutton" id="c">
-				C
-			</button>
-			<button class="btn githubbutton" id="cpp">
-				C++
-			</button>
-			<button class="btn githubbutton" id="csharp">
-				C#
-			</button>
-			<button class="btn githubbutton" id="py">
-				Python
-			</button>
-			<button class="btn githubbutton" id="go">
-				Go
-			</button>
-			<button class="btn githubbutton" id="kotlin">
-				Kotlin
-			</button>
-			<button class="btn githubbutton" id="js">
-				JavaScript
-			</button>
-		</div>
-		<br />
-		<div class="code-chooser">
-			<input id="githubinput" type="text" placeholder="Or enter Github link" />
-			<button id="githubbutton">-></button>
-		</div>
-		<br />
-		<br />
-		<div id="limits">
-			<label>I want to limit the number of lines to
-			</label>
-			<input id="line_limit" min="1" placeholder="unlimited" class="number-box" />
-			<label>lines.</label>
-			<br />
-			<label>I want to complete the test in</label>
-			<input id="time_limit" min="1" placeholder="unlimited" class="number-box" />
-			<label>seconds.</label>
-		</div>
-	</div>
 
-	<div id="writingDiv" class="displaynone">
-		<div id="timer">00:00</div>
-		<div tabindex="0" id="words"></div>
-	</div>
-
-	<div id="resultDiv" class="displaynone">
-		<div class="results-left">
-			CPM:
-			<span id="cpmDiv"> </span>
-			<br />
-			<br />
-			WPM:
-			<span id="wpmDiv"></span>
-			<br />
-			<br />
-			Acc:
-			<span id="accuracy"> </span>
-			<br />
-			<br />
-			Difficulty:
-			<span id="difficulty"></span>
-			<br />
+		<div id="resultDiv" class="displaynone">
+			<div class="results-left">
+				CPM:
+				<span id="cpmDiv"> </span>
+				<br />
+				<br />
+				WPM:
+				<span id="wpmDiv"></span>
+				<br />
+				<br />
+				Acc:
+				<span id="accuracy"> </span>
+				<br />
+				<br />
+				Difficulty:
+				<span id="difficulty"></span>
+				<br />
+				<button
+					id="restartbut"
+					onclick="document.location.reload(true)"
+				>
+					Restart
+				</button>
+			</div>
+			<span id="errors"></span> <br />
+			<div id="error-container" class="results-center">
+				<ul id="errored-characters"></ul>
+			</div>
 			<br />
 		</div>
 		<canvas id="result-graph" class="graph"></canvas>
@@ -102,11 +139,9 @@
 			<ul id="errored-characters"></ul>
 		</div>
 		<br />
-	</div>
 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.1/chart.min.js"></script>
-	<script src="static/scripts/result-screen.js"></script>
-	<script src="static/scripts/index.js"></script>
-</body>
-
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.1/chart.min.js"></script>
+		<script src="static/scripts/result-screen.js"></script>
+		<script src="static/scripts/index.js"></script>
+	</body>
 </html>
