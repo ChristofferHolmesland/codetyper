@@ -67,13 +67,37 @@ function logWpmData(time, numCorrectLastSecond) {
 	console.log(wpmData);
 }
 
-function genGraphData(wpmData, avgWordLength) {}
+function calcActualWpmData(wpmData, avgWordLength) {
+	for (let i; i < wpmData.data.length; i++) {
+		wpmData.data[i] = wpmData.data[i] / avgWordLength;
+	}
+}
 
-function drawGraph(data) {
+function genGraphData(WpmData) {
+	const labels = wpmData.labels;
+	const data = {
+		labels: labels,
+		datasets: [
+			{
+				label: "WPM Progress",
+				data: wpmData.data,
+				fill: false,
+				borderColor: "rgb(75, 192, 192)",
+				tension: 0.1,
+			},
+		],
+	};
 	const graphConfig = {
 		type: "line",
 		data: data,
 	};
+	return graphConfig;
+}
+
+let chart;
+function drawGraph(config, chartId) {
+	graphContainer = document.getElementById(chartId);
+	chart = new Chart(graphContainer, config);
 }
 
 function determineDifficulty(lines) {
