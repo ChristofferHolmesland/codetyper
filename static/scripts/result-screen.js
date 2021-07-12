@@ -60,7 +60,14 @@ function checkErrors(numErrors) {
 	console.log(errored);
 }
 
-function genGraphData() {}
+let wpmData = { labels: [], data: [] };
+function logWpmData(time, numCorrectLastSecond) {
+	wpmData.labels.push(time);
+	wpmData.data.push(numCorrectLastSecond);
+	console.log(wpmData);
+}
+
+function genGraphData(wpmData, avgWordLength) {}
 
 function drawGraph(data) {
 	const graphConfig = {

@@ -159,10 +159,15 @@ var characterProgress = 0;
 var numCorrect = 0;
 var numErrors = 0;
 let erroredCharacters = [];
+let correctCharacters = [];
+let numCorrectLastSecond = 0;
+let numCorrectListEverySecond = [];
 
 var elapsedTime = 0;
 var intervalId = undefined;
 var isTimerRunning = false;
+let previousSecond;
+let elapsedTimeInSeconds;
 function startTimer() {
 	if (isTimerRunning) return;
 	isTimerRunning = true;
@@ -186,6 +191,9 @@ function startTimer() {
 		var minutes = Math.floor(elapsedTime / 60);
 		var seconds = elapsedTime - minutes * 60;
 
+		var minutesAndSeconds = minutes * 60 + seconds;
+		let previousSecond = minutesAndSeconds - 1;
+
 		var minutesText = "";
 		if (minutes < 10) minutesText = "0" + minutes;
 		else minutesText += minutes;
@@ -204,6 +212,22 @@ function startTimer() {
 			writing_done();
 		}
 	}, 100);
+
+	SecondsInterval = setInterval(function () {
+		let newTime = Date.now();
+		elapsedTimeInSeconds = Math.floor((newTime - startTime) / 1000);
+		previousSecond = elapsedTimeInSeconds--;
+		if (elapsedTimeInSeconds === 1) {
+			numCorrectLastSecond = numCorrect;
+			logWpmData(elapsedTimeInSeconds, numCorrectLastSecond);
+		} else {
+			logWpmData(elapsedTimeInSeconds, numCorrectLastSecond);
+			//			numCorrectListEverySecond.push(numCorrectLastSecond);
+			//			console.log(numCorrectLastSecond);
+			//			numCorrectLastSecond = 0;
+		}
+		console.log(numCorrectListEverySecond);
+	}, 1000);
 }
 
 function writing_done() {
@@ -300,6 +324,9 @@ function onKeyDown_handler(key) {
 			)
 		) {
 			numCorrect--;
+			correctCharacters.push(
+				allCharacters[characterProgress]
+			);
 		} else {
 			numErrors--;
 		}
@@ -331,6 +358,7 @@ function onKeyDown_handler(key) {
 	if (decodedCharacter === String(registeredKey)) {
 		allCharacters[characterProgress].classList.add("correct");
 		numCorrect++;
+		numCorrectLastSecond++;
 	} else if (
 		registeredKey === "    " &&
 		areEqual(expectedTabCharList, tabCharList)
@@ -343,6 +371,7 @@ function onKeyDown_handler(key) {
 		allCharacters[characterProgress + 4].classList.add("active");
 		characterProgress += 3;
 		numCorrect += 4;
+		numCorrectLastSecond += 4;
 	} else {
 		// Error Code
 		if (
