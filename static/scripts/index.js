@@ -7,6 +7,7 @@ const py = document.getElementById("py");
 const go = document.getElementById("go");
 const kotlin = document.getElementById("kotlin");
 const js = document.getElementById("js");
+const bash = document.getElementById("bash");
 
 const fontChanger = document.getElementById("font");
 fontChanger.addEventListener("keydown", changeFont);
@@ -42,6 +43,7 @@ var myCodeArr = [
     console.log("Hello, World!");
 };
 main();`,
+	`echo "Hello World"`
 ];
 
 function callFunc() {
@@ -92,6 +94,12 @@ js.addEventListener("click", () => {
 	myCode = myCodeArr[7];
 	callFunc();
 });
+
+bash.addEventListener("click", () => {
+	mycode = myCodeArr[8];
+	callFunc();
+});
+
 myCode = myCodeArr[0];
 var lines = myCode.split("\n");
 var allCharacters = [];
