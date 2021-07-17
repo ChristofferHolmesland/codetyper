@@ -83,7 +83,7 @@ function logWpmData(time, numCorrectLastSecond) {
 	console.log(wpmData);
 }
 
-function calcActualWpmData(wpmData = wpmData, avgWordLength) {
+function calcActualWpmData(wpmData, avgWordLength) {
 	for (let i; i < wpmData.data.length; i++) {
 		wpmData.data[i] = wpmData.data[i] / avgWordLength;
 	}
