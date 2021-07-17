@@ -198,6 +198,7 @@ sup {
 	position: absolute;
 	top: 50%;
 	left: 50%;
+	height: 95px;
 	-ms-transform: translateX(-50%) translateY(-50%);
 	-webkit-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%);
