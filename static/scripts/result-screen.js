@@ -115,14 +115,14 @@ function drawGraph(config, chartParentId, vwVal, vhVal) {
 	const graphCanvas = `<canvas id="result-graph" class="graph" style="width:100%;height:100%;"> </canvas>`;
 	graphParent.innerHTML = graphCanvas;
 	const graphCanvasDOM = document.getElementById("result-graph");
-	
+
 	const height = vh(vhVal);
 	const width = vw(vwVal);
 
 	let chart = new Chart(graphCanvasDOM, config, {
-    		    responsive: false,
-		    maintainAspectRatio: false
-		});
+		responsive: false,
+		maintainAspectRatio: false,
+	});
 }
 
 const useGraphFunctions = (avgWordLength) => {

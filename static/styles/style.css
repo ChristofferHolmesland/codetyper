@@ -66,13 +66,13 @@ sup {
 	transition: all 200ms ease-in-out;
 }
 
-.results{
+.results {
 	display: grid;
 	gap: 1rem;
-	grid-template-areas: 
-		'z z z z x'
-		'b a a a x'
-		'c c c c x';
+	grid-template-areas:
+		"z z z z x"
+		"b a a a x"
+		"c c c c x";
 	grid-template-rows: 10% 60% 30%;
 	grid-template-columns: 25% auto auto auto 10%;
 }
