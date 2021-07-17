@@ -96,7 +96,7 @@ js.addEventListener("click", () => {
 });
 
 bash.addEventListener("click", () => {
-	mycode = mycodeArr[8];
+	mycode = myCodeArr[8];
 	callFunc();
 });
 
