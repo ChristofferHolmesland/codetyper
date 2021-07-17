@@ -191,9 +191,6 @@ function startTimer() {
 		var minutes = Math.floor(elapsedTime / 60);
 		var seconds = elapsedTime - minutes * 60;
 
-		var minutesAndSeconds = minutes * 60 + seconds;
-		let previousSecond = minutesAndSeconds - 1;
-
 		var minutesText = "";
 		if (minutes < 10) minutesText = "0" + minutes;
 		else minutesText += minutes;
@@ -222,9 +219,7 @@ function startTimer() {
 			logWpmData(elapsedTimeInSeconds, numCorrectLastSecond);
 		} else {
 			logWpmData(elapsedTimeInSeconds, numCorrectLastSecond);
-			//			numCorrectListEverySecond.push(numCorrectLastSecond);
-			//			console.log(numCorrectLastSecond);
-			//			numCorrectLastSecond = 0;
+			numCorrectLastSecond = 0;
 		}
 		console.log(numCorrectListEverySecond);
 	}, 1000);
@@ -232,6 +227,7 @@ function startTimer() {
 
 function writing_done() {
 	clearInterval(intervalId);
+	clearInterval(SecondsInterval);
 	document.getElementById("words").removeEventListener(
 		"keydown",
 		onKeyDown_handler
@@ -244,9 +240,10 @@ function writing_done() {
 
 	document.getElementById("writingDiv").classList.add("displaynone");
 	document.getElementById("resultDiv").classList.remove("displaynone");
-
+	document.getElementById("resultDiv").classList.add("results");
 	document.getElementById("cpmDiv").innerHTML = "" + cpm;
 	document.getElementById("wpmDiv").innerHTML = "" + wpm;
+	useGraphFunctions(wpm);
 	document.getElementById("accuracy").innerHTML = "" + accuracy + "%";
 	document.getElementById("difficulty").innerHTML = codeDifficulty;
 	if (accuracy < 50) {
@@ -458,3 +455,4 @@ document.getElementById("githubbutton").addEventListener("click", function () {
 		});
 	});
 });
+
