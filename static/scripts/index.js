@@ -455,4 +455,3 @@ document.getElementById("githubbutton").addEventListener("click", function () {
 		});
 	});
 });
-
