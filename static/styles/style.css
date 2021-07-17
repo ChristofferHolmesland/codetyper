@@ -66,19 +66,26 @@ sup {
 	transition: all 200ms ease-in-out;
 }
 
-.results-left {
-	position: absolute;
-	left: 13%;
-	height: 100%;
-	text-align: left;
-	padding: 20px;
-	padding-top: 200px;
-	margin: 0;
+.results{
+	display: grid;
+	gap: 1rem;
+	grid-template-areas: 
+		'z z z z x'
+		'b a a a x'
+		'c c c c x';
+	grid-template-rows: 10% 60% 30%;
+	grid-template-columns: 25% auto auto auto 10%;
 }
 
-.graph {
-	position: absolute;
-	right: 13%;
+.results-left {
+	grid-area: b;
+	text-align: left;
+	padding: 5%;
+	padding-top: 20%;
+}
+
+.result-graph-container {
+	grid-area: a;
 }
 
 .lang-buttons {
@@ -173,6 +180,10 @@ sup {
 	border-radius: 50%;
 }
 
+#restartbut {
+	display: inline-block;
+}
+
 #errored-characters {
 	overflow-y: scroll;
 	list-style-type: none;
@@ -188,7 +199,7 @@ sup {
 }
 
 #words {
-	font-family: monosace;
+	font-family: var(--font-family);
 	font-size: 24px;
 	overflow: hidden;
 	min-width: 800px;
@@ -323,6 +334,7 @@ header input {
 
 button {
 	padding: 10px;
+	font-size: 1rem;
 	background-color: var(--button-bg);
 	color: var(--button-fg);
 }

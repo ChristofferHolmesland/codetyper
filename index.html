@@ -51,7 +51,17 @@
 					id="font"
 					placeholder="Choose Custom Font"
 				/>
+			<button
+				class="btn"
+				style = "
+					height: 35px;
+				"
+				onclick="document.location.reload(true)"
+			>
+				Restart
+			</button>
 			</div>
+			
 		</header>
 		<div id="selectDiv">
 			<div class="lang-buttons">
@@ -94,18 +104,14 @@
 			<br />
 			<br />
 			<div id="limits">
-				<label
-					>I want to limit the number of lines to
-				</label>
+				<label>Stop my test after</label>
 				<input
 					id="line_limit"
 					min="1"
 					placeholder="unlimited"
 					class="number-box"
 				/>
-				<label>lines.</label>
-				<br />
-				<label>I want to complete the test in</label>
+				<label>lines and</label>
 				<input
 					id="time_limit"
 					min="1"
@@ -138,20 +144,15 @@
 				Difficulty:
 				<span id="difficulty"></span>
 				<br />
-				<button
-					id="restartbut"
-					onclick="document.location.reload(true)"
-				>
-					Restart
-				</button>
 			</div>
-			<span id="errors"></span> <br />
+			<!-- <span id="errors"></span> <br />
 			<div id="error-container" class="results-center">
 				<ul id="errored-characters"></ul>
-			</div>
-			<br />
+			</div> -->
+			<div id="result-graph-container" class="result-graph-container">
 		</div>
-		<canvas id="result-graph" class="graph"></canvas>
+		</div>
+		
 		<span id="errors"></span> <br />
 		<div id="error-container" class="results-center">
 			<ul id="errored-characters"></ul>

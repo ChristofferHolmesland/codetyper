@@ -27,6 +27,22 @@
 //  - Button to start a new random test
 //
 
+// calculate responsive values (viewport height and viewport width)
+function vh(v) {
+	var h = Math.max(
+		document.documentElement.clientHeight,
+		window.innerHeight || 0
+	);
+	return (v * h) / 100;
+}
+
+function vw(v) {
+	var w = Math.max(
+		document.documentElement.clientWidth,
+		window.innerWidth || 0
+	);
+	return (v * w) / 100;
+}
 // average word length functions for finding WPM
 function removeAllValues(value, arr) {
 	let outArr = [];
@@ -67,7 +83,7 @@ function logWpmData(time, numCorrectLastSecond) {
 	console.log(wpmData);
 }
 
-function calcActualWpmData(wpmData, avgWordLength) {
+function calcActualWpmData(wpmData = wpmData, avgWordLength) {
 	for (let i; i < wpmData.data.length; i++) {
 		wpmData.data[i] = wpmData.data[i] / avgWordLength;
 	}
@@ -94,11 +110,29 @@ function genGraphData(WpmData) {
 	return graphConfig;
 }
 
-let chart;
-function drawGraph(config, chartId) {
-	graphContainer = document.getElementById(chartId);
-	chart = new Chart(graphContainer, config);
+function drawGraph(config, chartParentId, vwVal, vhVal) {
+	const graphParent = document.getElementById(chartParentId);
+	const graphCanvas = `<canvas id="result-graph" class="graph" style="width:100%;height:100%;"> </canvas>`;
+	graphParent.innerHTML = graphCanvas;
+	const graphCanvasDOM = document.getElementById("result-graph");
+	
+	const height = vh(vhVal);
+	const width = vw(vwVal);
+
+	let chart = new Chart(graphCanvasDOM, config, {
+    		    responsive: false,
+		    maintainAspectRatio: false
+		});
 }
+
+const useGraphFunctions = (avgWordLength) => {
+	drawGraph(
+		genGraphData(calcActualWpmData(wpmData, avgWordLength)),
+		"result-graph-container",
+		75,
+		60
+	);
+};
 
 function determineDifficulty(lines) {
 	// When the code is longer the fingers get tired. Assume that maximum tiredness is achieved at 100 lines.
