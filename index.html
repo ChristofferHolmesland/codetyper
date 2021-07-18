@@ -1,125 +1,171 @@
 <!DOCTYPE html>
 <html>
+	<head>
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta charset="UTF-8" />
 
-<head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta charset="UTF-8" />
+		<title>codetyper</title>
+		<link rel="stylesheet" href="static/styles/style.css" />
+	</head>
+	<style></style>
 
-        <title>codetyper</title>
-        <link rel="stylesheet" href="static/styles/style.css" />
-</head>
-<style></style>
+	<body>
+		<header>
+			<div class="theme-switch-wrapper">
+				<label
+					class="theme-switch"
+					for="light-checkbox"
+				>
+					<input
+						type="checkbox"
+						id="light-checkbox"
+					/>
+					<div class="slider round"></div>
+				</label>
+				<p>Light Mode</p>
+			</div>
+			<div class="links-wrapper">
+				<a
+					alt="Discord"
+					href="https://discord.gg/kalle"
+					target="_blank"
+					><img
+						alt="Discord"
+						src="static/images/discord.svg"
+				/></a>
+				<a
+					alt="GitHub"
+					href="https://github.com/ChristofferHolmesland/codetyper"
+					target="_blank"
+					><img
+						alt="GitHub"
+						src="static/images/github.png"
+				/></a>
+			</div>
+			<div>
+				<input
+					id="font"
+					placeholder="Choose Custom Font"
+				/>
+				<button
+					class="btn"
+					style="height: 35px"
+					onclick="document.location.reload(true)"
+				>
+					Restart
+				</button>
+			</div>
+		</header>
+		<div id="selectDiv">
+			<div class="lang-buttons">
+				<p>Choose a language to start with</p>
+				<br />
+				<button class="btn githubbutton" id="java">
+					Java
+				</button>
+				<button class="btn githubbutton" id="c">
+					C
+				</button>
+				<button class="btn githubbutton" id="cpp">
+					C++
+				</button>
+				<button class="btn githubbutton" id="csharp">
+					C#
+				</button>
+				<button class="btn githubbutton" id="py">
+					Python
+				</button>
+				<button class="btn githubbutton" id="go">
+					Go
+				</button>
+				<button class="btn githubbutton" id="kotlin">
+					Kotlin
+				</button>
+				<button class="btn githubbutton" id="js">
+					JavaScript
+				</button>
+				<button class="btn githubbutton" id="bash">
+					Bash
+				</button>
+			</div>
+			<br />
+			<div class="code-chooser">
+				<input
+					id="githubinput"
+					type="text"
+					placeholder="Or enter Github link"
+				/>
+				<button id="githubbutton">-></button>
+			</div>
+			<br />
+			<br />
+			<div id="limits">
+				<label>Stop my test after</label>
+				<input
+					id="line_limit"
+					min="1"
+					onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';"
+					placeholder="unlimited"
+					class="number-box"
+					onchange="myfunc();"
+				/>
+				<label>lines and</label>
+				<input
+					id="time_limit"
+					min="1"
+					placeholder="unlimited"
+					onkeypress="this.style.width = ((this.value.length + 2) * 8) + 'px';"
+					class="number-box"
+				/>
+				<label>seconds.</label>
+			</div>
+		</div>
 
-<body>
-        <header>
-                <div class="theme-switch-wrapper">
-                        <label class="theme-switch" for="light-checkbox">
-                                <input type="checkbox" id="light-checkbox" />
-                                <div class="slider round"></div>
-                        </label>
-                        <p>Light Mode</p>
-                </div>
-                <div class="links-wrapper">
-                        <a alt="Discord" href="https://discord.gg/kalle" target="_blank"><img alt="Discord"
-                                        src="static/images/discord.svg" /></a>
-                        <a alt="GitHub" href="https://github.com/ChristofferHolmesland/codetyper" target="_blank"><img
-                                        alt="GitHub" src="static/images/github.png" /></a>
-                </div>
-                <div>
-                        <input id="font" placeholder="Choose Custom Font" />
-                        <button class="btn" style="height: 35px" onclick="document.location.reload(true)">
-                                Restart
-                        </button>
-                </div>
-        </header>
-        <div id="selectDiv">
-                <div class="lang-buttons">
-                        <p>Choose a language to start with</p>
-                        <br />
-                        <button class="btn githubbutton" id="java">
-                                Java
-                        </button>
-                        <button class="btn githubbutton" id="c">
-                                C
-                        </button>
-                        <button class="btn githubbutton" id="cpp">
-                                C++
-                        </button>
-                        <button class="btn githubbutton" id="csharp">
-                                C#
-                        </button>
-                        <button class="btn githubbutton" id="py">
-                                Python
-                        </button>
-                        <button class="btn githubbutton" id="go">
-                                Go
-                        </button>
-                        <button class="btn githubbutton" id="kotlin">
-                                Kotlin
-                        </button>
-                        <button class="btn githubbutton" id="js">
-                                JavaScript
-                        </button>
-                        <button class="btn githubbutton" id="bash">
-                                Bash
-                        </button>
-                </div>
-                <br />
-                <div class="code-chooser">
-                        <input id="githubinput" type="text" placeholder="Or enter Github link" />
-                        <button id="githubbutton">-></button>
-                </div>
-                <br />
-                <br />
-                <div id="limits">
-                        <label>Stop my test after</label>
-                        <input id="line_limit" min="1" onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';" placeholder="unlimited" class="number-box" onchange="myfunc();" />
-                        <label>lines and</label>
-                        <input id="time_limit" min="1" placeholder="unlimited" onkeypress="this.style.width = ((this.value.length + 2) * 8) + 'px';"  class="number-box"  />
-                        <label>seconds.</label>
-                </div>
-        </div>
+		<div id="writingDiv" class="displaynone">
+			<div id="timer">00:00</div>
+			<div tabindex="0" id="words"></div>
+		</div>
 
-        <div id="writingDiv" class="displaynone">
-                <div id="timer">00:00</div>
-                <div tabindex="0" id="words"></div>
-        </div>
-
-        <div id="resultDiv" class="displaynone">
-                <div class="results-left">
-                        CPM:
-                        <span id="cpmDiv"> </span>
-                        <br />
-                        <br />
-                        WPM:
-                        <span id="wpmDiv"></span>
-                        <br />
-                        <br />
-                        Acc:
-                        <span id="accuracy"> </span>
-                        <br />
-                        <br />
-                        Difficulty:
-                        <span id="difficulty"></span>
-                        <br />
-                </div>
-                <!-- <span id="errors"></span> <br />
+		<div id="resultDiv" class="displaynone">
+			<div class="results-left">
+				CPM:
+				<span id="cpmDiv"> </span>
+				<br />
+				<br />
+				WPM:
+				<span id="wpmDiv"></span>
+				<br />
+				<br />
+				Acc:
+				<span id="accuracy"> </span>
+				<br />
+				<br />
+				Difficulty:
+				<span id="difficulty"></span>
+				<br />
+			</div>
+			<!-- <span id="errors"></span> <br />
 			<div id="error-container" class="results-center">
 				<ul id="errored-characters"></ul>
 			</div> -->
-                <div id="result-graph-container" class="result-graph-container"></div>
-        </div>
+			<div
+				id="result-graph-container"
+				class="result-graph-container"
+			></div>
+		</div>
 
-        <span id="errors"></span> <br />
-        <div id="error-container" class="results-center">
-                <ul id="errored-characters"></ul>
-        </div>
-        <br />
+		<span id="errors"></span> <br />
+		<div id="error-container" class="results-center">
+			<ul id="errored-characters"></ul>
+		</div>
+		<br />
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.1/chart.min.js"></script>
-        <script src="static/scripts/result-screen.js"></script>
-        <script src="static/scripts/index.js"></script>
-</body>
-
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.1/chart.min.js"></script>
+		<script src="static/scripts/result-screen.js"></script>
+		<script src="static/scripts/index.js"></script>
+	</body>
 </html>

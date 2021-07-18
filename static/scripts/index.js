@@ -13,15 +13,15 @@ const time_limit = document.getElementById("time_limit");
 const fontChanger = document.getElementById("font");
 
 line_limit.addEventListener("input", (e) => {
-        if (e.target.value == "") {
-                line_limit.style.width = 80 + "px";
-        }
+	if (e.target.value == "") {
+		line_limit.style.width = 80 + "px";
+	}
 });
 
 time_limit.addEventListener("input", (e) => {
-        if (e.target.value == "") {
-                time_limit.style.width = 80 + "px";
-        }
+	if (e.target.value == "") {
+		time_limit.style.width = 80 + "px";
+	}
 });
 
 var codeDifficulty;
@@ -55,7 +55,7 @@ var myCodeArr = [
     console.log("Hello, World!");
 };
 main();`,
-	`echo "Hello World"`
+	`echo "Hello World"`,
 ];
 
 function callFunc() {
