@@ -14,7 +14,7 @@
 	<style></style>
 
 	<body>
-		<header>
+		<div class="displaynone">
 			<div class="theme-switch-wrapper">
 				<label
 					class="theme-switch"
@@ -59,7 +59,7 @@
 					Restart
 				</button>
 			</div>
-		</header>
+		</div>
 		<div id="selectDiv">
 			<div class="lang-buttons">
 				<p>Choose a language to start with</p>
@@ -104,25 +104,24 @@
 			<br />
 			<br />
 			<div id="limits">
-				<label>Stop my test after</label>
-				<input
-					id="line_limit"
-					min="1"
-					onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';"
-					placeholder="unlimited"
-					class="number-box"
-					onchange="myfunc();"
-				/>
-				<label>lines and</label>
-				<input
-					id="time_limit"
-					min="1"
-					placeholder="unlimited"
-					onkeypress="this.style.width = ((this.value.length + 2) * 8) + 'px';"
-					class="number-box"
-				/>
-				<label>seconds.</label>
-			</div>
+                                <label>Stop my test after</label>
+                                <input
+                                    id="line_limit"
+                                    min="1"
+                                    onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';"
+                                    placeholder="unlimited"
+                                    class="number-box"
+                                />
+                                <label>lines and</label>
+                                <input
+                                    id="time_limit"
+                                    min="1"
+                                    placeholder="unlimited"
+                                    onkeypress="this.style.width = ((this.value.length + 2) * 8) + 'px';"
+                                    class="number-box"
+                                />
+                                <label>seconds.</label>
+                            </div>
 		</div>
 
 		<div id="writingDiv" class="displaynone">
