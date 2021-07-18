@@ -43,7 +43,7 @@ var myCodeArr = [
     console.log("Hello, World!");
 };
 main();`,
-	`echo "Hello World"`
+	`echo "Hello World"`,
 ];
 
 function callFunc() {
