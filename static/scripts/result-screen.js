@@ -87,9 +87,10 @@ function calcActualWpmData(wpmData, avgWordLength) {
 	for (let i; i < wpmData.data.length; i++) {
 		wpmData.data[i] = wpmData.data[i] / avgWordLength;
 	}
+	return wpmData;
 }
 
-function genGraphData(WpmData) {
+function genGraphData(wpmData) {
 	const labels = wpmData.labels;
 	const data = {
 		labels: labels,
