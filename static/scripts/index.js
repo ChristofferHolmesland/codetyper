@@ -8,9 +8,21 @@ const go = document.getElementById("go");
 const kotlin = document.getElementById("kotlin");
 const js = document.getElementById("js");
 const bash = document.getElementById("bash");
-
+const lineLimitElement = document.getElementById("line_limit");
+const timeLimitElement = document.getElementById("time_limit");
 const fontChanger = document.getElementById("font");
-fontChanger.addEventListener("keydown", changeFont);
+
+lineLimitElement.addEventListener("input", (e) => {
+	if (e.target.value == "") {
+		lineLimitElement.style.width = 80 + "px";
+	}
+});
+
+timeLimitElement.addEventListener("input", (e) => {
+	if (e.target.value == "") {
+		timeLimitElement.style.width = 80 + "px";
+	}
+});
 
 var codeDifficulty;
 
