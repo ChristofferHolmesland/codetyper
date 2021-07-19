@@ -8,25 +8,6 @@ const go = document.getElementById("go");
 const kotlin = document.getElementById("kotlin");
 const js = document.getElementById("js");
 const bash = document.getElementById("bash");
-const line_limit = document.getElementById("line_limit");
-const time_limit = document.getElementById("time_limit");
-const fontChanger = document.getElementById("font");
-
-line_limit.addEventListener("input", (e) => {
-	if (e.target.value == "") {
-		line_limit.style.width = 80 + "px";
-	}
-	else if(e.target.value > 0){
-		e.target.style.width = ((e.target.value.length + 2) * 8) + 'px';
-	}
-});
-
-time_limit.addEventListener("input", (e) => {
-	if (e.target.value == "") {
-		time_limit.style.width = 80 + "px";
-	}
-	else if(e.target.value > 0){
-		e.target.style.width = ((e.target.value.length + 2) * 8) + 'px';
 const lineLimitElement = document.getElementById("line_limit");
 const timeLimitElement = document.getElementById("time_limit");
 const fontChanger = document.getElementById("font");
@@ -34,12 +15,16 @@ const fontChanger = document.getElementById("font");
 lineLimitElement.addEventListener("input", (e) => {
 	if (e.target.value == "") {
 		lineLimitElement.style.width = 80 + "px";
+	} else if (e.target.value > 0) {
+		e.target.style.width = (e.target.value.length + 2) * 8 + "px";
 	}
 });
 
 timeLimitElement.addEventListener("input", (e) => {
 	if (e.target.value == "") {
 		timeLimitElement.style.width = 80 + "px";
+	} else if (e.target.value > 0) {
+		e.target.style.width = (e.target.value.length + 2) * 8 + "px";
 	}
 });
 
