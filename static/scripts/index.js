@@ -16,11 +16,17 @@ line_limit.addEventListener("input", (e) => {
 	if (e.target.value == "") {
 		line_limit.style.width = 80 + "px";
 	}
+	else if(e.target.value > 0){
+		e.target.style.width = ((e.target.value.length + 2) * 8) + 'px';
+	}
 });
 
 time_limit.addEventListener("input", (e) => {
 	if (e.target.value == "") {
 		time_limit.style.width = 80 + "px";
+	}
+	else if(e.target.value > 0){
+		e.target.style.width = ((e.target.value.length + 2) * 8) + 'px';
 	}
 });
 
