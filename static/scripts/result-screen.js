@@ -122,7 +122,7 @@ function drawGraph(config, chartParentId, vwVal, vhVal) {
 
 	let chart = new Chart(graphCanvasDOM, config, {
 		// 	responsive: false,
-		maintainAspectRatio: false,
+		maintainAspectRatio: true,
 	});
 }
 
