@@ -332,11 +332,15 @@ function onKeyDown_handler(key) {
 
 	let registeredKey = key.key;
 
+	decodedCharacter = decodeHtml(
+		allCharacters[characterProgress].innerHTML
+	);
+
 	if (registeredKey != "Backspace" && characterProgress === 0) {
 		startTimer();
 	}
 
-	if (key.key == "Tab") {
+	if (key.key === "Tab" && decodedCharacter !== "\t") {
 		registeredKey = "    ";
 	}
 
@@ -380,10 +384,6 @@ function onKeyDown_handler(key) {
 
 	if (registeredKey.length > 1 && registeredKey != "    ") return false;
 
-	decodedCharacter = decodeHtml(
-		allCharacters[characterProgress].innerHTML
-	);
-
 	try {
 		tabCharList = [
 			allCharacters[characterProgress].innerHTML,
@@ -398,8 +398,7 @@ function onKeyDown_handler(key) {
 	expectedTabCharList = [" ", " ", " ", " "];
 
 	if (decodedCharacter === String(registeredKey)) {
-		allCharacters[characterProgress].classList.add("correct");
-		allCharacters[characterProgress].scrollIntoView();
+		addCharacterState(allCharacters[characterProgress], "correct");
 		numCorrect++;
 		numCorrectLastSecond++;
 	} else if (
@@ -416,7 +415,7 @@ function onKeyDown_handler(key) {
 			"active"
 		);
 		characterProgress += 3;
-		numCorrect += 4;
+		numCorrect += 3;
 		numCorrectLastSecond += 4;
 	} else {
 		// Error Code

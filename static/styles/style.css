@@ -74,16 +74,24 @@ sup {
 	grid-template-areas:
 		"z z z z x"
 		"b a a a x"
-		"c c c c x";
-	grid-template-rows: 10% 60% 30%;
-	grid-template-columns: 25% auto auto auto 10%;
+		"d c c c x";
+	grid-template-rows: 0% 65% 35%;
+	grid-template-columns: 18% auto auto auto 10%;
 }
 
 .results-left {
 	grid-area: b;
 	text-align: left;
 	padding: 5%;
-	padding-top: 20%;
+	padding-top: 50%;
+	padding-left: 20%;
+	padding-bottom: unset;
+}
+
+.results-bottom {
+	grid-area: c;
+	padding-top: 5%;
+	padding-bottom: 10%;
 }
 
 .result-graph-container {
