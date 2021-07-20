@@ -213,6 +213,7 @@ sup {
 	left: 50%;
 	height: 16vh;
 	width: fit-content;
+	min-width: 50vw;
 	width: -moz-fit-content;
 	max-width: 70vw;
 	-ms-transform: translateX(-50%) translateY(-50%);

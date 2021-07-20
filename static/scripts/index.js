@@ -317,9 +317,14 @@ function areEqual(arr1, arr2) {
 	return true;
 }
 
-function changeCharacterState(character, state) {
+function removeCharacterState(character, state) {
+	character.classList.remove(state);
+	character.scrollIntoViewIfNeeded();
+}
+
+function addCharacterState(character, state) {
 	character.classList.add(state);
-	character.scrollIntoViewIfNeeded(false);
+	character.scrollIntoViewIfNeeded();
 }
 
 function onKeyDown_handler(key) {
@@ -349,16 +354,28 @@ function onKeyDown_handler(key) {
 			correctCharacters.push(
 				allCharacters[characterProgress]
 			);
+		} else if (
+			allCharacters[characterProgress].classList.contains(
+				"spacerror"
+			)
+		) {
+			removeCharacterState(
+				allCharacters[characterProgress],
+				"spacerror"
+			);
+			addCharacterState(
+				allCharacters[characterProgress],
+				"active"
+			);
+			console.log("changed state");
+			numErrors--;
 		} else {
 			numErrors--;
 		}
 
 		allCharacters[characterProgress].classList.remove("correct");
 		allCharacters[characterProgress].classList.remove("error");
-		changeCharacterState(
-			allCharacters[characterProgress],
-			"active"
-		);
+		addCharacterState(allCharacters[characterProgress], "active");
 	}
 
 	if (registeredKey.length > 1 && registeredKey != "    ") return false;
@@ -394,7 +411,7 @@ function onKeyDown_handler(key) {
 		allCharacters[characterProgress + 2].classList.add("correct");
 		allCharacters[characterProgress + 3].classList.add("correct");
 		allCharacters[characterProgress].classList.remove("active");
-		changeCharacterState(
+		addCharacterState(
 			allCharacters[characterProgress + 4],
 			"active"
 		);
@@ -446,7 +463,7 @@ function onKeyDown_handler(key) {
 	}
 
 	characterProgress++;
-	changeCharacterState(allCharacters[characterProgress], "active");
+	addCharacterState(allCharacters[characterProgress], "active");
 	return false;
 }
 
