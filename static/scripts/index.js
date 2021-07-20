@@ -319,12 +319,12 @@ function areEqual(arr1, arr2) {
 
 function removeCharacterState(character, state) {
 	character.classList.remove(state);
-	character.scrollIntoViewIfNeeded();
+	character.scrollIntoView();
 }
 
 function addCharacterState(character, state) {
 	character.classList.add(state);
-	character.scrollIntoViewIfNeeded();
+	character.scrollIntoView();
 }
 
 function onKeyDown_handler(key) {
