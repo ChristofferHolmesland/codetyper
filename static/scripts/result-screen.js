@@ -121,8 +121,8 @@ function drawGraph(config, chartParentId, vwVal, vhVal) {
 	const width = vw(vwVal);
 
 	let chart = new Chart(graphCanvasDOM, config, {
-		// 	responsive: false,
-		maintainAspectRatio: true,
+		responsive: false,
+		maintainAspectRatio: false,
 	});
 }
 
