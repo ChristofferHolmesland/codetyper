@@ -79,6 +79,23 @@ sup {
 	grid-template-columns: 18% auto auto auto 10%;
 }
 
+.resultButtons {
+	grid-area: d;
+	display: flex;
+	flex-direction: column;
+}
+
+#restartButton {
+	height: 4vh;
+	width: 6vw;
+}
+
+.resultButtonsRowOne {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+}
+
 .results-left {
 	grid-area: b;
 	text-align: left;

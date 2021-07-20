@@ -24,8 +24,6 @@ timeLimitElement.addEventListener("input", (e) => {
 	}
 });
 
-var codeDifficulty;
-
 var myCodeArr = [
 	`if __name__ == "__main__":
     print("Hello, world!")
@@ -58,6 +56,56 @@ main();`,
 	`echo "Hello World"`,
 ];
 
+var myCode = myCodeArr[0];
+var codeDifficulty;
+var lines = myCode.split("\n");
+var allCharacters = [];
+var characterProgress = 0;
+var numCorrect = 0;
+var numErrors = 0;
+let erroredCharacters = [];
+let correctCharacters = [];
+let numCorrectLastSecond = 0;
+let numCorrectListEverySecond = [];
+
+var elapsedTime = 0;
+var intervalId = undefined;
+var isTimerRunning = false;
+let previousSecond;
+let elapsedTimeInSeconds;
+
+function resetVariables() {
+	myCode = myCodeArr[0];
+	codeDifficulty = undefined;
+	lines = myCode.split("\n");
+	allCharacters = [];
+	characterProgress = 0;
+	numCorrect = 0;
+	numErrors = 0;
+	erroredCharacters = [];
+	correctCharacters = [];
+	numCorrectLastSecond = 0;
+	numCorrectListEverySecond = [];
+
+	elapsedTime = 0;
+	intervalId = undefined;
+	isTimerRunning = false;
+	previousSecond = undefined;
+	elapsedTimeInSeconds = undefined;
+}
+resetVariables();
+
+document.getElementById("restartButton").addEventListener("click", function () {
+	/*
+		resetVariables();
+		document.getElementById("selectDiv").classList.remove("displaynone");
+		document.getElementById("writingDiv").classList.add("displaynone");
+		document.getElementById("resultDiv").classList.add("displaynone");
+	*/
+
+	location.reload();
+});
+
 function callFunc() {
 	generateCode();
 	document.getElementById("selectDiv").classList.add("displaynone");
@@ -65,7 +113,6 @@ function callFunc() {
 	document.getElementById("words").focus();
 	return;
 }
-var myCode;
 
 java.addEventListener("click", () => {
 	myCode = myCodeArr[1];
@@ -111,10 +158,6 @@ bash.addEventListener("click", () => {
 	myCode = myCodeArr[8];
 	callFunc();
 });
-
-myCode = myCodeArr[0];
-var lines = myCode.split("\n");
-var allCharacters = [];
 
 function decodeHtml(html) {
 	let txt = document.createElement("textarea");
@@ -175,19 +218,6 @@ function generateCode() {
 	allCharacters[allCharacters.length - 1].classList.add("finalElement");
 }
 
-var characterProgress = 0;
-var numCorrect = 0;
-var numErrors = 0;
-let erroredCharacters = [];
-let correctCharacters = [];
-let numCorrectLastSecond = 0;
-let numCorrectListEverySecond = [];
-
-var elapsedTime = 0;
-var intervalId = undefined;
-var isTimerRunning = false;
-let previousSecond;
-let elapsedTimeInSeconds;
 function startTimer() {
 	if (isTimerRunning) return;
 	isTimerRunning = true;
