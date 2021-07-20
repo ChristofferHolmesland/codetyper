@@ -317,16 +317,30 @@ function areEqual(arr1, arr2) {
 	return true;
 }
 
+function removeCharacterState(character, state) {
+	character.classList.remove(state);
+	character.scrollIntoViewIfNeeded();
+}
+
+function addCharacterState(character, state) {
+	character.classList.add(state);
+	character.scrollIntoViewIfNeeded();
+}
+
 function onKeyDown_handler(key) {
 	key.preventDefault();
 
 	let registeredKey = key.key;
 
+	decodedCharacter = decodeHtml(
+		allCharacters[characterProgress].innerHTML
+	);
+
 	if (registeredKey != "Backspace" && characterProgress === 0) {
 		startTimer();
 	}
 
-	if (key.key == "Tab") {
+	if (key.key === "Tab" && decodedCharacter !== "\t") {
 		registeredKey = "    ";
 	}
 
@@ -344,20 +358,31 @@ function onKeyDown_handler(key) {
 			correctCharacters.push(
 				allCharacters[characterProgress]
 			);
+		} else if (
+			allCharacters[characterProgress].classList.contains(
+				"spacerror"
+			)
+		) {
+			removeCharacterState(
+				allCharacters[characterProgress],
+				"spacerror"
+			);
+			addCharacterState(
+				allCharacters[characterProgress],
+				"active"
+			);
+			console.log("changed state");
+			numErrors--;
 		} else {
 			numErrors--;
 		}
 
 		allCharacters[characterProgress].classList.remove("correct");
 		allCharacters[characterProgress].classList.remove("error");
-		allCharacters[characterProgress].classList.add("active");
+		addCharacterState(allCharacters[characterProgress], "active");
 	}
 
 	if (registeredKey.length > 1 && registeredKey != "    ") return false;
-
-	decodedCharacter = decodeHtml(
-		allCharacters[characterProgress].innerHTML
-	);
 
 	try {
 		tabCharList = [
@@ -373,7 +398,7 @@ function onKeyDown_handler(key) {
 	expectedTabCharList = [" ", " ", " ", " "];
 
 	if (decodedCharacter === String(registeredKey)) {
-		allCharacters[characterProgress].classList.add("correct");
+		addCharacterState(allCharacters[characterProgress], "correct");
 		numCorrect++;
 		numCorrectLastSecond++;
 	} else if (
@@ -385,9 +410,12 @@ function onKeyDown_handler(key) {
 		allCharacters[characterProgress + 2].classList.add("correct");
 		allCharacters[characterProgress + 3].classList.add("correct");
 		allCharacters[characterProgress].classList.remove("active");
-		allCharacters[characterProgress + 4].classList.add("active");
+		addCharacterState(
+			allCharacters[characterProgress + 4],
+			"active"
+		);
 		characterProgress += 3;
-		numCorrect += 4;
+		numCorrect += 3;
 		numCorrectLastSecond += 4;
 	} else {
 		// Error Code
@@ -434,7 +462,7 @@ function onKeyDown_handler(key) {
 	}
 
 	characterProgress++;
-	allCharacters[characterProgress].classList.add("active");
+	addCharacterState(allCharacters[characterProgress], "active");
 	return false;
 }
 

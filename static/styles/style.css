@@ -5,6 +5,7 @@
 
 	--main-bg: #2e3440;
 	--main-fg: #eceff4;
+	--input-bg: #eceff4;
 	--header-bg: #3b4252;
 	--timer-fg: #d8dee9;
 	--timer-running: #81a1c1;
@@ -27,6 +28,7 @@
 [data-theme="light"] {
 	--main-bg: #eceff4;
 	--main-fg: #2e3440;
+	--input-bg: #eceff4;
 	--header-bg: #d8dee9;
 	--timer-fg: #4c566a;
 	--timer-running: #81a1c1;
@@ -72,16 +74,24 @@ sup {
 	grid-template-areas:
 		"z z z z x"
 		"b a a a x"
-		"c c c c x";
-	grid-template-rows: 10% 60% 30%;
-	grid-template-columns: 25% auto auto auto 10%;
+		"d c c c x";
+	grid-template-rows: 0% 65% 35%;
+	grid-template-columns: 18% auto auto auto 10%;
 }
 
 .results-left {
 	grid-area: b;
 	text-align: left;
 	padding: 5%;
-	padding-top: 20%;
+	padding-top: 50%;
+	padding-left: 20%;
+	padding-bottom: unset;
+}
+
+.results-bottom {
+	grid-area: c;
+	padding-top: 5%;
+	padding-bottom: 10%;
 }
 
 .result-graph-container {
@@ -210,7 +220,10 @@ sup {
 	top: 50%;
 	left: 50%;
 	height: 16vh;
-	width: 50vw;
+	width: fit-content;
+	min-width: 50vw;
+	width: -moz-fit-content;
+	max-width: 70vw;
 	-ms-transform: translateX(-50%) translateY(-50%);
 	-webkit-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%);
@@ -275,6 +288,7 @@ character {
 
 .code-chooser input {
 	float: left;
+	background-color: var(--input-bg);
 	width: calc(100% - 60px);
 	height: 30px;
 	font-size: 1rem;
@@ -286,6 +300,7 @@ character {
 
 .code-chooser button {
 	float: right;
+	background-color: var(--input-bg);
 	width: 48px;
 	height: 32px;
 	border-radius: 0;
