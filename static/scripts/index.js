@@ -54,6 +54,9 @@ var myCodeArr = [
 };
 main();`,
 	`echo "Hello World"`,
+	`fn main() {
+    println!("Hello World!");
+}`,
 ];
 
 var myCode = myCodeArr[0];
@@ -156,6 +159,10 @@ js.addEventListener("click", () => {
 
 bash.addEventListener("click", () => {
 	myCode = myCodeArr[8];
+	callFunc();
+});
+rust.addEventListener("click", () => {
+	myCode = myCodeArr[9];
 	callFunc();
 });
 
