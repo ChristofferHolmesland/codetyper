@@ -53,7 +53,10 @@ var myCodeArr = [
     console.log("Hello, World!");
 };
 main();`,
-	`echo "Hello World"`,
+`echo "Hello World"`,
+`fn main() {
+    println!("Hello World!");
+}`
 ];
 
 var myCode = myCodeArr[0];
@@ -158,6 +161,12 @@ bash.addEventListener("click", () => {
 	myCode = myCodeArr[8];
 	callFunc();
 });
+rust.addEventListener("click", () => {
+	myCode = myCodeArr[9];
+	callFunc();
+});
+
+
 
 function decodeHtml(html) {
 	let txt = document.createElement("textarea");
