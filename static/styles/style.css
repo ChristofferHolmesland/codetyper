@@ -95,6 +95,7 @@ sup {
 }
 
 .result-graph-container {
+	min-width: 400px;
 	grid-area: a;
 }
 

@@ -117,21 +117,22 @@ function drawGraph(config, chartParentId, vwVal, vhVal) {
 	graphParent.innerHTML = graphCanvas;
 	const graphCanvasDOM = document.getElementById("result-graph");
 
-	const height = vh(vhVal);
-	const width = vw(vwVal);
-
 	let chart = new Chart(graphCanvasDOM, config, {
 		// 	responsive: false,
 		maintainAspectRatio: true,
 	});
+
+	graphCanvasDOM.style.height = `${vhVal}vh`;
+	graphCanvasDOM.style.width = `${vwVal}vw`;
+	graphCanvasDOM.style.boxSizing = "unset";
 }
 
 const useGraphFunctions = (avgWordLength) => {
 	drawGraph(
 		genGraphData(calcActualWpmData(wpmData, avgWordLength)),
 		"result-graph-container",
-		75,
-		60
+		20,
+		40
 	);
 };
 
