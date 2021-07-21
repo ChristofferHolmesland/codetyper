@@ -53,10 +53,10 @@ var myCodeArr = [
     console.log("Hello, World!");
 };
 main();`,
-`echo "Hello World"`,
-`fn main() {
+	`echo "Hello World"`,
+	`fn main() {
     println!("Hello World!");
-}`
+}`,
 ];
 
 var myCode = myCodeArr[0];
@@ -165,8 +165,6 @@ rust.addEventListener("click", () => {
 	myCode = myCodeArr[9];
 	callFunc();
 });
-
-
 
 function decodeHtml(html) {
 	let txt = document.createElement("textarea");
