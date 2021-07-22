@@ -365,6 +365,8 @@ function addCharacterState(character, state) {
 }
 
 function onKeyDown_handler(key) {
+	if (key.ctrlKey) return;
+	
 	key.preventDefault();
 
 	let registeredKey = key.key;
