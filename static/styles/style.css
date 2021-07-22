@@ -86,8 +86,13 @@ sup {
 }
 
 #restartButton {
-	height: 4vh;
-	width: 6vw;
+	width: fit-content;
+	width: -moz-fit-content;
+	height: fit-content;
+	height: -moz-fit-content;
+	padding: 10px;
+	min-height: 4vh;
+	min-width: 6vw;
 }
 
 .resultButtonsRowOne {
@@ -113,6 +118,7 @@ sup {
 
 .result-graph-container {
 	grid-area: a;
+	min-width: 400px;
 }
 
 .lang-buttons {
