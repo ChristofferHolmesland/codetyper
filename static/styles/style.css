@@ -72,17 +72,17 @@ sup {
 	display: grid;
 	gap: 1rem;
 	grid-template-areas:
-		"z z z z x"
+		"s s s s s"
 		"b a a a x"
-		"d c c c x";
-	grid-template-rows: 0% 65% 35%;
-	grid-template-columns: 18% auto auto auto 10%;
+		"d c c c x"
+		"v m m m x"
+		"q q q q q";
+	grid-template-rows: 10% auto 10% 10% 10%;
+	grid-template-columns: 20% auto auto auto 10%;
 }
 
 .resultButtons {
-	grid-area: d;
-	display: flex;
-	flex-direction: column;
+	grid-area: m;
 }
 
 #restartButton {
@@ -95,25 +95,18 @@ sup {
 	min-width: 6vw;
 }
 
-.resultButtonsRowOne {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-evenly;
-}
-
 .results-left {
 	grid-area: b;
 	text-align: left;
-	padding: 5%;
-	padding-top: 50%;
-	padding-left: 20%;
-	padding-bottom: unset;
+	padding: 10%;
+	position: absolute;
+	top: 50%;
+	left: 25%;
+	transform: translate(-25%, -50%);
 }
 
 .results-bottom {
 	grid-area: c;
-	padding-top: 5%;
-	padding-bottom: 10%;
 }
 
 .result-graph-container {
