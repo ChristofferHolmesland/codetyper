@@ -122,16 +122,19 @@ function drawGraph(config, chartParentId, vwVal, vhVal) {
 
 	let chart = new Chart(graphCanvasDOM, config, {
 		// 	responsive: false,
-		maintainAspectRatio: true,
+		maintainAspectRatio: false,
 	});
+
+	graphCanvasDOM.style.height = vhVal + "vh";
+	graphCanvasDOM.style.width = vwVal + "vw";
 }
 
 const useGraphFunctions = (avgWordLength) => {
 	drawGraph(
 		genGraphData(calcActualWpmData(wpmData, avgWordLength)),
 		"result-graph-container",
-		75,
-		60
+		10,
+		20
 	);
 };
 
