@@ -53,6 +53,10 @@ body {
 	color: var(--main-fg);
 }
 
+body * {
+	transition: all 200ms ease-in-out;
+}
+
 header {
 	position: sticky;
 	background-color: var(--header-bg);
@@ -324,6 +328,7 @@ character {
 	float: right;
 	padding: 0;
 	background-color: var(--input-bg);
+	color: var(--main-bg);
 	width: 48px;
 	height: 32px;
 	border-radius: 0;
