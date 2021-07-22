@@ -265,7 +265,7 @@ function startTimer() {
 		if (time_limit && elapsedTime >= time_limit) {
 			writing_done();
 		}
-	}, 100);
+	}, 50);
 
 	SecondsInterval = setInterval(function () {
 		let newTime = Date.now();
@@ -291,7 +291,7 @@ function writing_done() {
 	);
 
 	var length = myCode.replaceAll("\n", "").length;
-	var cpm = Math.round(60 * ((numCorrect + numErrors) / elapsedTime));
+	var cpm = Math.round(60 * (numCorrect / elapsedTime));
 	var wpm = Math.round(cpm / avgWordLength(myCode));
 	var accuracy = Math.round((100 * numCorrect) / length);
 
