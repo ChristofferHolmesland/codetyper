@@ -86,13 +86,19 @@ sup {
 }
 
 #restartButton {
-	width: fit-content;
-	width: -moz-fit-content;
-	height: fit-content;
-	height: -moz-fit-content;
-	padding: 10px;
-	min-height: 4vh;
-	min-width: 6vw;
+	background-color: var(--main-bg);
+	color: var(--button-bg);
+	padding: 0;
+	font-size: 150%;
+	height: 100%;
+}
+
+#restartButton span {
+	font-size: unset;
+}
+
+#restartButton:hover {
+	color: var(--button-hover-bg);
 }
 
 .results-left {
@@ -316,6 +322,7 @@ character {
 
 .code-chooser button {
 	float: right;
+	padding: 0;
 	background-color: var(--input-bg);
 	width: 48px;
 	height: 32px;
