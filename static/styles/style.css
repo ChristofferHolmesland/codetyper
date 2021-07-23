@@ -6,7 +6,7 @@
 	--main-bg: #2e3440;
 	--main-fg: #eceff4;
 	--input-bg: #eceff4;
-	--header-bg: #3b4252;
+	--second-bg: #3b4252;
 	--timer-fg: #d8dee9;
 	--timer-running: #81a1c1;
 	--select-div-fg: #eceff4;
@@ -29,7 +29,7 @@
 	--main-bg: #eceff4;
 	--main-fg: #2e3440;
 	--input-bg: #eceff4;
-	--header-bg: #d8dee9;
+	--second-bg: #d8dee9;
 	--timer-fg: #4c566a;
 	--timer-running: #81a1c1;
 	--select-div-fg: #434c5e;
@@ -54,7 +54,7 @@ body {
 }
 
 body * {
-	transition: all 200ms ease-in-out;
+	font-family: var(--font-family);
 }
 
 header {
@@ -334,6 +334,14 @@ character {
 	border-radius: 0;
 	border-start-end-radius: var(--input-border-radius);
 	border-end-end-radius: var(--input-border-radius);
+}
+
+.code-chooser button:hover {
+	background-color: var(--button-bg);
+}
+
+.code-chooser button span {
+	font-size: 30px;
 }
 
 .correct {
