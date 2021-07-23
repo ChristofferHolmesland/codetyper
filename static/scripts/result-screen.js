@@ -101,6 +101,7 @@ function genGraphData(wpmData) {
 				fill: false,
 				borderColor: "rgb(75, 192, 192)",
 				tension: 0.1,
+				pointHitRadius: 20
 			},
 		],
 	};
