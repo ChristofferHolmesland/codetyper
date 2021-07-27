@@ -191,7 +191,6 @@ function choose(choices) {
 function generateCode() {
 	var lines = myCode.split("\n");
 	codeDifficulty = determineDifficulty(lines);
-	console.log(codeDifficulty);
 	allCharacters = [];
 
 	line_limit = document.getElementById("line_limit").value;
@@ -278,7 +277,6 @@ function startTimer() {
 			logWpmData(elapsedTimeInSeconds, numCorrectLastSecond);
 			numCorrectLastSecond = 0;
 		}
-		console.log(numCorrectListEverySecond);
 	}, 1000);
 }
 
@@ -290,16 +288,23 @@ function writing_done() {
 		onKeyDown_handler
 	);
 
+	var averageWordLength = avgWordLength(myCode);
+	
 	var length = myCode.replaceAll("\n", "").length;
 	var cpm = Math.round(60 * (numCorrect / elapsedTime));
-	var wpm = Math.round(cpm / avgWordLength(myCode));
+	var wpm = Math.round(cpm / averageWordLength);
 	var accuracy = Math.round((100 * numCorrect) / length);
+	
+	var rawCpm = Math.round(60 * (numCorrect + numErrors) / elapsedTime);
+	var rawWpm = Math.round(rawCpm / averageWordLength);
 
 	document.getElementById("writingDiv").classList.add("displaynone");
 	document.getElementById("resultDiv").classList.remove("displaynone");
 	document.getElementById("resultDiv").classList.add("results");
 	document.getElementById("cpmDiv").innerHTML = "" + cpm;
 	document.getElementById("wpmDiv").innerHTML = "" + wpm;
+	document.getElementById("rawWpmDiv").innerHTML = "" + rawWpm;
+	document.getElementById("rawCpmDiv").innerHTML = "" + rawCpm;
 	useGraphFunctions(wpm);
 	document.getElementById("accuracy").innerHTML = "" + accuracy + "%";
 	document.getElementById("difficulty").innerHTML = codeDifficulty;
@@ -307,7 +312,6 @@ function writing_done() {
 		document.getElementById("accuracy").style.color =
 			"var(--error)";
 	}
-	console.log(erroredCharacters);
 	var filtered = erroredCharacters.filter(function (value) {
 		return value != "\t";
 	});
@@ -326,7 +330,6 @@ function writing_done() {
 		erroredCharacterList += "<li>" + character + "</li>";
 	});
 	erroredCharactersHTML.innerHTML = erroredCharacterList;
-	console.log(erroredCharacterList);
 }
 const lightThemeCheckBox = document.getElementById("light-checkbox");
 
@@ -410,7 +413,6 @@ function onKeyDown_handler(key) {
 				allCharacters[characterProgress],
 				"active"
 			);
-			console.log("changed state");
 			numErrors--;
 		} else {
 			numErrors--;
@@ -431,7 +433,7 @@ function onKeyDown_handler(key) {
 			allCharacters[characterProgress + 3].innerHTML,
 		];
 	} catch {
-		console.log("Ignoring error in obtaining tab char list");
+		
 	}
 
 	expectedTabCharList = [" ", " ", " ", " "];
@@ -469,11 +471,8 @@ function onKeyDown_handler(key) {
 			allCharacters[characterProgress].classList.add("error");
 		}
 		allCharacters[characterProgress].classList.add("error");
-		console.log("err");
 		numErrors++;
-		console.log("changed count");
 		erroredCharacters.push(decodedCharacter);
-		console.log("pushed to list");
 	}
 
 	allCharacters[characterProgress].classList.remove("active");
