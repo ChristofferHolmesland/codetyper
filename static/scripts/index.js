@@ -53,7 +53,13 @@ var myCodeArr = [
     console.log("Hello, World!");
 };
 main();`,
-	`echo "Hello World"`,
+	`#!/bin/bash
+
+hello_world () {
+   echo 'Hello, World!'
+}
+
+hello_world`,
 	`fn main() {
     println!("Hello World!");
 }`,
