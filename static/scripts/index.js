@@ -137,49 +137,49 @@ c.addEventListener("click", () => {
 
 cpp.addEventListener("click", () => {
 	myCode = myCodeArr[3];
-	document.getElementById("langDiv").innerHTML = "Template C++";
+	document.getElementById("langDiv").innerHTML = "C++";
 	lang = "C";
 	callFunc();
 });
 
 csharp.addEventListener("click", () => {
 	myCode = myCodeArr[4];
-	document.getElementById("langDiv").innerHTML = "Template C#";
+	document.getElementById("langDiv").innerHTML = "C#";
 	callFunc();
 });
 
 py.addEventListener("click", () => {
 	myCode = myCodeArr[0];
-	document.getElementById("langDiv").innerHTML = "Template Python";
+	document.getElementById("langDiv").innerHTML = "Python";
 	callFunc();
 });
 
 go.addEventListener("click", () => {
 	myCode = myCodeArr[5];
-	document.getElementById("langDiv").innerHTML = "Template Golang";
+	document.getElementById("langDiv").innerHTML = "Golang";
 	callFunc();
 });
 
 kotlin.addEventListener("click", () => {
 	myCode = myCodeArr[6];
-	document.getElementById("langDiv").innerHTML = "Template Kotlin";
+	document.getElementById("langDiv").innerHTML = "Kotlin";
 	callFunc();
 });
 
 js.addEventListener("click", () => {
 	myCode = myCodeArr[7];
-	document.getElementById("langDiv").innerHTML = "Template JS";
+	document.getElementById("langDiv").innerHTML = "JS";
 	callFunc();
 });
 
 bash.addEventListener("click", () => {
 	myCode = myCodeArr[8];
-	document.getElementById("langDiv").innerHTML = "Template Bash";
+	document.getElementById("langDiv").innerHTML = "Bash";
 	callFunc();
 });
 rust.addEventListener("click", () => {
 	myCode = myCodeArr[9];
-	document.getElementById("langDiv").innerHTML = "Template Rust";
+	document.getElementById("langDiv").innerHTML = "Rust";
 	callFunc();
 });
 
