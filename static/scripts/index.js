@@ -116,64 +116,64 @@ function callFunc() {
 	document.getElementById("words").focus();
 	return;
 }
-//Setting a variable called lang to save for the results screen
 var lang = "";
 java.addEventListener("click", () => {
 	myCode = myCodeArr[1];
-        lang = "Java";
+        document.getElementById("langDiv").innerHTML = "Java";
 	callFunc();
 });
 
 c.addEventListener("click", () => {
 	myCode = myCodeArr[2];
-        lang = "C";
+        document.getElementById("langDiv").innerHTML = "C";
 	callFunc();
 });
 
 cpp.addEventListener("click", () => {
 	myCode = myCodeArr[3];
-        lang = "Cpp";
+        document.getElementById("langDiv").innerHTML = "C++";
+        lang = "C";
 	callFunc();
 });
 
 csharp.addEventListener("click", () => {
 	myCode = myCodeArr[4];
-        lang = "C#";
+        document.getElementById("langDiv").innerHTML = "C#";
 	callFunc();
 });
 
 py.addEventListener("click", () => {
 	myCode = myCodeArr[0];
-        lang = "Python";
+        document.getElementById("langDiv").innerHTML = "Python";
 	callFunc();
 });
 
 go.addEventListener("click", () => {
 	myCode = myCodeArr[5];
-        lang = "Golang";
+        document.getElementById("langDiv").innerHTML = "Golang";
 	callFunc();
 });
 
 kotlin.addEventListener("click", () => {
 	myCode = myCodeArr[6];
-        lang = "Kotlin";
+        document.getElementById("langDiv").innerHTML = "Kotlin";
 	callFunc();
 });
 
 js.addEventListener("click", () => {
 	myCode = myCodeArr[7];
-        lang = "Javascript";
+        document.getElementById("langDiv").innerHTML = "Javascript";
 	callFunc();
 });
 
 bash.addEventListener("click", () => {
 	myCode = myCodeArr[8];
-        lang = "Bash";
+        document.getElementById("langDiv").innerHTML = "Bash";
 	callFunc();
 });
 rust.addEventListener("click", () => {
 	myCode = myCodeArr[9];
-        lang = "Rust";
+        document.getElementById("langDiv").innerHTML = "Rust";
 	callFunc();
 });
 
