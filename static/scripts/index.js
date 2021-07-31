@@ -162,7 +162,7 @@ kotlin.addEventListener("click", () => {
 
 js.addEventListener("click", () => {
 	myCode = myCodeArr[7];
-        document.getElementById("langDiv").innerHTML = "Javascript";
+        document.getElementById("langDiv").innerHTML = "JS";
 	callFunc();
 });
 
