@@ -116,7 +116,7 @@ function callFunc() {
 	document.getElementById("words").focus();
 	return;
 }
-var lang = "";
+//adding language to results page directly once the button is clicked
 java.addEventListener("click", () => {
 	myCode = myCodeArr[1];
         document.getElementById("langDiv").innerHTML = "Java";
