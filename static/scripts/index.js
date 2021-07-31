@@ -125,61 +125,61 @@ function callFunc() {
 //adding language to results page directly once the button is clicked
 java.addEventListener("click", () => {
 	myCode = myCodeArr[1];
-        document.getElementById("langDiv").innerHTML = "Java";
+	document.getElementById("langDiv").innerHTML = "Java";
 	callFunc();
 });
 
 c.addEventListener("click", () => {
 	myCode = myCodeArr[2];
-        document.getElementById("langDiv").innerHTML = "C";
+	document.getElementById("langDiv").innerHTML = "C";
 	callFunc();
 });
 
 cpp.addEventListener("click", () => {
 	myCode = myCodeArr[3];
-        document.getElementById("langDiv").innerHTML = "C++";
-        lang = "C";
+	document.getElementById("langDiv").innerHTML = "C++";
+	lang = "C";
 	callFunc();
 });
 
 csharp.addEventListener("click", () => {
 	myCode = myCodeArr[4];
-        document.getElementById("langDiv").innerHTML = "C#";
+	document.getElementById("langDiv").innerHTML = "C#";
 	callFunc();
 });
 
 py.addEventListener("click", () => {
 	myCode = myCodeArr[0];
-        document.getElementById("langDiv").innerHTML = "Python";
+	document.getElementById("langDiv").innerHTML = "Python";
 	callFunc();
 });
 
 go.addEventListener("click", () => {
 	myCode = myCodeArr[5];
-        document.getElementById("langDiv").innerHTML = "Golang";
+	document.getElementById("langDiv").innerHTML = "Golang";
 	callFunc();
 });
 
 kotlin.addEventListener("click", () => {
 	myCode = myCodeArr[6];
-        document.getElementById("langDiv").innerHTML = "Kotlin";
+	document.getElementById("langDiv").innerHTML = "Kotlin";
 	callFunc();
 });
 
 js.addEventListener("click", () => {
 	myCode = myCodeArr[7];
-        document.getElementById("langDiv").innerHTML = "JS";
+	document.getElementById("langDiv").innerHTML = "JS";
 	callFunc();
 });
 
 bash.addEventListener("click", () => {
 	myCode = myCodeArr[8];
-        document.getElementById("langDiv").innerHTML = "Bash";
+	document.getElementById("langDiv").innerHTML = "Bash";
 	callFunc();
 });
 rust.addEventListener("click", () => {
 	myCode = myCodeArr[9];
-        document.getElementById("langDiv").innerHTML = "Rust";
+	document.getElementById("langDiv").innerHTML = "Rust";
 	callFunc();
 });
 
@@ -306,13 +306,13 @@ function writing_done() {
 	);
 
 	var averageWordLength = avgWordLength(myCode);
-	
+
 	var length = myCode.replaceAll("\n", "").length;
 	var cpm = Math.round(60 * (numCorrect / elapsedTime));
 	var wpm = Math.round(cpm / averageWordLength);
 	var accuracy = Math.round((100 * numCorrect) / length);
-	
-	var rawCpm = Math.round(60 * (numCorrect + numErrors) / elapsedTime);
+
+	var rawCpm = Math.round((60 * (numCorrect + numErrors)) / elapsedTime);
 	var rawWpm = Math.round(rawCpm / averageWordLength);
 
 	document.getElementById("writingDiv").classList.add("displaynone");
@@ -386,7 +386,7 @@ function addCharacterState(character, state) {
 
 function onKeyDown_handler(key) {
 	if (key.ctrlKey) return;
-	
+
 	key.preventDefault();
 
 	let registeredKey = key.key;
@@ -449,9 +449,7 @@ function onKeyDown_handler(key) {
 			allCharacters[characterProgress + 2].innerHTML,
 			allCharacters[characterProgress + 3].innerHTML,
 		];
-	} catch {
-		
-	}
+	} catch {}
 
 	expectedTabCharList = [" ", " ", " ", " "];
 
