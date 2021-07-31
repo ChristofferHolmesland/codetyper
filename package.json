@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/ChristofferHolmesland/codetyper#readme",
   "devDependencies": {
-    "prettier": "^2.3.2"
+    "prettier": "2.3.2"
   }
 }
