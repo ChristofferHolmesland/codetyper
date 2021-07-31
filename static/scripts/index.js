@@ -312,7 +312,6 @@ function writing_done() {
 	document.getElementById("writingDiv").classList.add("displaynone");
 	document.getElementById("resultDiv").classList.remove("displaynone");
 	document.getElementById("resultDiv").classList.add("results");
-        document.getElementById("langDiv").innerHTML = "" + lang;
 	document.getElementById("cpmDiv").innerHTML = "" + cpm;
 	document.getElementById("wpmDiv").innerHTML = "" + wpm;
 	document.getElementById("rawWpmDiv").innerHTML = "" + rawWpm;
