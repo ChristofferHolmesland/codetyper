@@ -137,49 +137,49 @@ c.addEventListener("click", () => {
 
 cpp.addEventListener("click", () => {
 	myCode = myCodeArr[3];
-	document.getElementById("langDiv").innerHTML = "C++";
+	document.getElementById("langDiv").innerHTML = "Template C++";
 	lang = "C";
 	callFunc();
 });
 
 csharp.addEventListener("click", () => {
 	myCode = myCodeArr[4];
-	document.getElementById("langDiv").innerHTML = "C#";
+	document.getElementById("langDiv").innerHTML = "Template C#";
 	callFunc();
 });
 
 py.addEventListener("click", () => {
 	myCode = myCodeArr[0];
-	document.getElementById("langDiv").innerHTML = "Python";
+	document.getElementById("langDiv").innerHTML = "Template Python";
 	callFunc();
 });
 
 go.addEventListener("click", () => {
 	myCode = myCodeArr[5];
-	document.getElementById("langDiv").innerHTML = "Golang";
+	document.getElementById("langDiv").innerHTML = "Template Golang";
 	callFunc();
 });
 
 kotlin.addEventListener("click", () => {
 	myCode = myCodeArr[6];
-	document.getElementById("langDiv").innerHTML = "Kotlin";
+	document.getElementById("langDiv").innerHTML = "Template Kotlin";
 	callFunc();
 });
 
 js.addEventListener("click", () => {
 	myCode = myCodeArr[7];
-	document.getElementById("langDiv").innerHTML = "JS";
+	document.getElementById("langDiv").innerHTML = "Template JS";
 	callFunc();
 });
 
 bash.addEventListener("click", () => {
 	myCode = myCodeArr[8];
-	document.getElementById("langDiv").innerHTML = "Bash";
+	document.getElementById("langDiv").innerHTML = "Template Bash";
 	callFunc();
 });
 rust.addEventListener("click", () => {
 	myCode = myCodeArr[9];
-	document.getElementById("langDiv").innerHTML = "Rust";
+	document.getElementById("langDiv").innerHTML = "Template Rust";
 	callFunc();
 });
 
@@ -537,8 +537,13 @@ document.getElementById("githubbutton").addEventListener("click", function () {
 
 	// Convert normal links to raw
 	if (link.includes("github.com/")) {
-                document.getElementById(langDiv).innerHTML = "Test";
-                document.getElementById(langDiv).href = link;
+		//Splicing the string to get the Language
+		lang = link.split("/").pop().split(".").pop();
+		document.getElementById(
+			"langDiv"
+		).innerHTML = `<a href=${link} target="blank">GitHub ${
+			lang.charAt(0).toUpperCase() + lang.slice(1)
+		}</a>`;
 		link = link
 			.replace("github.com", "raw.githubusercontent.com")
 			.replace("/blob", "");
