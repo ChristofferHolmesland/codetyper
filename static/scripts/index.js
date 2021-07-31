@@ -537,6 +537,13 @@ document.getElementById("githubbutton").addEventListener("click", function () {
 
 	// Convert normal links to raw
 	if (link.includes("github.com/")) {
+		//Splicing the string to get the Language
+		lang = link.split("/").pop().split(".").pop();
+		document.getElementById(
+			"langDiv"
+		).innerHTML = `<a href=${link} target="blank">GitHub ${
+			lang.charAt(0).toUpperCase() + lang.slice(1)
+		}</a>`;
 		link = link
 			.replace("github.com", "raw.githubusercontent.com")
 			.replace("/blob", "");
