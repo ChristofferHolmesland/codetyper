@@ -537,6 +537,8 @@ document.getElementById("githubbutton").addEventListener("click", function () {
 
 	// Convert normal links to raw
 	if (link.includes("github.com/")) {
+                document.getElementById(langDiv).innerHTML = "Test";
+                document.getElementById(langDiv).href = link;
 		link = link
 			.replace("github.com", "raw.githubusercontent.com")
 			.replace("/blob", "");
