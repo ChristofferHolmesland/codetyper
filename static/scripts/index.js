@@ -116,53 +116,64 @@ function callFunc() {
 	document.getElementById("words").focus();
 	return;
 }
-
+//Setting a variable called lang to save for the results screen
+var lang = "";
 java.addEventListener("click", () => {
 	myCode = myCodeArr[1];
+        lang = "Java";
 	callFunc();
 });
 
 c.addEventListener("click", () => {
 	myCode = myCodeArr[2];
+        lang = "C";
 	callFunc();
 });
 
 cpp.addEventListener("click", () => {
 	myCode = myCodeArr[3];
+        lang = "Cpp";
 	callFunc();
 });
 
 csharp.addEventListener("click", () => {
 	myCode = myCodeArr[4];
+        lang = "C#";
 	callFunc();
 });
 
 py.addEventListener("click", () => {
 	myCode = myCodeArr[0];
+        lang = "Python";
 	callFunc();
 });
 
 go.addEventListener("click", () => {
 	myCode = myCodeArr[5];
+        lang = "Golang";
 	callFunc();
 });
 
 kotlin.addEventListener("click", () => {
 	myCode = myCodeArr[6];
+        lang = "Kotlin";
 	callFunc();
 });
 
 js.addEventListener("click", () => {
 	myCode = myCodeArr[7];
+        lang = "Javascript";
 	callFunc();
 });
 
 bash.addEventListener("click", () => {
 	myCode = myCodeArr[8];
+        lang = "Bash";
 	callFunc();
 });
 rust.addEventListener("click", () => {
 	myCode = myCodeArr[9];
+        lang = "Rust";
 	callFunc();
 });
 
@@ -301,6 +312,7 @@ function writing_done() {
 	document.getElementById("writingDiv").classList.add("displaynone");
 	document.getElementById("resultDiv").classList.remove("displaynone");
 	document.getElementById("resultDiv").classList.add("results");
+        document.getElementById("langDiv").innerHTML = "" + lang;
 	document.getElementById("cpmDiv").innerHTML = "" + cpm;
 	document.getElementById("wpmDiv").innerHTML = "" + wpm;
 	document.getElementById("rawWpmDiv").innerHTML = "" + rawWpm;
