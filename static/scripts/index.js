@@ -53,7 +53,13 @@ var myCodeArr = [
     console.log("Hello, World!");
 };
 main();`,
-	`echo "Hello World"`,
+	`#!/bin/bash
+
+hello_world () {
+   echo 'Hello, World!'
+}
+
+hello_world`,
 	`fn main() {
     println!("Hello World!");
 }`,
@@ -116,53 +122,64 @@ function callFunc() {
 	document.getElementById("words").focus();
 	return;
 }
-
+//adding language to results page directly once the button is clicked
 java.addEventListener("click", () => {
 	myCode = myCodeArr[1];
+	document.getElementById("langDiv").innerHTML = "Java";
 	callFunc();
 });
 
 c.addEventListener("click", () => {
 	myCode = myCodeArr[2];
+	document.getElementById("langDiv").innerHTML = "C";
 	callFunc();
 });
 
 cpp.addEventListener("click", () => {
 	myCode = myCodeArr[3];
+	document.getElementById("langDiv").innerHTML = "C++";
+	lang = "C";
 	callFunc();
 });
 
 csharp.addEventListener("click", () => {
 	myCode = myCodeArr[4];
+	document.getElementById("langDiv").innerHTML = "C#";
 	callFunc();
 });
 
 py.addEventListener("click", () => {
 	myCode = myCodeArr[0];
+	document.getElementById("langDiv").innerHTML = "Python";
 	callFunc();
 });
 
 go.addEventListener("click", () => {
 	myCode = myCodeArr[5];
+	document.getElementById("langDiv").innerHTML = "Golang";
 	callFunc();
 });
 
 kotlin.addEventListener("click", () => {
 	myCode = myCodeArr[6];
+	document.getElementById("langDiv").innerHTML = "Kotlin";
 	callFunc();
 });
 
 js.addEventListener("click", () => {
 	myCode = myCodeArr[7];
+	document.getElementById("langDiv").innerHTML = "JS";
 	callFunc();
 });
 
 bash.addEventListener("click", () => {
 	myCode = myCodeArr[8];
+	document.getElementById("langDiv").innerHTML = "Bash";
 	callFunc();
 });
 rust.addEventListener("click", () => {
 	myCode = myCodeArr[9];
+	document.getElementById("langDiv").innerHTML = "Rust";
 	callFunc();
 });
 
@@ -191,7 +208,6 @@ function choose(choices) {
 function generateCode() {
 	var lines = myCode.split("\n");
 	codeDifficulty = determineDifficulty(lines);
-	console.log(codeDifficulty);
 	allCharacters = [];
 
 	line_limit = document.getElementById("line_limit").value;
@@ -278,7 +294,6 @@ function startTimer() {
 			logWpmData(elapsedTimeInSeconds, numCorrectLastSecond);
 			numCorrectLastSecond = 0;
 		}
-		console.log(numCorrectListEverySecond);
 	}, 1000);
 }
 
@@ -290,16 +305,23 @@ function writing_done() {
 		onKeyDown_handler
 	);
 
+	var averageWordLength = avgWordLength(myCode);
+
 	var length = myCode.replaceAll("\n", "").length;
 	var cpm = Math.round(60 * (numCorrect / elapsedTime));
-	var wpm = Math.round(cpm / avgWordLength(myCode));
+	var wpm = Math.round(cpm / averageWordLength);
 	var accuracy = Math.round((100 * numCorrect) / length);
+
+	var rawCpm = Math.round((60 * (numCorrect + numErrors)) / elapsedTime);
+	var rawWpm = Math.round(rawCpm / averageWordLength);
 
 	document.getElementById("writingDiv").classList.add("displaynone");
 	document.getElementById("resultDiv").classList.remove("displaynone");
 	document.getElementById("resultDiv").classList.add("results");
 	document.getElementById("cpmDiv").innerHTML = "" + cpm;
 	document.getElementById("wpmDiv").innerHTML = "" + wpm;
+	document.getElementById("rawWpmDiv").innerHTML = "" + rawWpm;
+	document.getElementById("rawCpmDiv").innerHTML = "" + rawCpm;
 	useGraphFunctions(wpm);
 	document.getElementById("accuracy").innerHTML = "" + accuracy + "%";
 	document.getElementById("difficulty").innerHTML = codeDifficulty;
@@ -307,7 +329,6 @@ function writing_done() {
 		document.getElementById("accuracy").style.color =
 			"var(--error)";
 	}
-	console.log(erroredCharacters);
 	var filtered = erroredCharacters.filter(function (value) {
 		return value != "\t";
 	});
@@ -326,7 +347,6 @@ function writing_done() {
 		erroredCharacterList += "<li>" + character + "</li>";
 	});
 	erroredCharactersHTML.innerHTML = erroredCharacterList;
-	console.log(erroredCharacterList);
 }
 const lightThemeCheckBox = document.getElementById("light-checkbox");
 
@@ -366,7 +386,7 @@ function addCharacterState(character, state) {
 
 function onKeyDown_handler(key) {
 	if (key.ctrlKey) return;
-	
+
 	key.preventDefault();
 
 	let registeredKey = key.key;
@@ -410,7 +430,6 @@ function onKeyDown_handler(key) {
 				allCharacters[characterProgress],
 				"active"
 			);
-			console.log("changed state");
 			numErrors--;
 		} else {
 			numErrors--;
@@ -430,9 +449,7 @@ function onKeyDown_handler(key) {
 			allCharacters[characterProgress + 2].innerHTML,
 			allCharacters[characterProgress + 3].innerHTML,
 		];
-	} catch {
-		console.log("Ignoring error in obtaining tab char list");
-	}
+	} catch {}
 
 	expectedTabCharList = [" ", " ", " ", " "];
 
@@ -469,11 +486,8 @@ function onKeyDown_handler(key) {
 			allCharacters[characterProgress].classList.add("error");
 		}
 		allCharacters[characterProgress].classList.add("error");
-		console.log("err");
 		numErrors++;
-		console.log("changed count");
 		erroredCharacters.push(decodedCharacter);
-		console.log("pushed to list");
 	}
 
 	allCharacters[characterProgress].classList.remove("active");
@@ -523,6 +537,13 @@ document.getElementById("githubbutton").addEventListener("click", function () {
 
 	// Convert normal links to raw
 	if (link.includes("github.com/")) {
+		//Splicing the string to get the Language
+		lang = link.split("/").pop().split(".").pop();
+		document.getElementById(
+			"langDiv"
+		).innerHTML = `<a href=${link} target="blank">GitHub ${
+			lang.charAt(0).toUpperCase() + lang.slice(1)
+		}</a>`;
 		link = link
 			.replace("github.com", "raw.githubusercontent.com")
 			.replace("/blob", "");

@@ -73,14 +73,12 @@ function checkErrors(numErrors) {
 	if (numErrors) {
 		errored = true;
 	}
-	console.log(errored);
 }
 
 let wpmData = { labels: [], data: [] };
 function logWpmData(time, numCorrectLastSecond) {
 	wpmData.labels.push(time);
 	wpmData.data.push(numCorrectLastSecond);
-	console.log(wpmData);
 }
 
 function calcActualWpmData(wpmData, avgWordLength) {
@@ -101,6 +99,7 @@ function genGraphData(wpmData) {
 				fill: false,
 				borderColor: "rgb(75, 192, 192)",
 				tension: 0.1,
+				pointHitRadius: 20,
 			},
 		],
 	};
