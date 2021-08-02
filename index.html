@@ -142,28 +142,22 @@
 
 		<div id="resultDiv" class="displaynone">
 			<div class="results-left">
-				Lang: <span id="langDiv"> </span>
+				<span class="result-title"> CPM</span>
 				<br />
-				<br />
-				CPM:
 				<span id="cpmDiv"> </span>
 				<br />
 				<br />
-				WPM:
+				<span class="result-title"> WPM</span> <br />
+
 				<span id="wpmDiv"></span>
 				<br />
 				<br />
-				Acc:
+				<span class="result-title"> Acc</span> <br />
+
 				<span id="accuracy"> </span>
 				<br />
 				<br />
-				<div>
-					Raw:
-					<br />
-					CPM: <span id="rawCpmDiv"> </span>
-					<br />
-					WPM: <span id="rawWpmDiv"> </span>
-				</div>
+				<div></div>
 				<br />
 			</div>
 
@@ -185,8 +179,24 @@
 				class="result-graph-container"
 			></div>
 			<div class="results-bottom">
-				Difficulty:
-				<span id="difficulty"></span>
+				<span class="container lang">
+					<div class="result-title">Language</div>
+					<div id="langDiv"></div
+				></span>
+				<span class="container raw-cpm">
+					<div class="result-title">Raw CPM</div>
+					<div id="rawCpmDiv"></div>
+				</span>
+				<span class="container raw-wpm"
+					><div class="result-title">Raw WPM</div>
+					<div id="rawWpmDiv"></div>
+				</span>
+				<span class="container diff"
+					><div class="result-title">
+						Difficulty
+					</div>
+					<div id="difficulty"></div
+				></span>
 			</div>
 		</div>
 
