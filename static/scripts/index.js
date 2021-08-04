@@ -56,7 +56,7 @@ main();`,
 	`#!/bin/bash
 
 hello_world () {
-   echo 'Hello, World!'
+    echo 'Hello, World!'
 }
 
 hello_world`,
@@ -76,6 +76,7 @@ let erroredCharacters = [];
 let correctCharacters = [];
 let numCorrectLastSecond = 0;
 let numCorrectListEverySecond = [];
+let source = "External";
 
 var elapsedTime = 0;
 var intervalId = undefined;
@@ -126,12 +127,14 @@ function callFunc() {
 java.addEventListener("click", () => {
 	myCode = myCodeArr[1];
 	document.getElementById("langDiv").innerHTML = "Java";
+	source = "Codetyper";
 	callFunc();
 });
 
 c.addEventListener("click", () => {
 	myCode = myCodeArr[2];
 	document.getElementById("langDiv").innerHTML = "C";
+	source = "Codetyper";
 	callFunc();
 });
 
@@ -139,23 +142,27 @@ cpp.addEventListener("click", () => {
 	myCode = myCodeArr[3];
 	document.getElementById("langDiv").innerHTML = "C++";
 	lang = "C";
+	source = "Codetyper";
 	callFunc();
 });
 
 csharp.addEventListener("click", () => {
 	myCode = myCodeArr[4];
 	document.getElementById("langDiv").innerHTML = "C#";
+	source = "Codetyper";
 	callFunc();
 });
 
 py.addEventListener("click", () => {
 	myCode = myCodeArr[0];
+	source = "Codetyper";
 	document.getElementById("langDiv").innerHTML = "Python";
 	callFunc();
 });
 
 go.addEventListener("click", () => {
 	myCode = myCodeArr[5];
+	source = "Codetyper";
 	document.getElementById("langDiv").innerHTML = "Golang";
 	callFunc();
 });
@@ -163,22 +170,27 @@ go.addEventListener("click", () => {
 kotlin.addEventListener("click", () => {
 	myCode = myCodeArr[6];
 	document.getElementById("langDiv").innerHTML = "Kotlin";
+	source = "Codetyper";
 	callFunc();
 });
 
 js.addEventListener("click", () => {
 	myCode = myCodeArr[7];
 	document.getElementById("langDiv").innerHTML = "Javascript";
+	source = "Codetyper";
+	document.getElementById("langDiv").innerHTML = "JS";
 	callFunc();
 });
 
 bash.addEventListener("click", () => {
 	myCode = myCodeArr[8];
+	source = "Codetyper";
 	document.getElementById("langDiv").innerHTML = "Bash";
 	callFunc();
 });
 rust.addEventListener("click", () => {
 	myCode = myCodeArr[9];
+	source = "Codetyper";
 	document.getElementById("langDiv").innerHTML = "Rust";
 	callFunc();
 });
@@ -188,6 +200,92 @@ function decodeHtml(html) {
 	txt.innerHTML = html;
 	return txt.value;
 }
+
+document.getElementById("githubbutton").addEventListener("click", function () {
+	var link = document.getElementById("githubinput").value;
+	if (link.length === 0) {
+		generateCode();
+		document.getElementById("selectDiv").classList.add(
+			"displaynone"
+		);
+		document.getElementById("writingDiv").classList.remove(
+			"displaynone"
+		);
+		document.getElementById("words").focus();
+		return;
+	}
+
+	// Convert normal links to raw
+	if (link.includes("github.com/")) {
+                source = "Github";
+		if (link.includes("sh")) {
+			link = link
+				.replace(
+					"github.com",
+					"raw.githubusercontent.com"
+				)
+				.replace("/blob", "");
+			fetch(link).then((response) => {
+				response.text().then((data) => {
+					shellLang = data
+						.split("\n")[0]
+						.split("/")
+						.pop();
+					document.getElementById(
+						"langDiv"
+					).innerHTML = `<a href=${link} target="blank">${
+						shellLang
+							.charAt(0)
+							.toUpperCase() +
+						shellLang.slice(1)
+					}</a>`;
+				});
+			});
+		}
+		//Splicing the string to get the Language
+		extn = link.split("/").pop().split(".").pop();
+		langs = {
+			js: "Javascript",
+			py: "Python",
+			cs: "C#",
+			rs: "Rust",
+			html: "HTML",
+			css: "CSS",
+			cpp: "C++",
+			kt: "Kotlin",
+			md: "Markdown",
+			kts: "Kotlin",
+		};
+		if (extn in langs) {
+			document.getElementById(
+				"langDiv"
+			).innerHTML = `<a href=${link} target="blank">${langs[extn]}</a>`;
+		} else {
+			document.getElementById(
+				"langDiv"
+			).innerHTML = `<a href=${link} target="blank">${
+				extn.charAt(0).toUpperCase() + extn.slice(1)
+			}</a>`;
+		}
+		link = link
+			.replace("github.com", "raw.githubusercontent.com")
+			.replace("/blob", "");
+	}
+
+	fetch(link).then((response) => {
+		response.text().then((data) => {
+			myCode = data;
+			generateCode();
+			document.getElementById("selectDiv").classList.add(
+				"displaynone"
+			);
+			document.getElementById("writingDiv").classList.remove(
+				"displaynone"
+			);
+			document.getElementById("words").focus();
+		});
+	});
+});
 
 function changeFont(key) {
 	if (key.key === "Enter") {
@@ -324,6 +422,7 @@ function writing_done() {
 	document.getElementById("rawCpmDiv").innerHTML = "" + rawCpm;
 	useGraphFunctions(wpm);
 	document.getElementById("accuracy").innerHTML = "" + accuracy + "%";
+	document.getElementById("sourceDiv").innerHTML = source;
 	document.getElementById("difficulty").innerHTML = codeDifficulty;
 	if (accuracy < 50) {
 		document.getElementById("accuracy").style.color =
@@ -520,88 +619,3 @@ function onKeyDown_handler(key) {
 }
 
 document.getElementById("words").addEventListener("keydown", onKeyDown_handler);
-
-document.getElementById("githubbutton").addEventListener("click", function () {
-	var link = document.getElementById("githubinput").value;
-	if (link.length === 0) {
-		generateCode();
-		document.getElementById("selectDiv").classList.add(
-			"displaynone"
-		);
-		document.getElementById("writingDiv").classList.remove(
-			"displaynone"
-		);
-		document.getElementById("words").focus();
-		return;
-	}
-
-	// Convert normal links to raw
-	if (link.includes("github.com/")) {
-		if (link.includes("sh")) {
-			link = link
-				.replace(
-					"github.com",
-					"raw.githubusercontent.com"
-				)
-				.replace("/blob", "");
-			fetch(link).then((response) => {
-				response.text().then((data) => {
-					shellLang = data
-						.split("\n")[0]
-						.split("/")
-						.pop();
-					document.getElementById(
-						"langDiv"
-					).innerHTML = `<a href=${link} target="blank">${
-						shellLang
-							.charAt(0)
-							.toUpperCase() +
-						shellLang.slice(1)
-					}</a>`;
-				});
-			});
-		}
-		//Splicing the string to get the Language
-		extn = link.split("/").pop().split(".").pop();
-		langs = {
-			js: "Javascript",
-			py: "Python",
-			cs: "C#",
-			rs: "Rust",
-			html: "HTML",
-			css: "CSS",
-			cpp: "C++",
-			kt: "Kotlin",
-			md: "Markdown",
-			kts: "Kotlin",
-		};
-		if (extn in langs) {
-			document.getElementById(
-				"langDiv"
-			).innerHTML = `<a href=${link} target="blank">${langs[extn]}</a>`;
-		} else {
-			document.getElementById(
-				"langDiv"
-			).innerHTML = `<a href=${link} target="blank">${
-				extn.charAt(0).toUpperCase() + extn.slice(1)
-			}</a>`;
-		}
-		link = link
-			.replace("github.com", "raw.githubusercontent.com")
-			.replace("/blob", "");
-	}
-
-	fetch(link).then((response) => {
-		response.text().then((data) => {
-			myCode = data;
-			generateCode();
-			document.getElementById("selectDiv").classList.add(
-				"displaynone"
-			);
-			document.getElementById("writingDiv").classList.remove(
-				"displaynone"
-			);
-			document.getElementById("words").focus();
-		});
-	});
-});
