@@ -76,6 +76,7 @@ let erroredCharacters = [];
 let correctCharacters = [];
 let numCorrectLastSecond = 0;
 let numCorrectListEverySecond = [];
+let source = "External";
 
 var elapsedTime = 0;
 var intervalId = undefined;
@@ -126,12 +127,14 @@ function callFunc() {
 java.addEventListener("click", () => {
 	myCode = myCodeArr[1];
 	document.getElementById("langDiv").innerHTML = "Java";
+	source = "Codetyper";
 	callFunc();
 });
 
 c.addEventListener("click", () => {
 	myCode = myCodeArr[2];
 	document.getElementById("langDiv").innerHTML = "C";
+	source = "Codetyper";
 	callFunc();
 });
 
@@ -139,23 +142,27 @@ cpp.addEventListener("click", () => {
 	myCode = myCodeArr[3];
 	document.getElementById("langDiv").innerHTML = "C++";
 	lang = "C";
+	source = "Codetyper";
 	callFunc();
 });
 
 csharp.addEventListener("click", () => {
 	myCode = myCodeArr[4];
 	document.getElementById("langDiv").innerHTML = "C#";
+	source = "Codetyper";
 	callFunc();
 });
 
 py.addEventListener("click", () => {
 	myCode = myCodeArr[0];
+	source = "Codetyper";
 	document.getElementById("langDiv").innerHTML = "Python";
 	callFunc();
 });
 
 go.addEventListener("click", () => {
 	myCode = myCodeArr[5];
+	source = "Codetyper";
 	document.getElementById("langDiv").innerHTML = "Golang";
 	callFunc();
 });
@@ -163,22 +170,26 @@ go.addEventListener("click", () => {
 kotlin.addEventListener("click", () => {
 	myCode = myCodeArr[6];
 	document.getElementById("langDiv").innerHTML = "Kotlin";
+	source = "Codetyper";
 	callFunc();
 });
 
 js.addEventListener("click", () => {
 	myCode = myCodeArr[7];
+	source = "Codetyper";
 	document.getElementById("langDiv").innerHTML = "JS";
 	callFunc();
 });
 
 bash.addEventListener("click", () => {
 	myCode = myCodeArr[8];
+	source = "Codetyper";
 	document.getElementById("langDiv").innerHTML = "Bash";
 	callFunc();
 });
 rust.addEventListener("click", () => {
 	myCode = myCodeArr[9];
+	source = "Codetyper";
 	document.getElementById("langDiv").innerHTML = "Rust";
 	callFunc();
 });
@@ -324,6 +335,7 @@ function writing_done() {
 	document.getElementById("rawCpmDiv").innerHTML = "" + rawCpm;
 	useGraphFunctions(wpm);
 	document.getElementById("accuracy").innerHTML = "" + accuracy + "%";
+	document.getElementById("sourceDiv").innerHTML = source;
 	document.getElementById("difficulty").innerHTML = codeDifficulty;
 	if (accuracy < 50) {
 		document.getElementById("accuracy").style.color =
