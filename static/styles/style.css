@@ -5,6 +5,7 @@
 
 	--main-bg: #2e3440;
 	--main-fg: #eceff4;
+	--sub-fg: #617b94;
 	--input-bg: #eceff4;
 	--second-bg: #3b4252;
 	--timer-fg: #d8dee9;
@@ -28,6 +29,7 @@
 [data-theme="light"] {
 	--main-bg: #eceff4;
 	--main-fg: #2e3440;
+	--sub-fg: #617b94;
 	--input-bg: #eceff4;
 	--second-bg: #d8dee9;
 	--timer-fg: #4c566a;
@@ -82,10 +84,11 @@ sup {
 		"v m m m x"
 		"q q q q q";
 	grid-template-rows: 10% auto 10% 10% 10%;
-	grid-template-columns: 20% auto auto auto 10%;
+	grid-template-columns: 20% auto auto auto auto 10%;
 }
 
 .resultButtons {
+	margin-top: 5%;
 	grid-area: m;
 }
 
@@ -109,19 +112,45 @@ sup {
 	grid-area: b;
 	text-align: left;
 	padding: 10%;
+	padding-left: 40%;
 	position: absolute;
-	top: 50%;
-	left: 25%;
-	transform: translate(-25%, -50%);
 }
 
 .results-bottom {
 	grid-area: c;
+	display: grid;
+	gap: 1rem;
+	grid-template-areas: "cp ca cb cc cd";
+	grid-template-rows: 5vw auto auto auto auto;
+}
+
+.results-bottom .container {
+	text-align: left;
+}
+
+.results-bottom .lang {
+	grid-area: ca;
+}
+.results-bottom .raw-cpm {
+	grid-area: cb;
+}
+.results-bottom .raw-wpm {
+	grid-area: cc;
+}
+.results-bottom .diff {
+	grid-area: cd;
+}
+
+.result-title {
+	font-size: 1.2vw;
+	color: var(--sub-fg);
 }
 
 .result-graph-container {
 	grid-area: a;
 	min-width: 400px;
+	padding: 20px;
+	padding-bottom: 50px;
 }
 
 .lang-buttons {
@@ -266,7 +295,7 @@ sup {
 	padding-left: 15px;
 	background: var(--main-bg);
 	position: absolute;
-	bottom: 0;
+	top: 5%;
 	text-align: center;
 }
 

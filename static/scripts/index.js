@@ -56,7 +56,7 @@ main();`,
 	`#!/bin/bash
 
 hello_world () {
-   echo 'Hello, World!'
+    echo 'Hello, World!'
 }
 
 hello_world`,
