@@ -539,14 +539,25 @@ document.getElementById("githubbutton").addEventListener("click", function () {
 	if (link.includes("github.com/")) {
 		if (link.includes("sh")) {
 			link = link
-				.replace("github.com", "raw.githubusercontent.com")
-				.replace("/blob", "");	
+				.replace(
+					"github.com",
+					"raw.githubusercontent.com"
+				)
+				.replace("/blob", "");
 			fetch(link).then((response) => {
 				response.text().then((data) => {
-					shellLang = data.split("\n")[0].split("/").pop();
+					shellLang = data
+						.split("\n")[0]
+						.split("/")
+						.pop();
 					document.getElementById(
 						"langDiv"
-					).innerHTML = `<a href=${link} target="blank">${shellLang.charAt(0).toUpperCase() + shellLang.slice(1)}</a>`;
+					).innerHTML = `<a href=${link} target="blank">${
+						shellLang
+							.charAt(0)
+							.toUpperCase() +
+						shellLang.slice(1)
+					}</a>`;
 				});
 			});
 		}
@@ -563,7 +574,6 @@ document.getElementById("githubbutton").addEventListener("click", function () {
 			kt: "Kotlin",
 			md: "Markdown",
 			kts: "Kotlin",
-			sh: "Shell"
 		};
 		if (extn in langs) {
 			document.getElementById(
