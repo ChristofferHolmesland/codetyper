@@ -120,7 +120,7 @@ sup {
 	grid-area: c;
 	display: grid;
 	gap: 1rem;
-	grid-template-areas: "cp ca cb cc cd";
+	grid-template-areas: "cp ca cb cc cd ce";
 	grid-template-rows: 5vw auto auto auto auto;
 }
 
@@ -128,17 +128,21 @@ sup {
 	text-align: left;
 }
 
-.results-bottom .lang {
+.results-bottom .source {
 	grid-area: ca;
 }
-.results-bottom .raw-cpm {
+
+.results-bottom .lang {
 	grid-area: cb;
 }
-.results-bottom .raw-wpm {
+.results-bottom .raw-cpm {
 	grid-area: cc;
 }
-.results-bottom .diff {
+.results-bottom .raw-wpm {
 	grid-area: cd;
+}
+.results-bottom .diff {
+	grid-area: ce;
 }
 
 .result-title {
