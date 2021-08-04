@@ -116,9 +116,6 @@ function drawGraph(config, chartParentId, vwVal, vhVal) {
 	graphParent.innerHTML = graphCanvas;
 	const graphCanvasDOM = document.getElementById("result-graph");
 
-	const height = vh(vhVal);
-	const width = vw(vwVal);
-
 	let chart = new Chart(graphCanvasDOM, config, {
 		// 	responsive: false,
 		maintainAspectRatio: false,

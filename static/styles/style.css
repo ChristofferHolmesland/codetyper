@@ -149,6 +149,8 @@ sup {
 .result-graph-container {
 	grid-area: a;
 	min-width: 400px;
+	padding: 20px;
+	padding-bottom: 50px;
 }
 
 .lang-buttons {
