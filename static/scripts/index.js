@@ -215,44 +215,53 @@ document.getElementById("githubbutton").addEventListener("click", function () {
 	}
 
 	// Convert normal links to raw
-	if (link.includes("github.com/") || link.includes("raw.githubusercontent")) {
+	if (
+		link.includes("github.com/") ||
+		link.includes("raw.githubusercontent")
+	) {
 		source = `<a href=${link} target="blank">Github</a>`;
-        link = link
-        .replace(
-                "github.com",
-                "raw.githubusercontent.com"
-        )
-        .replace("/blob", "");
-        if (link.includes("sh")) {
-                fetch(link).then((response) => {
-                        response.text().then((data) => {
-                                shellLang = data.split("\n")[0].split("/").pop();
-                                document.getElementById("langDiv").innerHTML = shellLang.charAt(0).toUpperCase() + shellLang.slice(1);
-                        })
-                })
-        }
-        //Splicing the string to get the Language
-        extn = link.split("/").pop().split(".").pop();
-        langs = {
-                js: "Javascript",
-                py: "Python",
-                cs: "C#",
-                rs: "Rust",
-                html: "HTML",
-                css: "CSS",
-                cpp: "C++",
-                kt: "Kotlin",
-                md: "Markdown",
-                kts: "Kotlin",
-        };
-        if (extn in langs) {
-                document.getElementById("langDiv").innerHTML =
-                        langs[extn];
-        } else {
-                document.getElementById("langDiv").innerHTML =
-                        extn.charAt(0).toUpperCase() + extn.slice(1);
-        }
-	}	
+		link = link
+			.replace("github.com", "raw.githubusercontent.com")
+			.replace("/blob", "");
+		if (link.includes("sh")) {
+			fetch(link).then((response) => {
+				response.text().then((data) => {
+					shellLang = data
+						.split("\n")[0]
+						.split("/")
+						.pop();
+					document.getElementById(
+						"langDiv"
+					).innerHTML =
+						shellLang
+							.charAt(0)
+							.toUpperCase() +
+						shellLang.slice(1);
+				});
+			});
+		}
+		//Splicing the string to get the Language
+		extn = link.split("/").pop().split(".").pop();
+		langs = {
+			js: "Javascript",
+			py: "Python",
+			cs: "C#",
+			rs: "Rust",
+			html: "HTML",
+			css: "CSS",
+			cpp: "C++",
+			kt: "Kotlin",
+			md: "Markdown",
+			kts: "Kotlin",
+		};
+		if (extn in langs) {
+			document.getElementById("langDiv").innerHTML =
+				langs[extn];
+		} else {
+			document.getElementById("langDiv").innerHTML =
+				extn.charAt(0).toUpperCase() + extn.slice(1);
+		}
+	}
 
 	fetch(link).then((response) => {
 		response.text().then((data) => {
