@@ -217,7 +217,7 @@ document.getElementById("githubbutton").addEventListener("click", function () {
 
 	// Convert normal links to raw
 	if (link.includes("github.com/")) {
-        source = `<a href=${link} target="blank">Github</a>`;
+		source = `<a href=${link} target="blank">Github</a>`;
 		if (link.includes("sh")) {
 			link = link
 				.replace(
@@ -257,13 +257,11 @@ document.getElementById("githubbutton").addEventListener("click", function () {
 			kts: "Kotlin",
 		};
 		if (extn in langs) {
-			document.getElementById(
-				"langDiv"
-			).innerHTML = langs[extn];
+			document.getElementById("langDiv").innerHTML =
+				langs[extn];
 		} else {
-			document.getElementById(
-				"langDiv"
-			).innerHTML = extn.charAt(0).toUpperCase() + extn.slice(1);
+			document.getElementById("langDiv").innerHTML =
+				extn.charAt(0).toUpperCase() + extn.slice(1);
 		}
 		link = link
 			.replace("github.com", "raw.githubusercontent.com")
