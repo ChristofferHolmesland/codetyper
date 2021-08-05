@@ -176,8 +176,8 @@ kotlin.addEventListener("click", () => {
 
 js.addEventListener("click", () => {
 	myCode = myCodeArr[7];
+	document.getElementById("langDiv").innerHTML = "Javascript";
 	source = "Codetyper";
-	document.getElementById("langDiv").innerHTML = "JS";
 	callFunc();
 });
 
@@ -199,6 +199,84 @@ function decodeHtml(html) {
 	txt.innerHTML = html;
 	return txt.value;
 }
+
+document.getElementById("githubbutton").addEventListener("click", function () {
+	var link = document.getElementById("githubinput").value;
+	if (link.length === 0) {
+		generateCode();
+		document.getElementById("selectDiv").classList.add(
+			"displaynone"
+		);
+		document.getElementById("writingDiv").classList.remove(
+			"displaynone"
+		);
+		document.getElementById("words").focus();
+		return;
+	}
+
+	// Convert normal links to raw
+	if (
+		link.includes("github.com/") ||
+		link.includes("raw.githubusercontent")
+	) {
+		source = `<a href=${link} target="blank">Github</a>`;
+		link = link
+			.replace("github.com", "raw.githubusercontent.com")
+			.replace("/blob", "");
+		if (link.includes("sh")) {
+			fetch(link).then((response) => {
+				response.text().then((data) => {
+					shellLang = data
+						.split("\n")[0]
+						.split("/")
+						.pop();
+					document.getElementById(
+						"langDiv"
+					).innerHTML =
+						shellLang
+							.charAt(0)
+							.toUpperCase() +
+						shellLang.slice(1);
+				});
+			});
+		}
+		//Splicing the string to get the Language
+		extn = link.split("/").pop().split(".").pop();
+		langs = {
+			js: "Javascript",
+			py: "Python",
+			cs: "C#",
+			rs: "Rust",
+			html: "HTML",
+			css: "CSS",
+			cpp: "C++",
+			kt: "Kotlin",
+			md: "Markdown",
+			kts: "Kotlin",
+		};
+		if (extn in langs) {
+			document.getElementById("langDiv").innerHTML =
+				langs[extn];
+		} else {
+			document.getElementById("langDiv").innerHTML =
+				extn.charAt(0).toUpperCase() + extn.slice(1);
+		}
+	}
+
+	fetch(link).then((response) => {
+		response.text().then((data) => {
+			myCode = data;
+			generateCode();
+			document.getElementById("selectDiv").classList.add(
+				"displaynone"
+			);
+			document.getElementById("writingDiv").classList.remove(
+				"displaynone"
+			);
+			document.getElementById("words").focus();
+		});
+	});
+});
 
 function changeFont(key) {
 	if (key.key === "Enter") {
@@ -532,46 +610,3 @@ function onKeyDown_handler(key) {
 }
 
 document.getElementById("words").addEventListener("keydown", onKeyDown_handler);
-
-document.getElementById("githubbutton").addEventListener("click", function () {
-	var link = document.getElementById("githubinput").value;
-	if (link.length === 0) {
-		generateCode();
-		document.getElementById("selectDiv").classList.add(
-			"displaynone"
-		);
-		document.getElementById("writingDiv").classList.remove(
-			"displaynone"
-		);
-		document.getElementById("words").focus();
-		return;
-	}
-
-	// Convert normal links to raw
-	if (link.includes("github.com/")) {
-		//Splicing the string to get the Language
-		lang = link.split("/").pop().split(".").pop();
-		document.getElementById(
-			"langDiv"
-		).innerHTML = `<a href=${link} target="blank">GitHub ${
-			lang.charAt(0).toUpperCase() + lang.slice(1)
-		}</a>`;
-		link = link
-			.replace("github.com", "raw.githubusercontent.com")
-			.replace("/blob", "");
-	}
-
-	fetch(link).then((response) => {
-		response.text().then((data) => {
-			myCode = data;
-			generateCode();
-			document.getElementById("selectDiv").classList.add(
-				"displaynone"
-			);
-			document.getElementById("writingDiv").classList.remove(
-				"displaynone"
-			);
-			document.getElementById("words").focus();
-		});
-	});
-});
