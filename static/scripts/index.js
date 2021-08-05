@@ -178,7 +178,6 @@ js.addEventListener("click", () => {
 	myCode = myCodeArr[7];
 	document.getElementById("langDiv").innerHTML = "Javascript";
 	source = "Codetyper";
-	document.getElementById("langDiv").innerHTML = "JS";
 	callFunc();
 });
 
