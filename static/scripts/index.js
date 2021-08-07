@@ -73,7 +73,6 @@ var characterProgress = 0;
 var numCorrect = 0;
 var numErrors = 0;
 let erroredCharacters = [];
-let correctCharacters = [];
 let numCorrectLastSecond = 0;
 let numCorrectListEverySecond = [];
 let source = "External";
@@ -93,7 +92,6 @@ function resetVariables() {
 	numCorrect = 0;
 	numErrors = 0;
 	erroredCharacters = [];
-	correctCharacters = [];
 	numCorrectLastSecond = 0;
 	numCorrectListEverySecond = [];
 
@@ -475,7 +473,40 @@ function addCharacterState(character, state) {
 }
 
 function onKeyDown_handler(key) {
-	if (key.ctrlKey) return;
+	if (key.ctrlKey) {
+		if (key.key === "Backspace") {
+			key.preventDefault();
+			
+			while (characterProgress > 0) {
+				allCharacters[characterProgress].classList.remove("active");
+				characterProgress--;
+
+				// Stop when we hit a space
+				if (allCharacters[characterProgress].innerHTML === " ") {
+					characterProgress++;
+					break;
+				}
+				
+				if (
+					allCharacters[characterProgress].classList.contains(
+						"correct"
+					)
+				) {
+					numCorrect--;
+				} else {
+					numErrors--;
+				}
+				
+				allCharacters[characterProgress].classList.remove("correct");
+				allCharacters[characterProgress].classList.remove("spacerror");
+				allCharacters[characterProgress].classList.remove("error");
+			}
+			
+			allCharacters[characterProgress].classList.add("active");
+		}
+		
+		return false;
+	}
 
 	key.preventDefault();
 
@@ -504,9 +535,6 @@ function onKeyDown_handler(key) {
 			)
 		) {
 			numCorrect--;
-			correctCharacters.push(
-				allCharacters[characterProgress]
-			);
 		} else if (
 			allCharacters[characterProgress].classList.contains(
 				"spacerror"
