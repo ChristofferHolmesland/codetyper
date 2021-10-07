@@ -18,200 +18,22 @@
 	<style></style>
 
 	<body>
-		<div class="displaynone">
-			<div class="theme-switch-wrapper">
-				<label
-					class="theme-switch"
-					for="light-checkbox"
-				>
-					<input
-						type="checkbox"
-						id="light-checkbox"
-					/>
-					<div class="slider round"></div>
-				</label>
-				<p>Light Mode</p>
-			</div>
-			<div class="links-wrapper">
-				<a
-					alt="Discord"
-					href="https://discord.gg/kalle"
-					target="_blank"
-					><img
-						alt="Discord"
-						src="static/images/discord.svg"
-				/></a>
-				<a
-					alt="GitHub"
-					href="https://github.com/ChristofferHolmesland/codetyper"
-					target="_blank"
-					><img
-						alt="GitHub"
-						src="static/images/github.png"
-				/></a>
-			</div>
-			<div>
-				<input
-					id="font"
-					placeholder="Choose Custom Font"
-				/>
-				<button
-					class="btn"
-					style="height: 35px"
-					onclick="document.location.reload(true)"
-				>
-					Restart
-				</button>
-			</div>
-		</div>
-		<div id="selectDiv">
-			<div class="lang-buttons">
-				<p>Choose a language to start with</p>
-				<br />
-				<button class="btn githubbutton" id="bash">
-					Bash
-				</button>
-				<button class="btn githubbutton" id="c">
-					C
-				</button>
-				<button class="btn githubbutton" id="csharp">
-					C#
-				</button>
-				<button class="btn githubbutton" id="cpp">
-					C++
-				</button>
-				<button class="btn githubbutton" id="go">
-					Go
-				</button>
-				<button class="btn githubbutton" id="java">
-					Java
-				</button>
-				<button class="btn githubbutton" id="js">
-					JavaScript
-				</button>
-				<button class="btn githubbutton" id="kotlin">
-					Kotlin
-				</button>
-				<button class="btn githubbutton" id="py">
-					Python
-				</button>
-				<button class="btn githubbutton" id="rust">
-					Rust
-				</button>
-			</div>
-			<br />
-			<div class="code-chooser">
-				<input
-					id="githubinput"
-					type="text"
-					placeholder="Or enter Github link"
-				/>
-				<button id="githubbutton">
-					<span class="material-icons-round">
-						arrow_right
-					</span>
-				</button>
-			</div>
-			<br />
-			<br />
-			<div id="limits">
-				<label>Stop my test after</label>
-				<input
-					id="line_limit"
-					min="1"
-					onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';"
-					placeholder="unlimited"
-					class="number-box"
-				/>
-				<label>lines and</label>
-				<input
-					id="time_limit"
-					min="1"
-					placeholder="unlimited"
-					onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';"
-					class="number-box"
-				/>
-				<label>seconds.</label>
-			</div>
-		</div>
+		<div id="screenContainer"></div>
 
-		<div id="writingDiv" class="displaynone">
-			<div id="timer">00:00</div>
-			<div tabindex="0" id="words"></div>
-		</div>
-
-		<div id="resultDiv" class="displaynone">
-			<div class="results-left">
-				<span class="result-title"> CPM</span>
-				<br />
-				<span id="cpmDiv"> </span>
-				<br />
-				<br />
-				<span class="result-title"> WPM</span> <br />
-
-				<span id="wpmDiv"></span>
-				<br />
-				<br />
-				<span class="result-title"> Acc</span> <br />
-
-				<span id="accuracy"> </span>
-				<br />
-				<br />
-				<div></div>
-				<br />
-			</div>
-
-			<div class="resultButtons">
-				<button id="restartButton" type="button">
-					<!-- Restart -->
-					<span class="material-icons-round">
-						home
-					</span>
-				</button>
-			</div>
-
-			<!-- <span id="errors"></span> <br />
-			<div id="error-container" class="results-center">
-				<ul id="errored-characters"></ul>
-			</div> -->
-			<div
-				id="result-graph-container"
-				class="result-graph-container"
-			></div>
-			<div class="results-bottom">
-				<span class="container source">
-					<div class="result-title">Source</div>
-					<div id="sourceDiv"></div>
-				</span>
-				<span class="container lang">
-					<div class="result-title">Language</div>
-					<div id="langDiv"></div
-				></span>
-				<span class="container raw-cpm">
-					<div class="result-title">Raw CPM</div>
-					<div id="rawCpmDiv"></div>
-				</span>
-				<span class="container raw-wpm"
-					><div class="result-title">Raw WPM</div>
-					<div id="rawWpmDiv"></div>
-				</span>
-				<span class="container diff"
-					><div class="result-title">
-						Difficulty
-					</div>
-					<div id="difficulty"></div
-				></span>
-			</div>
-		</div>
-
-		<span id="errors"></span> <br />
-		<div id="error-container" class="results-center">
-			<ul id="errored-characters"></ul>
-		</div>
-		<br />
-
+		<!-- Libraries -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.1/chart.min.js"></script>
-		<script src="static/scripts/result-screen.js"></script>
+
+		<!-- Utils -->
+		<script src="static/scripts/utils/result-screen.js"></script>
+		<script src="static/scripts/utils/code.js"></script>
+
+		<!-- Screens -->
+		<script src="static/scripts/screens/screen.js"></script>
+		<script src="static/scripts/screens/pick.js"></script>
+		<script src="static/scripts/screens/test.js"></script>
+		<script src="static/scripts/screens/result.js"></script>
+
+		<!-- Main -->
 		<script src="static/scripts/index.js"></script>
 	</body>
 </html>
