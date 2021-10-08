@@ -10,10 +10,12 @@ class ResultScreen extends Screen {
 			() => location.reload()
 		);
 
+		console.log(payload);
+
 		document.getElementById("sourceDiv").innerHTML = payload.source;
 		document.getElementById("difficulty").innerHTML =
 			payload.codeDifficulty;
-		document.getElementById("cpmDiv").innerHtml = "" + payload.cpm;
+		document.getElementById("cpmDiv").innerHTML = "" + payload.cpm;
 		document.getElementById("wpmDiv").innerHTML = "" + payload.wpm;
 		document.getElementById("accuracy").innerHTML =
 			"" + payload.accuracy + "%";
