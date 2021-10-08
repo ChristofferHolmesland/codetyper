@@ -8,7 +8,7 @@ let currentScreen = undefined;
 
 function changeScreen(newScreen) {
 	let payload = undefined;
-	
+
 	if (currentScreen !== undefined) {
 		payload = currentScreen.leave();
 	}
