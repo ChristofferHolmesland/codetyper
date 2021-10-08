@@ -40,7 +40,10 @@ class TestScreen extends Screen {
 			60 * (this.numCorrect / this.elapsedTime)
 		);
 		const wpm = Math.round(cpm / averageWordLength);
-		const accuracy = Math.round((100 * this.numCorrect) / length);
+		const accuracy = Math.round(
+			(100 * this.numCorrect) /
+				(length + this.lines.length - 1)
+		);
 		const rawCpm = Math.round(
 			(60 * (this.numCorrect + this.numErrors)) /
 				this.elapsedTime
@@ -136,7 +139,10 @@ class TestScreen extends Screen {
 
 		let registeredKey = key.key;
 
-		if (this.allCharacters[this.characterProgress].innerHTML === ENTER_CHARACTER) {
+		if (
+			this.allCharacters[this.characterProgress].innerHTML ===
+			ENTER_CHARACTER
+		) {
 			if (registeredKey === "Enter") {
 				registeredKey = ENTER_CHARACTER;
 			} else if (registeredKey !== "Backspace") {
@@ -216,8 +222,8 @@ class TestScreen extends Screen {
 				"active"
 			);
 
-			this.characterProgress += 3;
-			this.numCorrect += 3;
+			this.characterProgress += 4;
+			this.numCorrect += 4;
 			this.numCorrectLastSecond += 4;
 		} else {
 			if (
@@ -285,7 +291,12 @@ class TestScreen extends Screen {
 
 	handleBackspaceKey() {
 		if (this.characterProgress === 0) return true;
-		if (this.allCharacters[this.characterProgress].classList.contains("first")) return true;
+		if (
+			this.allCharacters[
+				this.characterProgress
+			].classList.contains("first")
+		)
+			return true;
 
 		this.allCharacters[this.characterProgress].classList.remove(
 			"active"
@@ -394,7 +405,7 @@ class TestScreen extends Screen {
 			for (let j = 0; j < line.length; j++) {
 				const character =
 					document.createElement("character");
-				
+
 				character.innerHTML = line[j];
 				if (j === 0) {
 					character.classList.add("first");
