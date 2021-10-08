@@ -38,7 +38,7 @@ class PickScreen extends Screen {
 			source: this.source,
 			language: this.language,
 			lineLimit: lineLimit,
-			timeLimit: timeLimit
+			timeLimit: timeLimit,
 		};
 	}
 
@@ -58,72 +58,92 @@ class PickScreen extends Screen {
 	}
 
 	setupButtons() {
-		const container = document.getElementById("lang-buttons");
+		const container = document.getElementById("actual-buttons");
 
 		for (let i = 0; i < CODE_SNIPPETS.length; i++) {
 			const button = document.createElement("button");
-			
+
 			button.classList.add("btn");
 			button.classList.add("githubbutton");
 			button.innerHTML = CODE_SNIPPETS[i].language;
 
-			button.addEventListener("click", () => this.buttonClicked(i));
+			button.addEventListener("click", () =>
+				this.buttonClicked(i)
+			);
 
 			container.appendChild(button);
 		}
 	}
-	
+
 	addGitHubLinkHandler() {
-		document.getElementById("githubbutton").addEventListener("click", () => {
-			var link = document.getElementById("githubinput").value;
-			if (link.length === 0) return;
+		document.getElementById("githubbutton").addEventListener(
+			"click",
+			() => {
+				var link =
+					document.getElementById(
+						"githubinput"
+					).value;
+				if (link.length === 0) return;
 
-			if (
-				link.includes("github.com/") ||
-				link.includes("raw.githubusercontent")
-			) {
-				this.source = `<a href=${link} target="blank">Github</a>`;
-				link = link
-					.replace("github.com", "raw.githubusercontent.com")
-					.replace("/blob", "");
+				if (
+					link.includes("github.com/") ||
+					link.includes("raw.githubusercontent")
+				) {
+					this.source = `<a href=${link} target="blank">Github</a>`;
+					link = link
+						.replace(
+							"github.com",
+							"raw.githubusercontent.com"
+						)
+						.replace("/blob", "");
 
-				extn = link.split("/").pop().split(".").pop();
-				langs = {
-					js: "Javascript",
-					py: "Python",
-					cs: "C#",
-					rs: "Rust",
-					html: "HTML",
-					css: "CSS",
-					cpp: "C++",
-					kt: "Kotlin",
-					md: "Markdown",
-					kts: "Kotlin",
-				};
+					extn = link
+						.split("/")
+						.pop()
+						.split(".")
+						.pop();
 
-				if (extn in langs) {
-					this.language = langs[extn];
-				} else {
-					this.language = extn.charAt(0).toUpperCase() + extn.slice(1);
+					langs = {
+						js: "Javascript",
+						py: "Python",
+						cs: "C#",
+						rs: "Rust",
+						html: "HTML",
+						css: "CSS",
+						cpp: "C++",
+						kt: "Kotlin",
+						md: "Markdown",
+						kts: "Kotlin",
+					};
+
+					if (extn in langs) {
+						this.language = langs[extn];
+					} else {
+						this.language =
+							extn
+								.charAt(0)
+								.toUpperCase() +
+							extn.slice(1);
+					}
 				}
-			}
 
-			fetch(link).then((response) => {
-				response.text().then((data) => {
-					this.code = data;
-					changeScreen(TEST_SCREEN);
+				fetch(link).then((response) => {
+					response.text().then((data) => {
+						this.code = data;
+						changeScreen(TEST_SCREEN);
+					});
 				});
-			});
-		});
+			}
+		);
 	}
 }
 
-const PICK_SCREEN_HTML = 
-`
+const PICK_SCREEN_HTML = `
 <div id="selectDiv">
 <div id="lang-buttons" class="lang-buttons">
 	<p>Choose a language to start with</p>
 	<br />
+	<span id="actual-buttons" class="flex-row"></span>
 </div>
 <br />
 <div class="code-chooser">
@@ -165,80 +185,70 @@ const PICK_SCREEN_HTML =
 const CODE_SNIPPETS = [
 	{
 		language: "Bash",
-		code: 	
-`#!/bin/bash
+		code: `#!/bin/bash
 
 hello_world () {
 	echo 'Hello, World!'
 }
 
-hello_world`
+hello_world`,
 	},
 	{
 		language: "C",
-		code:
-`int main() {
+		code: `int main() {
 	printf("Hello, World!");
 	return 0;
-}`
+}`,
 	},
 	{
 		language: "C#",
-		code:
-`static void Main(string[] args) {
+		code: `static void Main(string[] args) {
 	System.Console.WriteLine("Hello World!");
-}`
+}`,
 	},
 	{
 		language: "C++",
-		code:
-`int main() {
+		code: `int main() {
 	std::cout << "Hello World!";
 	return 0;
-}`
+}`,
 	},
 	{
 		language: "Go",
-		code:
-`func main() {
+		code: `func main() {
 	fmt.Println("Hello, World!")
-}`
+}`,
 	},
 	{
 		language: "Java",
-		code:
-`public static void main(String[] args) {
+		code: `public static void main(String[] args) {
 	String greeting = "Hello";
 	System.out.println(greeting);
-}`
+}`,
 	},
 	{
 		language: "JavaScript",
-		code:
-`function main() {
+		code: `function main() {
 	console.log("Hello, World!");
 };
-main();`
+main();`,
 	},
 	{
 		language: "Kotlin",
-		code:
-`fun main() {
+		code: `fun main() {
 	println("Hello, World!")
-}`
+}`,
 	},
 	{
 		language: "Python",
-		code:
-`if __name__ == "__main__":
+		code: `if __name__ == "__main__":
 	print("Hello, world!")
-	print(" - Christoffer")`
+	print(" - Christoffer")`,
 	},
 	{
 		language: "Rust",
-		code: 
-`fn main() {
+		code: `fn main() {
 	println!("Hello World!");
-}`
-	}
+}`,
+	},
 ];
