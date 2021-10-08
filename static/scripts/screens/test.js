@@ -136,6 +136,14 @@ class TestScreen extends Screen {
 
 		let registeredKey = key.key;
 
+		if (this.allCharacters[this.characterProgress].innerHTML === ENTER_CHARACTER) {
+			if (registeredKey === "Enter") {
+				registeredKey = ENTER_CHARACTER;
+			} else {
+				return false;
+			}
+		}
+
 		let decodedCharacter = decodeHtml(
 			this.allCharacters[this.characterProgress].innerHTML
 		);
@@ -386,16 +394,21 @@ class TestScreen extends Screen {
 				const character =
 					document.createElement("character");
 				character.innerHTML = line[j];
-
-				if (i > 0 && j == line.length - 1) {
-					character.classList.add("last");
-				}
-
 				lineDiv.appendChild(character);
 				this.allCharacters.push(character);
 			}
 
-			if (line.length > 0) this.words.appendChild(lineDiv);
+			const character = document.createElement("character");
+			character.innerHTML = ENTER_CHARACTER;
+
+			if (i > 0) {
+				character.classList.add("last");
+			}
+
+			lineDiv.appendChild(character);
+			this.allCharacters.push(character);
+
+			this.words.appendChild(lineDiv);
 		}
 
 		this.allCharacters[0].classList.add("active");
