@@ -139,7 +139,7 @@ class TestScreen extends Screen {
 		if (this.allCharacters[this.characterProgress].innerHTML === ENTER_CHARACTER) {
 			if (registeredKey === "Enter") {
 				registeredKey = ENTER_CHARACTER;
-			} else {
+			} else if (registeredKey !== "Backspace") {
 				return false;
 			}
 		}
@@ -285,6 +285,7 @@ class TestScreen extends Screen {
 
 	handleBackspaceKey() {
 		if (this.characterProgress === 0) return true;
+		if (this.allCharacters[this.characterProgress].classList.contains("first")) return true;
 
 		this.allCharacters[this.characterProgress].classList.remove(
 			"active"
@@ -393,7 +394,12 @@ class TestScreen extends Screen {
 			for (let j = 0; j < line.length; j++) {
 				const character =
 					document.createElement("character");
+				
 				character.innerHTML = line[j];
+				if (j === 0) {
+					character.classList.add("first");
+				}
+
 				lineDiv.appendChild(character);
 				this.allCharacters.push(character);
 			}
@@ -403,6 +409,10 @@ class TestScreen extends Screen {
 
 			if (i > 0) {
 				character.classList.add("last");
+			}
+
+			if (line.length === 0) {
+				character.classList.add("first");
 			}
 
 			lineDiv.appendChild(character);
