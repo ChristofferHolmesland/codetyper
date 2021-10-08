@@ -36,10 +36,6 @@ class ResultScreen extends Screen {
 	}
 
 	graphFunctions(payload) {
-		for (let i = 0; i < payload.wpmData.data.length; i++) {
-			payload.wpmData.data[i] /= payload.averageWordLength;
-		}
-
 		const chartConfig = this.getChartConfig(payload);
 		const graphParent = document.getElementById(
 			"result-graph-container"
