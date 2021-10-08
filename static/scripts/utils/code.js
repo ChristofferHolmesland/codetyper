@@ -1,3 +1,5 @@
+const ENTER_CHARACTER = "↩";
+
 function determineDifficulty(lines) {
 	// When the code is longer the fingers get tired. Assume that maximum tiredness is achieved at 100 lines.
 	var maxLength = 100;
