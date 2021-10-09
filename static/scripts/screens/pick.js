@@ -13,6 +13,7 @@ class PickScreen extends Screen {
 
 		this.setupButtons();
 		this.addGitHubLinkHandler();
+		this.checkForTestParameter();
 	}
 
 	leave() {
@@ -40,6 +41,19 @@ class PickScreen extends Screen {
 			lineLimit: lineLimit,
 			timeLimit: timeLimit,
 		};
+	}
+
+	checkForTestParameter() {
+		const urlParams = new URLSearchParams(window.location.search);
+		const params = Object.fromEntries(urlParams.entries());
+
+		if (params.test === undefined) return;
+
+		this.code = decodeURIComponent(escape(window.atob(params.test)));
+		this.source = "External";
+		this.language = "Unknown";
+
+		changeScreen(TEST_SCREEN);
 	}
 
 	addClearListener(element) {
