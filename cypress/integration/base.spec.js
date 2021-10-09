@@ -164,3 +164,19 @@ describe("Test language buttons", () => {
 		cy.contains("#difficulty", "Easy");
 	});
 });
+
+describe("Query parameters", () => {
+	it("test parameter", () => {
+		cy.visit(index + "?test=aW50IG1haW4oKSB7CglwcmludGYoIkhlbGxvLCBXb3JsZCEiKTsKCXJldHVybiAwOwp9");
+
+		cy.get("#words").type("int main() {{}{enter}");
+		cy.get("#words").type("	printf(\"Hello, World!\");{enter}");
+		cy.get("#words").type("	return 0;{enter}");
+		cy.get("#words").type("}{enter}");
+
+		cy.contains("#accuracy", "100%")
+		cy.contains("#sourceDiv", "External");
+		cy.contains("#langDiv", "Unknown");
+		cy.contains("#difficulty", "Easy");
+	});
+});
