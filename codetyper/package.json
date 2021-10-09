@@ -1,6 +1,7 @@
 {
 	"name": "codetyper",
 	"displayName": "codetyper",
+	"publisher": "Codetyper",
 	"description": "",
 	"version": "0.0.1",
 	"engines": {
@@ -20,6 +21,10 @@
 				"title": "Codetyper: Open test"
 			}
 		]
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ChristofferHolmesland/codetyper.git"
 	},
 	"scripts": {
 		"lint": "eslint .",
