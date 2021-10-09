@@ -4,7 +4,8 @@
   "description": "This is a project by members of the KalleTech discord server. We are making a website where you can practice your programming speed.",
   "main": "index.html",
   "scripts": {
-    "prettier": "npx prettier --write static/ && npx prettier --write index.html"
+    "prettier": "npx prettier --write static/ && npx prettier --write index.html",
+    "tests": "npx cypress open"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,7 @@
   },
   "homepage": "https://github.com/ChristofferHolmesland/codetyper#readme",
   "devDependencies": {
+    "cypress": "^8.5.0",
     "prettier": "^2.3.2"
   }
 }
