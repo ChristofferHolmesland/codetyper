@@ -24,6 +24,7 @@ function activate(context) {
 		if (editor) {
 			let document = editor.document;
 			const documentText = document.getText();
+			let code = Buffer.from(unescape(encodeURIComponent(documentText))).toString("base64");
 
 			const panel = vscode.window.createWebviewPanel(
 				"codetyper",
@@ -34,23 +35,29 @@ function activate(context) {
 				}
 			);
 
-			panel.webview.html = getWebviewContent();
+			panel.webview.html = getWebviewContent(code);
 		}
 	});
 
 	context.subscriptions.push(disposable);
 }
 
-function getWebviewContent() {
+function getWebviewContent(code64) {
 	return `<!DOCTYPE html>
 	<html lang="en">
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Codetyper</title>
+		<style>
+			iframe {
+				position: absolute;
+				top: 25px;
+			}
+		</style>
 	</head>
 	<body>
-		<iframe src="../index.html" width="100%" height="800" sandbox="allow-scripts allow-same-origin" ></iframe>
+		<iframe src="https://christofferholmesland.github.io/codetyper/?test=${code64}" width="100%" height="800" sandbox="allow-scripts allow-same-origin" ></iframe>
 	</body>
 	</html>`;
 }
