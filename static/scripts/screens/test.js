@@ -42,7 +42,7 @@ class TestScreen extends Screen {
 		const wpm = Math.round(cpm / averageWordLength);
 		const accuracy = Math.round(
 			(100 * this.numCorrect) /
-				(length + this.lines.length - 1)
+				(length + this.lines.length)
 		);
 		const rawCpm = Math.round(
 			(60 * (this.numCorrect + this.numErrors)) /
@@ -176,21 +176,6 @@ class TestScreen extends Screen {
 			return false;
 		}
 
-		let tabCharList = [];
-
-		try {
-			tabCharList = [
-				this.allCharacters[this.characterProgress]
-					.innerHTML,
-				this.allCharacters[this.characterProgress + 1]
-					.innerHTML,
-				this.allCharacters[this.characterProgress + 2]
-					.innerHTML,
-				this.allCharacters[this.characterProgress + 3]
-					.innerHTML,
-			];
-		} catch {}
-
 		if (decodedCharacter === String(registeredKey)) {
 			this.addCharacterState(
 				this.allCharacters[this.characterProgress],
@@ -199,32 +184,23 @@ class TestScreen extends Screen {
 			this.numCorrect++;
 			this.numCorrectLastSecond++;
 		} else if (
-			registeredKey === "    " &&
-			isArrayEqual(EXPECTED_TAB_CHAR_LIST, tabCharList)
+			(registeredKey == " " || registeredKey === "    ") && decodedCharacter === "	"
 		) {
 			this.allCharacters[
 				this.characterProgress
 			].classList.add("correct");
-			this.allCharacters[
-				this.characterProgress + 1
-			].classList.add("correct");
-			this.allCharacters[
-				this.characterProgress + 2
-			].classList.add("correct");
-			this.allCharacters[
-				this.characterProgress + 3
-			].classList.add("correct");
+
 			this.allCharacters[
 				this.characterProgress
 			].classList.remove("active");
+
 			this.addCharacterState(
-				this.allCharacters[this.characterProgress + 4],
+				this.allCharacters[this.characterProgress + 1],
 				"active"
 			);
 
-			this.characterProgress += 4;
-			this.numCorrect += 4;
-			this.numCorrectLastSecond += 4;
+			this.numCorrect += 1;
+			this.numCorrectLastSecond += 1;
 		} else {
 			if (
 				this.allCharacters[this.characterProgress]
@@ -286,6 +262,7 @@ class TestScreen extends Screen {
 			this.allCharacters[this.characterProgress],
 			"active"
 		);
+
 		return false;
 	}
 

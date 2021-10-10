@@ -10,8 +10,6 @@ class ResultScreen extends Screen {
 			() => location.reload()
 		);
 
-		console.log(payload);
-
 		document.getElementById("sourceDiv").innerHTML = payload.source;
 		document.getElementById("difficulty").innerHTML =
 			payload.codeDifficulty;
