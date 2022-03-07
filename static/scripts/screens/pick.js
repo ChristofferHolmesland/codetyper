@@ -111,13 +111,13 @@ class PickScreen extends Screen {
 						)
 						.replace("/blob", "");
 
-					extn = link
+					var extn = link
 						.split("/")
 						.pop()
 						.split(".")
 						.pop();
 
-					langs = {
+					var langs = {
 						js: "Javascript",
 						py: "Python",
 						cs: "C#",
