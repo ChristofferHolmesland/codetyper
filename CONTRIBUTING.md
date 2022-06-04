@@ -5,7 +5,7 @@ The general rule is that everyone is welcome to work on the project. :=)
 
 ## Communication
 
-The main communication channel is the Discord server: https://discord.gg/kalle
+The main communication channel is the Discord server: https://discord.gg/S6VfJ8jzey
 
 ## Issue policy
 - One issue per bug.
