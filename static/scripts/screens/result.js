@@ -1,3 +1,5 @@
+import Screen from "./screen.js";
+
 class ResultScreen extends Screen {
 	constructor(element) {
 		super("Result!", element, RESULT_SCREEN_HTML);
@@ -140,3 +142,5 @@ const RESULT_SCREEN_HTML = `
 	</div>
 </div>
 `;
+
+export default ResultScreen;

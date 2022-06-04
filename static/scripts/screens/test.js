@@ -1,3 +1,13 @@
+import Screen from "./screen.js";
+import { getScreenObject, RESULT_SCREEN } from "./screens.js";
+import { fireEvent, CHANGE_SCREEN } from "../events/bus.js";
+import {
+	ENTER_CHARACTER,
+	determineDifficulty,
+	avgWordLength,
+	decodeHtml,
+} from "../utils/code.js";
+
 class TestScreen extends Screen {
 	constructor(element) {
 		super("Type!", element, TEST_SCREEN_HTML);
@@ -41,8 +51,7 @@ class TestScreen extends Screen {
 		);
 		const wpm = Math.round(cpm / averageWordLength);
 		const accuracy = Math.round(
-			(100 * this.numCorrect) /
-				(length + this.lines.length)
+			(100 * this.numCorrect) / (length + this.lines.length)
 		);
 		const rawCpm = Math.round(
 			(60 * (this.numCorrect + this.numErrors)) /
@@ -72,7 +81,8 @@ class TestScreen extends Screen {
 			"keydown",
 			this.onKeyDownHandler
 		);
-		changeScreen(RESULT_SCREEN);
+
+		fireEvent(CHANGE_SCREEN, getScreenObject(RESULT_SCREEN));
 	}
 
 	startTimer() {
@@ -184,7 +194,8 @@ class TestScreen extends Screen {
 			this.numCorrect++;
 			this.numCorrectLastSecond++;
 		} else if (
-			(registeredKey == " " || registeredKey === "    ") && decodedCharacter === "	"
+			(registeredKey == " " || registeredKey === "    ") &&
+			decodedCharacter === "	"
 		) {
 			this.allCharacters[
 				this.characterProgress
@@ -434,3 +445,5 @@ const TEST_SCREEN_HTML = `
 `;
 
 const EXPECTED_TAB_CHAR_LIST = [" ", " ", " ", " "];
+
+export default TestScreen;

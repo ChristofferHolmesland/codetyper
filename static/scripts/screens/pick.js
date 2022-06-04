@@ -1,3 +1,7 @@
+import Screen from "./screen.js";
+import { getScreenObject, TEST_SCREEN } from "./screens.js";
+import { fireEvent, CHANGE_SCREEN } from "../events/bus.js";
+
 class PickScreen extends Screen {
 	constructor(element) {
 		super("Pick!", element, PICK_SCREEN_HTML);
@@ -49,11 +53,13 @@ class PickScreen extends Screen {
 
 		if (params.test === undefined) return;
 
-		this.code = decodeURIComponent(escape(window.atob(params.test)));
+		this.code = decodeURIComponent(
+			escape(window.atob(params.test))
+		);
 		this.source = "External";
 		this.language = "Unknown";
 
-		changeScreen(TEST_SCREEN);
+		fireEvent(CHANGE_SCREEN, getScreenObject(TEST_SCREEN));
 	}
 
 	addClearListener(element) {
@@ -68,7 +74,7 @@ class PickScreen extends Screen {
 		this.source = "Codetyper";
 		this.code = CODE_SNIPPETS[index].code;
 		this.language = CODE_SNIPPETS[index].language;
-		changeScreen(TEST_SCREEN);
+		fireEvent(CHANGE_SCREEN, getScreenObject(TEST_SCREEN));
 	}
 
 	setupButtons() {
@@ -144,7 +150,12 @@ class PickScreen extends Screen {
 				fetch(link).then((response) => {
 					response.text().then((data) => {
 						this.code = data;
-						changeScreen(TEST_SCREEN);
+						fireEvent(
+							CHANGE_SCREEN,
+							getScreenObject(
+								TEST_SCREEN
+							)
+						);
 					});
 				});
 			}
@@ -266,3 +277,5 @@ main();`,
 }`,
 	},
 ];
+
+export default PickScreen;

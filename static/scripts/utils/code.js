@@ -67,3 +67,12 @@ function isArrayEqual(a1, a2) {
 
 	return true;
 }
+
+export {
+	ENTER_CHARACTER,
+	determineDifficulty,
+	avgWordLength,
+	removeAllValues,
+	decodeHtml,
+	isArrayEqual,
+};
