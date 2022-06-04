@@ -14,3 +14,5 @@ class Screen {
 		return {};
 	}
 }
+
+export default Screen;

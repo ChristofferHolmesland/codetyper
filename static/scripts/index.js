@@ -1,8 +1,5 @@
-const ROOT_ELEMENT = document.getElementById("screenContainer");
-
-const PICK_SCREEN = new PickScreen(ROOT_ELEMENT);
-const TEST_SCREEN = new TestScreen(ROOT_ELEMENT);
-const RESULT_SCREEN = new ResultScreen(ROOT_ELEMENT);
+import { PICK_SCREEN, getScreenObject } from "./screens/screens.js";
+import { CHANGE_SCREEN, addSubscriber } from "./events/bus.js";
 
 let currentScreen = undefined;
 
@@ -17,4 +14,6 @@ function changeScreen(newScreen) {
 	currentScreen.enter(payload);
 }
 
-changeScreen(PICK_SCREEN);
+addSubscriber(CHANGE_SCREEN, changeScreen);
+
+changeScreen(getScreenObject(PICK_SCREEN));
