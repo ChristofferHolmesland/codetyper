@@ -77,6 +77,35 @@ sup {
 	transition: all 200ms ease-in-out;
 }
 
+#profile {
+	width: 50%;
+	margin: 0 auto;
+}
+
+#login {
+	width: 50%;
+	margin: 0 auto;
+}
+
+#loginForm * {
+	font-size: 2.5rem;
+}
+
+#loginForm h1 {
+	font-size: 4.5rem;
+}
+
+#loginForm label {
+	display: inline-block;
+	width: 175px;
+	margin-top: 15px;
+}
+
+#loginForm button {
+	line-height: normal;
+	margin-top: 15px;
+}
+
 .results {
 	display: grid;
 	gap: 1rem;
@@ -116,6 +145,12 @@ sup {
 	display: flex;
 	width: 100%;
 	justify-content: center;
+}
+
+.flex-row-evenly {
+	display: flex;
+	width: 100%;
+	justify-content: space-evenly;
 }
 
 .results-left {
