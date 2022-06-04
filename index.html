@@ -18,10 +18,37 @@
 	<style></style>
 
 	<body>
+		<header id="header">
+			<div>
+				<button id="logoButton" type="button">
+					codetyper
+				</button>
+			</div>
+			<div></div>
+			<div></div>
+			<div>
+				<button id="profileButton" type="button">
+					<span class="material-icons-round">
+						person
+					</span>
+				</button>
+			</div>
+		</header>
+
 		<div id="screenContainer"></div>
 
 		<!-- Libraries -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.1/chart.min.js"></script>
+
+		<!-- Firebase -->
+		<script
+			type="module"
+			src="static/scripts/firebase/initialize.js"
+		></script>
+		<script
+			type="module"
+			src="static/scripts/firebase/service.js"
+		></script>
 
 		<!-- Events -->
 		<script
