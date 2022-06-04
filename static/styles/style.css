@@ -66,6 +66,8 @@ header {
 	padding: 15px;
 	min-height: 5vh;
 	z-index: 10;
+	display: flex;
+	justify-content: space-evenly;
 }
 
 sup {
@@ -421,6 +423,7 @@ button {
 
 button:hover {
 	background-color: var(--button-hover-bg);
+	cursor: pointer;
 }
 
 .btn {
