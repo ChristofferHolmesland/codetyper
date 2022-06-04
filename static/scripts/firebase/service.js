@@ -24,7 +24,9 @@ async function signIn(email, password) {
 	return signInWithEmailAndPassword(auth, email, password);
 }
 
-function signOut() {}
+function signOut() {
+	auth.signOut();
+}
 
 function signUp(email, password) {
 	if (!performSimpleEmailPasswordValidation(email, password))
