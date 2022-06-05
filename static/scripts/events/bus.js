@@ -1,4 +1,5 @@
 const CHANGE_SCREEN = "changeScreen";
+const GITHUB_LIMIT_WARNING = "githubLimitWarning";
 
 const SUBSCRIBERS = {};
 SUBSCRIBERS[CHANGE_SCREEN] = [];
@@ -39,4 +40,10 @@ function fireEvent(event, payload) {
 	return false;
 }
 
-export { CHANGE_SCREEN, addSubscriber, removeSubscriber, fireEvent };
+export {
+	CHANGE_SCREEN,
+	GITHUB_LIMIT_WARNING,
+	addSubscriber,
+	removeSubscriber,
+	fireEvent,
+};
