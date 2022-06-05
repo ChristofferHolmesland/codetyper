@@ -1,6 +1,7 @@
 import Screen from "./screen.js";
 import { getScreenObject, TEST_SCREEN } from "./screens.js";
 import { fireEvent, CHANGE_SCREEN } from "../events/bus.js";
+import { getRandomGist } from "../github/service.js";
 
 class PickScreen extends Screen {
 	constructor(element) {
@@ -17,6 +18,7 @@ class PickScreen extends Screen {
 
 		this.setupButtons();
 		this.addGitHubLinkHandler();
+		this.addRandomGistHandler();
 		this.checkForTestParameter();
 	}
 
@@ -93,6 +95,32 @@ class PickScreen extends Screen {
 
 			container.appendChild(button);
 		}
+	}
+
+	addRandomGistHandler() {
+		document.getElementById("randomGistButton").addEventListener(
+			"click",
+			async () => {
+				const gist = await getRandomGist();
+
+				console.log(gist);
+
+				this.language = gist.language;
+				this.source = `<a href=${gist.raw_url} target="blank">Github</a>`;
+
+				fetch(gist.raw_url).then((response) => {
+					response.text().then((data) => {
+						this.code = data;
+						fireEvent(
+							CHANGE_SCREEN,
+							getScreenObject(
+								TEST_SCREEN
+							)
+						);
+					});
+				});
+			}
+		);
 	}
 
 	addGitHubLinkHandler() {
@@ -175,13 +203,17 @@ const PICK_SCREEN_HTML = `
 	<input
 		id="githubinput"
 		type="text"
-		placeholder="Or enter Github link"
+		placeholder="Or, enter Github link"
 	/>
 	<button id="githubbutton">
 		<span class="material-icons-round">
 			arrow_right
 		</span>
 	</button>
+</div>
+<div style="display: inline-block; margin-top: 15px;" class="code-chooser">
+	<span style="font-size: 1.5rem;">Or, try some random code from Github</span>
+	<button style="display: inline-block;" id="randomGistButton" type="button">Start</button>
 </div>
 <br />
 <br />
