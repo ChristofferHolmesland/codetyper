@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta charset="UTF-8" />
+
+		<title>codetyper</title>
+		<link rel="stylesheet" href="static/styles/style.css" />
+		<link
+			href="https://fonts.googleapis.com/icon?family=Material+Icons+Round"
+			rel="stylesheet"
+		/>
+	</head>
+	<style></style>
+
+	<body>
+		<header id="header">
+			<div>
+				<button id="logoButton" type="button">
+					codetyper
+				</button>
+			</div>
+			<div></div>
+			<div></div>
+			<div>
+				<button id="profileButton" type="button">
+					<span class="material-icons-round">
+						person
+					</span>
+				</button>
+			</div>
+		</header>
+
+		<div id="screenContainer"></div>
+
+		<!-- Libraries -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.1/chart.min.js"></script>
+
+		<!-- GitHub -->
+		<script
+			type="module"
+			src="static/scripts/github/api.js"
+		></script>
+		<script
+			type="module"
+			src="static/scripts/github/service.js"
+		></script>
+
+		<!-- Firebase -->
+		<script
+			type="module"
+			src="static/scripts/firebase/initialize.js"
+		></script>
+		<script
+			type="module"
+			src="static/scripts/firebase/service.js"
+		></script>
+
+		<!-- Events -->
+		<script
+			type="module"
+			src="static/scripts/events/bus.js"
+		></script>
+
+		<!-- Utils -->
+		<script
+			type="module"
+			src="static/scripts/utils/code.js"
+		></script>
+
+		<!-- Screens -->
+		<script
+			type="module"
+			src="static/scripts/screens/screen.js"
+		></script>
+		<script
+			type="module"
+			src="static/scripts/screens/pick.js"
+		></script>
+		<script
+			type="module"
+			src="static/scripts/screens/test.js"
+		></script>
+		<script
+			type="module"
+			src="static/scripts/screens/result.js"
+		></script>
+		<script
+			type="module"
+			src="static/scripts/screens/screens.js"
+		></script>
+
+		<!-- Main -->
+		<script type="module" src="static/scripts/index.js"></script>
+	</body>
+</html>
