@@ -491,3 +491,37 @@ a:link {
 a:visited {
 	color: white;
 }
+
+/* responsive */
+
+@media only screen and (max-width: 623px) {
+        header {
+
+                align-items: center;
+        }
+
+        #actual-buttons button {
+                margin: 5px;
+        }
+
+        #header .material-icons-round {
+                font-size: 15px;
+        }
+
+        .lang-buttons p {
+                margin: 0px 10px 0px 10px;
+        }
+
+        .code-chooser {
+                width: 90%;
+
+        }
+
+        .code-chooser p {
+                font-size: 1rem !important;
+        }
+
+        #random-gist-btn span {
+                font-size: 1.2rem;
+        }
+}
