@@ -1,44 +1,42 @@
-import { auth } from "./initialize.js";
 import {
-	onAuthStateChanged,
-	createUserWithEmailAndPassword,
-	signInWithEmailAndPassword,
+        createUserWithEmailAndPassword, GithubAuthProvider, GoogleAuthProvider, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup
 } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-auth.js";
-
-function performSimpleEmailPasswordValidation(email, password) {
-	if (email === undefined || !email.includes("@") || email.length < 4) {
-		return false;
-	}
-
-	if (password === undefined || password.length < 4) {
-		return false;
-	}
-
-	return true;
-}
+import { auth } from "./initialize.js";
 
 async function signIn(email, password) {
-	if (!performSimpleEmailPasswordValidation(email, password))
-		return false;
-
-	return signInWithEmailAndPassword(auth, email, password);
+        return signInWithEmailAndPassword(auth, email, password);
 }
 
-function signOut() {
-	auth.signOut();
+async function signUp(email, password) {
+        return createUserWithEmailAndPassword(auth, email, password);
 }
 
-function signUp(email, password) {
-	if (!performSimpleEmailPasswordValidation(email, password))
-		return false;
+async function signOut() {
+        auth.signOut();
+}
 
-	return createUserWithEmailAndPassword(auth, email, password);
+async function resetPassword(email) {
+        return sendPasswordResetEmail(auth, email, { url: 'https://christofferholmesland.github.io/codetyper/' });
+}
+
+async function githubSignInWithPopup() {
+        const provider = new GithubAuthProvider();
+        provider.addScope('repo');
+        return signInWithPopup(auth, provider);
+}
+
+async function googleSignInWithPopup() {
+        const provider = new GoogleAuthProvider();
+        provider.addScope('profile');
+        provider.addScope('email');
+        return signInWithPopup(auth, provider);
 }
 
 function getUser() {
-	if (auth.currentUser === null) return undefined;
+        if (auth.currentUser === null) return undefined;
 
-	return auth.currentUser;
+        return auth.currentUser;
 }
 
-export { signIn, signOut, signUp, getUser };
+export { signIn, signOut, signUp, getUser, resetPassword, githubSignInWithPopup, googleSignInWithPopup };
+
