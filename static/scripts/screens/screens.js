@@ -3,6 +3,7 @@ import TestScreen from "./test.js";
 import ResultScreen from "./result.js";
 import ProfileScreen from "./profile.js";
 import LoginScreen from "./login.js";
+import SettingsScreen from "./settings.js";
 
 const ROOT_ELEMENT = document.getElementById("screenContainer");
 
@@ -11,6 +12,7 @@ const TEST_SCREEN = "TEST_SCREEN";
 const RESULT_SCREEN = "RESULT_SCREEN";
 const PROFILE_SCREEN = "PROFILE_SCREEN";
 const LOGIN_SCREEN = "LOGIN_SCREEN";
+const SETTINGS_SCREEN = "SETTINGS_SCREEN";
 
 const ALL_SCREENS = [
 	PICK_SCREEN,
@@ -18,13 +20,14 @@ const ALL_SCREENS = [
 	RESULT_SCREEN,
 	PROFILE_SCREEN,
 	LOGIN_SCREEN,
+	SETTINGS_SCREEN,
 ];
 
 const SCREENS = {};
 
 function getScreenObject(name) {
 	if (!ALL_SCREENS.includes(name)) {
-		return undefined;
+		throw "Attempted to get screen that does not exist: " + name;
 	}
 
 	if (SCREENS[name] !== undefined) {
@@ -41,6 +44,8 @@ function getScreenObject(name) {
 		SCREENS[name] = new ProfileScreen(ROOT_ELEMENT);
 	} else if (name === LOGIN_SCREEN) {
 		SCREENS[name] = new LoginScreen(ROOT_ELEMENT);
+	} else if (name === SETTINGS_SCREEN) {
+		SCREENS[name] = new SettingsScreen(ROOT_ELEMENT);
 	}
 
 	return SCREENS[name];
@@ -52,5 +57,6 @@ export {
 	RESULT_SCREEN,
 	PROFILE_SCREEN,
 	LOGIN_SCREEN,
+	SETTINGS_SCREEN,
 	getScreenObject,
 };
