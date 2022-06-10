@@ -1,16 +1,21 @@
 const CHANGE_SCREEN = "changeScreen";
 const GITHUB_LIMIT_WARNING = "githubLimitWarning";
+const SETTINGS_CHANGED = "settingsChanged";
 
 const SUBSCRIBERS = {};
 SUBSCRIBERS[CHANGE_SCREEN] = [];
+SUBSCRIBERS[GITHUB_LIMIT_WARNING] = [];
+SUBSCRIBERS[SETTINGS_CHANGED] = [];
 
 function addSubscriber(event, handler) {
 	if (SUBSCRIBERS[event] !== undefined) {
 		SUBSCRIBERS[event].push(handler);
-		return true;
+	} else {
+		throw (
+			"Tried adding handler to event that does not exist: " +
+			event
+		);
 	}
-
-	return false;
 }
 
 function removeSubscriber(event, handler) {
@@ -33,16 +38,15 @@ function fireEvent(event, payload) {
 		for (let i = 0; i < SUBSCRIBERS[event].length; i++) {
 			SUBSCRIBERS[event][i](payload);
 		}
-
-		return true;
+	} else {
+		throw "Fired event that does not exist: " + event;
 	}
-
-	return false;
 }
 
 export {
 	CHANGE_SCREEN,
 	GITHUB_LIMIT_WARNING,
+	SETTINGS_CHANGED,
 	addSubscriber,
 	removeSubscriber,
 	fireEvent,
