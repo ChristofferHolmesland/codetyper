@@ -86,7 +86,7 @@ class PickScreen extends Screen {
 			const button = document.createElement("button");
 
 			button.classList.add("btn");
-			button.classList.add("githubbutton");
+			button.classList.add("github-btn");
 			button.innerHTML = CODE_SNIPPETS[i].language;
 
 			button.addEventListener("click", () =>
@@ -98,9 +98,15 @@ class PickScreen extends Screen {
 	}
 
 	addRandomGistHandler() {
-		document.getElementById("randomGistButton").addEventListener(
+		document.getElementById("random-gist-btn").addEventListener(
 			"click",
 			async () => {
+                                // indicate loading
+                                document.getElementById("github-btn").classList.add("is-loading");
+                                // removing the span
+                                document.getElementById("random-gist-btn").classList.add("is-loading");
+                                // disabling inputs
+                                [...document.querySelectorAll('[id=line_limit]'),  document.getElementById("github-input")].forEach(element => element.setAttribute("disabled",""),);
 				const gist = await getRandomGist();
 
 				console.log(gist);
@@ -119,17 +125,21 @@ class PickScreen extends Screen {
 						);
 					});
 				});
+                                // regainging old state
+                                document.getElementById("github-btn").classList.remove("is-loading");
+                                document.getElementById("random-gist-btn").classList.remove("is-loading");
+                                [...document.querySelectorAll('[id=line_limit]'), document.getElementById("github-input")].forEach(element => element.removeAttribute("disabled"),);
 			}
 		);
 	}
 
 	addGitHubLinkHandler() {
-		document.getElementById("githubbutton").addEventListener(
+		document.getElementById("github-btn").addEventListener(
 			"click",
 			() => {
 				var link =
 					document.getElementById(
-						"githubinput"
+						"github-input"
 					).value;
 				if (link.length === 0) return;
 
@@ -201,19 +211,21 @@ const PICK_SCREEN_HTML = `
 <br />
 <div class="code-chooser">
 	<input
-		id="githubinput"
+		id="github-input"
 		type="text"
 		placeholder="Or, enter Github link"
 	/>
-	<button id="githubbutton">
+	<button id="github-btn">
+        <div class="github-btn-lsp"></div>
 		<span class="material-icons-round">
 			arrow_right
 		</span>
 	</button>
 </div>
 <div style="display: inline-block; margin-top: 15px;" class="code-chooser">
-	<span style="font-size: 1.5rem;">Or, try some random code from Github</span>
-	<button style="display: inline-block;" id="randomGistButton" type="button">Start</button>
+<div id="random-gist-btn">
+        <span>Or, try some random code from Github</span>
+</div>
 </div>
 <br />
 <br />

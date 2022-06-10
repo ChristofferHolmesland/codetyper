@@ -14,6 +14,7 @@
 	--error: #bf616a;
 	--result-fg: #eceff4;
 	--character: #d8dee9;
+        --placeholder:#757575;
 	--correct: #a3be8c;
 	--dash: #ebcb8b;
 	--button-bg: #81a1c1;
@@ -201,6 +202,8 @@ sup {
 	padding-bottom: 3px;
 	outline: 0;
 	font-size: 1rem;
+        border-bottom: var(--placeholder) dotted 1px;
+        border-radius: unset !important;
 }
 
 .links-wrapper {
@@ -407,6 +410,47 @@ character {
 	font-size: 30px;
 }
 
+#github-btn {
+        border-right: 3px solid var(--button-fg);
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+        padding: 0px 8px 0px 5px;
+}
+
+#github-btn .github-btn-lsp {
+        border: 3px solid var(--button-fg);
+        -webkit-animation: loadingspinner 1s linear infinite;
+        animation: loadingspinner 1s linear infinite;
+        border-top: 3px solid var(--button-bg);
+        border-radius: 50%;
+        width: 15px;
+        height: 15px;
+        display: none;
+}
+
+.is-loading span {
+        display: none !important;
+}
+
+.is-loading .github-btn-lsp {
+        display: block !important;
+}
+
+#random-gist-btn span {
+        font-size: 1.5rem;
+        text-decoration: underline;
+        text-underline-position: under;
+        text-decoration-color: var(--button-bg);
+        cursor: pointer;
+}
+
+#random-gist-btn span:hover {
+        color: var(--button-bg);
+}
+
+
 .correct {
 	color: var(--correct);
 }
@@ -490,6 +534,18 @@ a:link {
 
 a:visited {
 	color: white;
+}
+
+/* animations */
+
+@keyframes loadingspinner {
+        0% {
+                transform: rotate(0deg);
+        }
+
+        100% {
+                transform: rotate(360deg);
+        }
 }
 
 /* responsive */
