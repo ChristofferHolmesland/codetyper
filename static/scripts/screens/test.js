@@ -172,11 +172,7 @@ class TestScreen extends Screen {
 		}
 
 		if (registeredKey === "Tab" && decodedCharacter !== "\t") {
-<<<<<<< HEAD
 			decodedCharacter = "    ";
-=======
-			registeredKey = "    ";
->>>>>>> 86d6e6dd635f25f4d82e0bc869bd312a3a629e5e
 		}
 
 		if (
@@ -186,15 +182,11 @@ class TestScreen extends Screen {
 			return false;
 		}
 
-<<<<<<< HEAD
 		if (
 			registeredKey.length > 1 &&
 			registeredKey != "    " &&
 			registeredKey != "Tab"
 		) {
-=======
-		if (registeredKey.length > 1 && registeredKey != "    ") {
->>>>>>> 86d6e6dd635f25f4d82e0bc869bd312a3a629e5e
 			return false;
 		}
 
