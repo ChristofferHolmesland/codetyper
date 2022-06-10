@@ -2,7 +2,7 @@ import PickScreen from "./pick.js";
 import TestScreen from "./test.js";
 import ResultScreen from "./result.js";
 import ProfileScreen from "./profile.js";
-import LoginScreen from "./login.js";
+import AuthScreen from "./auth.js";
 import SettingsScreen from "./settings.js";
 
 const ROOT_ELEMENT = document.getElementById("screenContainer");
@@ -11,7 +11,7 @@ const PICK_SCREEN = "PICK_SCREEN";
 const TEST_SCREEN = "TEST_SCREEN";
 const RESULT_SCREEN = "RESULT_SCREEN";
 const PROFILE_SCREEN = "PROFILE_SCREEN";
-const LOGIN_SCREEN = "LOGIN_SCREEN";
+const AUTH_SCREEN = "AUTH_SCREEN";
 const SETTINGS_SCREEN = "SETTINGS_SCREEN";
 
 const ALL_SCREENS = [
@@ -19,7 +19,7 @@ const ALL_SCREENS = [
 	TEST_SCREEN,
 	RESULT_SCREEN,
 	PROFILE_SCREEN,
-	LOGIN_SCREEN,
+	AUTH_SCREEN,
 	SETTINGS_SCREEN,
 ];
 
@@ -42,8 +42,8 @@ function getScreenObject(name) {
 		SCREENS[name] = new ResultScreen(ROOT_ELEMENT);
 	} else if (name === PROFILE_SCREEN) {
 		SCREENS[name] = new ProfileScreen(ROOT_ELEMENT);
-	} else if (name === LOGIN_SCREEN) {
-		SCREENS[name] = new LoginScreen(ROOT_ELEMENT);
+	} else if (name === AUTH_SCREEN) {
+		SCREENS[name] = new AuthScreen(ROOT_ELEMENT);
 	} else if (name === SETTINGS_SCREEN) {
 		SCREENS[name] = new SettingsScreen(ROOT_ELEMENT);
 	}
@@ -56,7 +56,7 @@ export {
 	TEST_SCREEN,
 	RESULT_SCREEN,
 	PROFILE_SCREEN,
-	LOGIN_SCREEN,
+	AUTH_SCREEN,
 	SETTINGS_SCREEN,
 	getScreenObject,
 };
