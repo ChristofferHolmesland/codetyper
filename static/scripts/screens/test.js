@@ -16,6 +16,7 @@ import {
 	avgWordLength,
 	decodeHtml,
 } from "../utils/code.js";
+import Settings from "../settings/initialize.js";
 
 /**
  * TestScreen is used to show a coding test to the user.
@@ -287,7 +288,28 @@ class TestScreen extends Screen {
 			"active"
 		);
 
+		if (!Settings.codeWrapping.getValue()) {
+			this.scrollCharactersIntoView();
+		}
+
 		return false;
+	}
+
+	/**
+	 * Updates the characters that are shown on the current line so that more of them are visible to the user.
+	 */
+	scrollCharactersIntoView() {
+		let element = this.allCharacters[this.characterProgress];
+		for (
+			let i = 0;
+			i < Settings.codeWrappingCharacters.getValue();
+			i++
+		) {
+			if (element.nextSibling === null) break;
+			element = element.nextSibling;
+		}
+
+		element.scrollIntoView();
 	}
 
 	handleBackspaceKey() {
