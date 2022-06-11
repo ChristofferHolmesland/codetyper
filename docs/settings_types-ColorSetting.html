@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: IntegerSetting</title>
+    <title>JSDoc: Class: ColorSetting</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: IntegerSetting</h1>
+    <h1 class="page-title">Class: ColorSetting</h1>
 
     
 
@@ -29,9 +29,9 @@
 <header>
     
         <h2><span class="attribs"><span class="type-signature"></span></span>
-            <span class="ancestors"><a href="settings_types.html">settings:types</a>~</span>IntegerSetting<span class="signature">(name, description, value, minimumValue, maximumValue, settingsGroup)</span><span class="type-signature"></span></h2>
+            <span class="ancestors"><a href="settings_types.html">settings:types</a>~</span>ColorSetting<span class="signature">(name, description, value, defaultValue, settingsGroup)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">Creates an integer setting that can be changed by a number input box.</div>
+            <div class="class-description">Creates an color setting that can be changed by a color input box.</div>
         
     
 </header>
@@ -46,7 +46,7 @@
     
 
     
-    <h4 class="name" id="IntegerSetting"><span class="type-signature"></span>new IntegerSetting<span class="signature">(name, description, value, minimumValue, maximumValue, settingsGroup)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="ColorSetting"><span class="type-signature"></span>new ColorSetting<span class="signature">(name, description, value, defaultValue, settingsGroup)</span><span class="type-signature"></span></h4>
     
 
     
@@ -152,7 +152,7 @@
             <td class="type">
             
                 
-<span class="param-type">integer</span>
+<span class="param-type">ColorString</span>
 
 
             
@@ -163,25 +163,25 @@
             
                 <td class="default">
                 
-                    1
+                    #000000
                 
                 </td>
             
 
-            <td class="description last">Current value of the setting. Default: 1.</td>
+            <td class="description last">Current value of the setting. Default: #000000. See: ColorString.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>minimumValue</code></td>
+                <td class="name"><code>defaultValue</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">integer</span>
+<span class="param-type">ColorString</span>
 
 
             
@@ -192,41 +192,12 @@
             
                 <td class="default">
                 
-                    1
+                    #000000
                 
                 </td>
             
 
-            <td class="description last">Minimum value for this setting. Default: 1.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>maximumValue</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">integer</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    100
-                
-                </td>
-            
-
-            <td class="description last">Maximum value for this setting. Default: 100.</td>
+            <td class="description last">Default value of the setting. Default: #000000. See: ColorString.</td>
         </tr>
 
     
@@ -296,7 +267,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="settings_types.js.html">settings/types.js</a>, <a href="settings_types.js.html#line171">line 171</a>
+        <a href="settings_types.js.html">settings/types.js</a>, <a href="settings_types.js.html#line318">line 318</a>
     </li></ul></dd>
     
 
@@ -320,27 +291,17 @@
 
 
 <h5>Throws:</h5>
-<ul>
-        <li>
+
+        
 
     <div class="param-desc">
     
-        Error if value is outside the bounds defined by minimum and maximum.
+        Error if value or default value does not have a valid format.
     
     </div>
 
-</li>
-    
-        <li>
 
-    <div class="param-desc">
     
-        Error if the minimum value is greater than the maximum value.
-    
-    </div>
-
-</li>
-    </ul>
 
 
 
@@ -422,7 +383,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="settings_types.js.html">settings/types.js</a>, <a href="settings_types.js.html#line183">line 183</a>
+        <a href="settings_types.js.html">settings/types.js</a>, <a href="settings_types.js.html#line330">line 330</a>
     </li></ul></dd>
     
 
@@ -494,7 +455,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="settings_types.js.html">settings/types.js</a>, <a href="settings_types.js.html#line177">line 177</a>
+        <a href="settings_types.js.html">settings/types.js</a>, <a href="settings_types.js.html#line324">line 324</a>
     </li></ul></dd>
     
 
@@ -566,7 +527,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="settings_types.js.html">settings/types.js</a>, <a href="settings_types.js.html#line189">line 189</a>
+        <a href="settings_types.js.html">settings/types.js</a>, <a href="settings_types.js.html#line336">line 336</a>
     </li></ul></dd>
     
 
@@ -642,7 +603,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="settings_types.js.html">settings/types.js</a>, <a href="settings_types.js.html#line304">line 304</a>
+        <a href="settings_types.js.html">settings/types.js</a>, <a href="settings_types.js.html#line470">line 470</a>
     </li></ul></dd>
     
 
@@ -700,7 +661,7 @@
     
 
     
-    <h4 class="name" id="getValue"><span class="type-signature"></span>getValue<span class="signature">()</span><span class="type-signature"> &rarr; {integer}</span></h4>
+    <h4 class="name" id="getValue"><span class="type-signature"></span>getValue<span class="signature">()</span><span class="type-signature"> &rarr; {ColorString}</span></h4>
     
 
     
@@ -752,7 +713,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="settings_types.js.html">settings/types.js</a>, <a href="settings_types.js.html#line296">line 296</a>
+        <a href="settings_types.js.html">settings/types.js</a>, <a href="settings_types.js.html#line462">line 462</a>
     </li></ul></dd>
     
 
@@ -792,7 +753,7 @@
     </dt>
     <dd>
         
-<span class="param-type">integer</span>
+<span class="param-type">ColorString</span>
 
 
     </dd>

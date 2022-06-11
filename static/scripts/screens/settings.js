@@ -115,6 +115,19 @@ const SETTINGS_HTML = `
 	.settings-row input[type=number] {
 		width: 50px;
 	}
+
+	.settings-row input[type=color] {
+		width: 50px;
+	}
+	
+	.settings-row > span > div {
+		display: inline-block;
+		height: 25px;
+		cursor: pointer;
+		margin-left: 15px;
+		font-size: 1rem;
+		text-decoration: underline;
+	}
 </style>
 `;
 
