@@ -47,6 +47,10 @@ class ResultScreen extends Screen {
 		return {};
 	}
 
+	/**
+	 * Generates the performance chart that is displayed to the user.
+	 * @param {*} payload
+	 */
 	graphFunctions(payload) {
 		const chartConfig = this.getChartConfig(payload);
 		const graphParent = document.getElementById(
