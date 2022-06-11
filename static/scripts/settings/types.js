@@ -7,6 +7,13 @@
 import { SETTINGS_CHANGED, fireEvent } from "../events/bus.js";
 
 /**
+ * Regular expression that can test if a string is a {@link ColorString}
+ * @const
+ * @type {RegExp}
+ */
+const VALID_COLOR_STRING = /#[0-9A-Fa-f]{6}/;
+
+/**
  * Container for the label and input elements.
  * @typedef {object} SettingElement
  * @property {HTMLElement} label - The label element.
@@ -213,7 +220,7 @@ class IntegerSetting {
 	 */
 	#labelElement;
 	/**
-	 * Input element of type checkbox that can be used to change the value of the setting.
+	 * Input element of type number that can be used to change the value of the setting.
 	 * @type {HTMLElement}
 	 * @access private
 	 */
@@ -299,4 +306,170 @@ class IntegerSetting {
 	}
 }
 
-export { CheckboxSetting, IntegerSetting };
+/**
+ * String representing a color with format: #RRGGBB
+ * @typedef {string} ColorString
+ */
+
+/**
+ * Creates an color setting that can be changed by a color input box.
+ * @class
+ */
+class ColorSetting {
+	/**
+	 * Name of the setting.
+	 * @type {string}
+	 * @access public
+	 */
+	name;
+	/**
+	 * Text description of the setting.
+	 * @type {string}
+	 * @access public
+	 */
+	description;
+	/**
+	 * The group that the setting belongs to.
+	 * @type {string}
+	 * @access public
+	 */
+	settingsGroup;
+
+	/**
+	 * The current value of the setting.
+	 * @type {ColorString} - See {@link ColorString}
+	 * @access private
+	 */
+	#value;
+
+	/**
+	 * The default value of the setting.
+	 * @type {ColorString} - See {@link ColorString}
+	 * @access private
+	 */
+	#defaultValue;
+
+	/**
+	 * Object containing both the label and the input element.
+	 * @type {SettingElement}
+	 * @access private
+	 */
+	#element;
+	/**
+	 * Label element with the setting description.
+	 * @type {HTMLElement}
+	 * @access private
+	 */
+	#labelElement;
+	/**
+	 * Input element of type color that can be used to change the value of the setting.
+	 * @type {HTMLElement}
+	 * @access private
+	 */
+	#inputElement;
+
+	/**
+	 * Creates a new setting.
+	 * @param {string} name - Name of the setting.
+	 * @param {string} description - Text description of the setting.
+	 * @param {ColorString} value - Current value of the setting. Default: #000000. See: {@link ColorString}.
+	 * @param {ColorString} defaultValue - Default value of the setting. Default: #000000. See: {@link ColorString}.
+	 * @param {string} settingsGroup - Name of the group this setting belongs to.
+	 * @throws Error if value or default value does not have a valid format.
+	 */
+	constructor(
+		name,
+		description,
+		value = "#000000",
+		defaultValue = "#000000",
+		settingsGroup = "General"
+	) {
+		if (
+			!VALID_COLOR_STRING.test(value) ||
+			!VALID_COLOR_STRING.test(defaultValue)
+		) {
+			throw (
+				"Value or default value is not a ColorString, value: " +
+				value +
+				", default: " +
+				defaultValue
+			);
+		}
+
+		this.name = name;
+		this.description = description;
+		this.settingsGroup = settingsGroup;
+
+		this.#value = value;
+		this.#defaultValue = defaultValue;
+
+		const colorInput = document.createElement("input");
+		colorInput.setAttribute("type", "color");
+		colorInput.setAttribute("id", "setting-" + this.name);
+		colorInput.setAttribute("name", this.name);
+		colorInput.setAttribute("value", this.#value);
+
+		colorInput.addEventListener("input", (e) => {
+			document.querySelector(":root").style.setProperty(
+				this.name,
+				e.target.value
+			);
+		});
+
+		colorInput.addEventListener("change", (e) => {
+			this.#value = e.target.value;
+
+			fireEvent(SETTINGS_CHANGED, {
+				name: this.name,
+				value: this.#value,
+			});
+		});
+
+		const resetElement = document.createElement("div");
+		resetElement.innerHTML = "default";
+		resetElement.addEventListener("click", () => {
+			this.#value = this.#defaultValue;
+			document.querySelector(":root").style.setProperty(
+				this.name,
+				this.#value
+			);
+			colorInput.value = this.#value;
+
+			fireEvent(SETTINGS_CHANGED, {
+				name: this.name,
+				value: this.#value,
+			});
+		});
+
+		this.#inputElement = document.createElement("span");
+		this.#inputElement.appendChild(colorInput);
+		this.#inputElement.appendChild(resetElement);
+
+		this.#labelElement = document.createElement("label");
+		this.#labelElement.setAttribute("for", this.name);
+		this.#labelElement.innerHTML = this.description;
+
+		this.#element = {
+			label: this.#labelElement,
+			input: this.#inputElement,
+		};
+	}
+
+	/**
+	 * Gets the value of the setting.
+	 * @returns {ColorString} The current value.
+	 */
+	getValue() {
+		return this.#value;
+	}
+
+	/**
+	 *
+	 * @returns {SettingElement} The input and label elements: {@link SettingElement}
+	 */
+	getHTMLElements() {
+		return this.#element;
+	}
+}
+
+export { CheckboxSetting, IntegerSetting, ColorSetting };
