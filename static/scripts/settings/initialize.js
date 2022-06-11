@@ -113,6 +113,8 @@ const colors = [
 	["--warning-text", "Warning text", "#fffc00"],
 ];
 
+const rootStyle = document.querySelector(":root");
+
 for (let i = 0; i < colors.length; i++) {
 	const c = colors[i];
 
@@ -123,6 +125,8 @@ for (let i = 0; i < colors.length; i++) {
 		c[2],
 		"Theme::Colors"
 	);
+
+	rootStyle.style.setProperty(c[0], SETTINGS[c[0]].getValue());
 }
 
 export default SETTINGS;
