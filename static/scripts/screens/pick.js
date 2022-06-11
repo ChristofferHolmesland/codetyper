@@ -289,7 +289,7 @@ const PICK_SCREEN_HTML = `
 const CODE_SNIPPETS = [
 	{
 		language: "Bash",
-		code: `#!/bin/bashejrf9ijdfiogjiodfjgd oidjfiogjdfg jiodfjgoi jdfiog jdoifgjiod jfgiodjfgoidjfgio
+		code: `#!/bin/bash
 
 hello_world () {
 	echo 'Hello, World!'
