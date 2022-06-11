@@ -1,3 +1,10 @@
+/**
+ * @module index
+ * @requires screens:screens
+ * @requires events:bus
+ * @license GPL-3.0-only
+ */
+
 import {
 	PICK_SCREEN,
 	PROFILE_SCREEN,
@@ -6,8 +13,16 @@ import {
 } from "./screens/screens.js";
 import { CHANGE_SCREEN, addSubscriber } from "./events/bus.js";
 
+/**
+ * The current screen that is being shown to the user.
+ * @type {object}
+ */
 let currentScreen = undefined;
 
+/**
+ * Changes which screen is being displayed to the user.
+ * @param {Screen} newScreen - The new screen.
+ */
 function changeScreen(newScreen) {
 	let payload = undefined;
 

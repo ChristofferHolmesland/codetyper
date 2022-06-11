@@ -1,6 +1,16 @@
+/**
+ * @module screens:settingsscreen
+ * @requires settings:initialize
+ * @license GPL-3.0-only
+ */
+
 import Screen from "./screen.js";
 import Settings from "../settings/initialize.js";
 
+/**
+ * SettingsScreen lets the user edit their settings.
+ * @class
+ */
 class SettingsScreen extends Screen {
 	constructor(element) {
 		super("Settings", element, SETTINGS_HTML);

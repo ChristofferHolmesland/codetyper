@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: settings/types.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: settings/types.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module settings:types
+ * @requires events:bus
+ * @license GPL-3.0-only
+ */
+
+import { SETTINGS_CHANGED, fireEvent } from "../events/bus.js";
+
+/**
+ * Container for the label and input elements.
+ * @typedef {object} SettingElement
+ * @property {HTMLElement} label - The label element.
+ * @property {HTMLElement} input - The input element.
+ */
+
+/**
+ * Creates a setting that can be changed with a checkbox.
+ * @class
+ */
+class CheckboxSetting {
+	/**
+	 * Name of the setting.
+	 * @type {string}
+	 * @access public
+	 */
+	name;
+	/**
+	 * Text description of the setting.
+	 * @type {string}
+	 * @access public
+	 */
+	description;
+	/**
+	 * The group that the setting belongs to.
+	 * @type {string}
+	 * @access public
+	 */
+	settingsGroup;
+
+	/**
+	 * The current value of the setting.
+	 * @type {*}
+	 * @access private
+	 */
+	#value;
+	/**
+	 * The possible values that the setting can have.
+	 * @type {array&lt;*>}
+	 * @access private
+	 */
+	#names;
+
+	/**
+	 * Object containing both the label and the input element.
+	 * @type {SettingElement}
+	 * @access private
+	 */
+	#element;
+	/**
+	 * Label element with the setting description.
+	 * @type {HTMLElement}
+	 * @access private
+	 */
+	#labelElement;
+	/**
+	 * Input element of type checkbox that can be used to change the value of the setting.
+	 * @type {HTMLElement}
+	 * @access private
+	 */
+	#inputElement;
+
+	/**
+	 * Creates a new setting.
+	 * @param {string} name - Name of the setting.
+	 * @param {string} description - Text description of the setting.
+	 * @param {*} value - Current value of the setting. Default: false.
+	 * @param {array&lt;*>} names  - Array of length two that has the possible values of the setting. The first value is the unchecked value, the second value is the checked value. Default: [false, true].
+	 * @param {string} settingsGroup - Name of the group this setting belongs to.
+	 * @throws Error if value is not in names.
+	 * @throws Error if names it not an array of length 2.
+	 */
+	constructor(
+		name,
+		description,
+		value = false,
+		names = [false, true],
+		settingsGroup = "General"
+	) {
+		if (!names.includes(value)) {
+			throw "Got value that is not in names: " + value;
+		}
+
+		if (!Array.isArray(names) || names.length !== 2) {
+			throw (
+				"Invalid value for names argument. Expected array of length two, but got: " +
+				names
+			);
+		}
+
+		this.name = name;
+		this.description = description;
+		this.settingsGroup = settingsGroup;
+
+		this.#value = value;
+		this.#names = names;
+
+		this.#inputElement = document.createElement("input");
+		this.#inputElement.setAttribute("type", "checkbox");
+		this.#inputElement.setAttribute("id", "setting-" + this.name);
+		this.#inputElement.setAttribute("name", this.name);
+
+		if (this.#value === names[1]) {
+			this.#inputElement.setAttribute("checked", "");
+		}
+
+		this.#inputElement.addEventListener("change", (e) => {
+			if (e.target.checked) {
+				this.#value = this.#names[1];
+			} else {
+				this.#value = this.#names[0];
+			}
+
+			fireEvent(SETTINGS_CHANGED, {
+				name: this.name,
+				value: this.#value,
+			});
+		});
+
+		this.#labelElement = document.createElement("label");
+		this.#labelElement.setAttribute("for", this.name);
+		this.#labelElement.innerHTML = this.description;
+
+		this.#element = {
+			label: this.#labelElement,
+			input: this.#inputElement,
+		};
+	}
+
+	/**
+	 * Gets the value of the setting.
+	 * @returns {*} The current value.
+	 */
+	getValue() {
+		return this.#value;
+	}
+
+	/**
+	 *
+	 * @returns {SettingElement} The input and label elements: {@link SettingElement}
+	 */
+	getHTMLElements() {
+		return this.#element;
+	}
+}
+
+export { CheckboxSetting };
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="events_bus.html">events:bus</a></li><li><a href="firebase_initialize.html">firebase:initialize</a></li><li><a href="firebase_service.html">firebase:service</a></li><li><a href="github_api.html">github:api</a></li><li><a href="github_service.html">github:service</a></li><li><a href="module-index.html">index</a></li><li><a href="screens_AuthScreen.html">screens:AuthScreen</a></li><li><a href="screens_PickScreen.html">screens:PickScreen</a></li><li><a href="screens_ProfileScreen.html">screens:ProfileScreen</a></li><li><a href="screens_resultscreen.html">screens:resultscreen</a></li><li><a href="screens_screen.html">screens:screen</a></li><li><a href="screens_screens.html">screens:screens</a></li><li><a href="screens_settingsscreen.html">screens:settingsscreen</a></li><li><a href="screens_testscreen.html">screens:testscreen</a></li><li><a href="settings_initialize.html">settings:initialize</a></li><li><a href="settings_types.html">settings:types</a></li><li><a href="utils_code.html">utils:code</a></li></ul><h3>Classes</h3><ul><li><a href="screens_AuthScreen-AuthScreen.html">AuthScreen</a></li><li><a href="screens_PickScreen-PickScreen.html">PickScreen</a></li><li><a href="screens_ProfileScreen-ProfileScreen.html">ProfileScreen</a></li><li><a href="screens_resultscreen-ResultScreen.html">ResultScreen</a></li><li><a href="screens_screen-Screen.html">Screen</a></li><li><a href="screens_settingsscreen-SettingsScreen.html">SettingsScreen</a></li><li><a href="screens_testscreen-TestScreen.html">TestScreen</a></li><li><a href="settings_types-CheckboxSetting.html">CheckboxSetting</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a>
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

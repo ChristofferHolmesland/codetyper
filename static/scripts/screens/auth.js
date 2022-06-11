@@ -1,3 +1,12 @@
+/**
+ * @module screens:AuthScreen
+ * @requires screens:screens
+ * @requires screen:screen
+ * @requires events:bus
+ * @requires firebase:service
+ * @license GPL-3.0-only
+ */
+
 import { CHANGE_SCREEN, fireEvent } from "../events/bus.js";
 import {
 	githubSignInWithPopup,
@@ -9,11 +18,22 @@ import {
 import Screen from "./screen.js";
 import { getScreenObject, PROFILE_SCREEN } from "./screens.js";
 
+/**
+ * Screen that can be used to show a popup where the user can sign in or create a user.
+ * @class
+ */
 class AuthScreen extends Screen {
+	/**
+	 * Creates a new auth screen.
+	 * @param {HTMLElement} element - Root element
+	 */
 	constructor(element) {
 		super("Auth", element, AUTH_HTML);
 	}
 
+	/**
+	 * Shows the popup to the user.
+	 */
 	enter() {
 		this.screenContainer =
 			document.getElementById("screenContainer");
@@ -59,6 +79,9 @@ class AuthScreen extends Screen {
 		this.registerEventListeners();
 	}
 
+	/**
+	 * Add button click handlers.
+	 */
 	registerEventListeners() {
 		this.authForgotCredentials.addEventListener("click", () =>
 			this.openResetModal()
@@ -81,6 +104,9 @@ class AuthScreen extends Screen {
 		);
 	}
 
+	/**
+	 * Handles authentication with Google.
+	 */
 	googleAuthProvider() {
 		errorText.innerText = "";
 		this.toggleAuthProviderSpinner(this.googleProviderButton);
@@ -102,6 +128,9 @@ class AuthScreen extends Screen {
 			});
 	}
 
+	/**
+	 * Handles authentication with Github.
+	 */
 	githubAuthProvider() {
 		errorText.innerText = "";
 		this.toggleAuthProviderSpinner(this.githubProviderButton);
@@ -123,6 +152,9 @@ class AuthScreen extends Screen {
 			});
 	}
 
+	/**
+	 * Handles authentication with email and password.
+	 */
 	emailPasswordAuth() {
 		errorText.innerText = "";
 		const buttonText =
@@ -181,8 +213,10 @@ class AuthScreen extends Screen {
 		}
 	}
 
+	/**
+	 * Changes between login and signup mode.
+	 */
 	changeAuthenticationMode() {
-		// changes the mode between login & signup
 		if (this.authMode.value == "login") {
 			this.authMode.value = "signup";
 			this.modeTitle.innerText = "Sign up to Codetyper";
@@ -202,8 +236,11 @@ class AuthScreen extends Screen {
 		}
 	}
 
+	/**
+	 * Add/remove the loading spinner from the element.
+	 * @param {HTMLElement} element - Element where the spinner should be.
+	 */
 	toggleAuthProviderSpinner(element) {
-		// adds or removes the loading spinner
 		if (
 			element.firstElementChild.classList.contains(
 				"auth-button-spinner"
@@ -221,6 +258,11 @@ class AuthScreen extends Screen {
 		}
 	}
 
+	/**
+	 * Shows a spinner to indicate loading
+	 * @param {HTMLElement} element - Spinner element.
+	 * @param {string} text - Text to show.
+	 */
 	toggleSpinnerVisibility(element, text) {
 		if (!document.getElementById("loadingSpinner")) {
 			element.innerText = "";
@@ -234,8 +276,12 @@ class AuthScreen extends Screen {
 		}
 	}
 
+	/**
+	 * Shows a message from Firebase to the user.
+	 * @param {*} error - Message from Firebase.
+	 * @param {HTMLElement} element - Element to show the message in.
+	 */
 	displayFirebaseMessage(error, element) {
-		// displays a firebase message in the given element innerText
 		try {
 			var error = error.code
 				.replace("auth/", "")
@@ -248,11 +294,18 @@ class AuthScreen extends Screen {
 		}
 	}
 
+	/**
+	 * Shows an error message to the user.
+	 * @param {string} error - The error message.
+	 */
 	displayError(error) {
-		// displays any text in the errorText's innerHTML
 		this.errorText.innerHTML = error;
 	}
 
+	/**
+	 * Checks that the user entered a valid password.
+	 * @returns {boolean} true if the password is valid, false otherwise.
+	 */
 	validatePassword() {
 		if (this.password.value.length < 8) {
 			this.displayError(
@@ -275,6 +328,9 @@ class AuthScreen extends Screen {
 		return true;
 	}
 
+	/**
+	 * Opens the modal that lets the user reset their password.
+	 */
 	openResetModal() {
 		// removes the auth modal
 		this.modal.remove();
@@ -300,6 +356,9 @@ class AuthScreen extends Screen {
 		this.registerResetEventListeners();
 	}
 
+	/**
+	 * Adds event handlers to buttons.
+	 */
 	registerResetEventListeners() {
 		this.resetButton.addEventListener("click", () =>
 			this.sendResetEmail()
@@ -315,6 +374,9 @@ class AuthScreen extends Screen {
 		});
 	}
 
+	/**
+	 * Sends an email to the user where they can reset the password.
+	 */
 	sendResetEmail() {
 		this.toggleSpinnerVisibility(this.resetButton, "Send Email");
 		resetPassword(this.resetPasswordEmailInput.value)
@@ -338,9 +400,11 @@ class AuthScreen extends Screen {
 			});
 	}
 
+	/**
+	 * Hides the login popup.
+	 */
 	leave() {
 		this.modal.remove();
-		return;
 	}
 }
 

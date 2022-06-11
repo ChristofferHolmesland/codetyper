@@ -1,8 +1,20 @@
+/**
+ * @module screens:ProfileScreen
+ * @requires firebase:service
+ * @requires screens:screens
+ * @requires events:bus
+ * @license GPL-3.0-only
+ */
+
 import Screen from "./screen.js";
 import { getUser, signOut } from "../firebase/service.js";
 import { getScreenObject, AUTH_SCREEN, PICK_SCREEN } from "./screens.js";
 import { fireEvent, CHANGE_SCREEN } from "../events/bus.js";
 
+/**
+ * ProfileScreen is used to show the user their profile.
+ * @class
+ */
 class ProfileScreen extends Screen {
 	constructor(element) {
 		super("Profile", element, PROFILE_HTML);

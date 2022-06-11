@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: screens/pick.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: screens/pick.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module screens:PickScreen
+ * @requires screens:screens
+ * @requires screen:screen
+ * @requires events:bus
+ * @requires github:service
+ * @license GPL-3.0-only
+ */
+
+import Screen from "./screen.js";
+import { getScreenObject, TEST_SCREEN } from "./screens.js";
+import { fireEvent, CHANGE_SCREEN } from "../events/bus.js";
+import { getRandomGist } from "../github/service.js";
+
+/**
+ * PickScreen is used to let the user pick which test they want to do.
+ * @class
+ */
+class PickScreen extends Screen {
+	constructor(element) {
+		super("Pick!", element, PICK_SCREEN_HTML);
+	}
+
+	enter(payload) {
+		super.enter(payload);
+
+		this.lineLimitElement = document.getElementById("line_limit");
+		this.timeLimitElement = document.getElementById("time_limit");
+		this.addClearListener(this.lineLimitElement);
+		this.addClearListener(this.timeLimitElement);
+
+		this.setupButtons();
+		this.addGitHubLinkHandler();
+		this.addRandomGistHandler();
+		this.checkForTestParameter();
+	}
+
+	leave() {
+		let lineLimit = this.lineLimitElement.value;
+		if (lineLimit.length > 0) {
+			lineLimit = parseInt(lineLimit, 10);
+		} else {
+			lineLimit = -1;
+		}
+
+		let timeLimit = this.timeLimitElement.value;
+		if (timeLimit.length > 0) {
+			timeLimit = parseInt(timeLimit, 10);
+		} else {
+			timeLimit = false;
+		}
+
+		this.lineLimitElement = undefined;
+		this.timeLimitElement = undefined;
+
+		return {
+			code: this.code,
+			source: this.source,
+			language: this.language,
+			lineLimit: lineLimit,
+			timeLimit: timeLimit,
+		};
+	}
+
+	checkForTestParameter() {
+		const urlParams = new URLSearchParams(window.location.search);
+		const params = Object.fromEntries(urlParams.entries());
+
+		if (params.test === undefined) return;
+
+		this.code = decodeURIComponent(
+			escape(window.atob(params.test))
+		);
+		this.source = "External";
+		this.language = "Unknown";
+
+		fireEvent(CHANGE_SCREEN, getScreenObject(TEST_SCREEN));
+	}
+
+	addClearListener(element) {
+		element.addEventListener("input", (e) => {
+			if (e.target.value == "") {
+				element.style.width = "80px";
+			}
+		});
+	}
+
+	buttonClicked(index) {
+		this.source = "Codetyper";
+		this.code = CODE_SNIPPETS[index].code;
+		this.language = CODE_SNIPPETS[index].language;
+		fireEvent(CHANGE_SCREEN, getScreenObject(TEST_SCREEN));
+	}
+
+	setupButtons() {
+		const container = document.getElementById("actual-buttons");
+
+		for (let i = 0; i &lt; CODE_SNIPPETS.length; i++) {
+			const button = document.createElement("button");
+
+			button.classList.add("btn");
+			button.classList.add("github-btn");
+			button.innerHTML = CODE_SNIPPETS[i].language;
+
+			button.addEventListener("click", () =>
+				this.buttonClicked(i)
+			);
+
+			container.appendChild(button);
+		}
+	}
+
+	addRandomGistHandler() {
+		document.getElementById("random-gist-btn").addEventListener(
+			"click",
+			async () => {
+				// indicate loading
+				document.getElementById(
+					"github-btn"
+				).classList.add("is-loading");
+				// removing the span
+				document.getElementById(
+					"random-gist-btn"
+				).classList.add("is-loading");
+				// disabling inputs
+				[
+					...document.querySelectorAll(
+						"[id=line_limit]"
+					),
+					document.getElementById("github-input"),
+				].forEach((element) =>
+					element.setAttribute("disabled", "")
+				);
+				const gist = await getRandomGist();
+
+				console.log(gist);
+
+				this.language = gist.language;
+				this.source = `&lt;a href=${gist.raw_url} target="blank">Github&lt;/a>`;
+
+				fetch(gist.raw_url).then((response) => {
+					response.text().then((data) => {
+						this.code = data;
+						fireEvent(
+							CHANGE_SCREEN,
+							getScreenObject(
+								TEST_SCREEN
+							)
+						);
+					});
+				});
+				// regainging old state
+				document.getElementById(
+					"github-btn"
+				).classList.remove("is-loading");
+				document.getElementById(
+					"random-gist-btn"
+				).classList.remove("is-loading");
+				[
+					...document.querySelectorAll(
+						"[id=line_limit]"
+					),
+					document.getElementById("github-input"),
+				].forEach((element) =>
+					element.removeAttribute("disabled")
+				);
+			}
+		);
+	}
+
+	addGitHubLinkHandler() {
+		document.getElementById("github-btn").addEventListener(
+			"click",
+			() => {
+				var link =
+					document.getElementById(
+						"github-input"
+					).value;
+				if (link.length === 0) return;
+
+				if (
+					link.includes("github.com/") ||
+					link.includes("raw.githubusercontent")
+				) {
+					this.source = `&lt;a href=${link} target="blank">Github&lt;/a>`;
+					link = link
+						.replace(
+							"github.com",
+							"raw.githubusercontent.com"
+						)
+						.replace("/blob", "");
+
+					var extn = link
+						.split("/")
+						.pop()
+						.split(".")
+						.pop();
+
+					var langs = {
+						js: "Javascript",
+						py: "Python",
+						cs: "C#",
+						rs: "Rust",
+						html: "HTML",
+						css: "CSS",
+						cpp: "C++",
+						kt: "Kotlin",
+						md: "Markdown",
+						kts: "Kotlin",
+					};
+
+					if (extn in langs) {
+						this.language = langs[extn];
+					} else {
+						this.language =
+							extn
+								.charAt(0)
+								.toUpperCase() +
+							extn.slice(1);
+					}
+				}
+
+				fetch(link).then((response) => {
+					response.text().then((data) => {
+						this.code = data;
+						fireEvent(
+							CHANGE_SCREEN,
+							getScreenObject(
+								TEST_SCREEN
+							)
+						);
+					});
+				});
+			}
+		);
+	}
+}
+
+const PICK_SCREEN_HTML = `
+&lt;div id="selectDiv">
+&lt;div id="lang-buttons" class="lang-buttons">
+	&lt;p>Choose a language to start with&lt;/p>
+	&lt;br />
+	&lt;span id="actual-buttons" class="flex-row">&lt;/span>
+&lt;/div>
+&lt;br />
+&lt;div class="code-chooser">
+	&lt;input
+		id="github-input"
+		type="text"
+		placeholder="Or, enter Github link"
+	/>
+	&lt;button id="github-btn">
+        &lt;div class="github-btn-lsp">&lt;/div>
+		&lt;span class="material-icons-round">
+			arrow_right
+		&lt;/span>
+	&lt;/button>
+&lt;/div>
+&lt;div style="display: inline-block; margin-top: 15px;" class="code-chooser">
+&lt;div id="random-gist-btn">
+        &lt;span>Or, try some random code from Github&lt;/span>
+&lt;/div>
+&lt;/div>
+&lt;br />
+&lt;br />
+&lt;div id="limits">
+	&lt;label>Stop my test after&lt;/label>
+	&lt;input
+		id="line_limit"
+		min="1"
+		onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';"
+		placeholder="unlimited"
+		class="number-box"
+	/>
+	&lt;label>lines and&lt;/label>
+	&lt;input
+		id="time_limit"
+		min="1"
+		placeholder="unlimited"
+		onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';"
+		class="number-box"
+	/>
+	&lt;label>seconds.&lt;/label>
+&lt;/div>
+&lt;/div>
+`;
+
+const CODE_SNIPPETS = [
+	{
+		language: "Bash",
+		code: `#!/bin/bash
+
+hello_world () {
+	echo 'Hello, World!'
+}
+
+hello_world`,
+	},
+	{
+		language: "C",
+		code: `int main() {
+	printf("Hello, World!");
+	return 0;
+}`,
+	},
+	{
+		language: "C#",
+		code: `static void Main(string[] args) {
+	System.Console.WriteLine("Hello World!");
+}`,
+	},
+	{
+		language: "C++",
+		code: `int main() {
+	std::cout &lt;&lt; "Hello World!";
+	return 0;
+}`,
+	},
+	{
+		language: "Go",
+		code: `func main() {
+	fmt.Println("Hello, World!")
+}`,
+	},
+	{
+		language: "Java",
+		code: `public static void main(String[] args) {
+	String greeting = "Hello";
+	System.out.println(greeting);
+}`,
+	},
+	{
+		language: "JavaScript",
+		code: `function main() {
+	console.log("Hello, World!");
+};
+main();`,
+	},
+	{
+		language: "Kotlin",
+		code: `fun main() {
+	println("Hello, World!")
+}`,
+	},
+	{
+		language: "Python",
+		code: `if __name__ == "__main__":
+	print("Hello, world!")
+	print(" - Christoffer")`,
+	},
+	{
+		language: "Rust",
+		code: `fn main() {
+	println!("Hello World!");
+}`,
+	},
+];
+
+export default PickScreen;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="events_bus.html">events:bus</a></li><li><a href="firebase_initialize.html">firebase:initialize</a></li><li><a href="firebase_service.html">firebase:service</a></li><li><a href="github_api.html">github:api</a></li><li><a href="github_service.html">github:service</a></li><li><a href="module-index.html">index</a></li><li><a href="screens_AuthScreen.html">screens:AuthScreen</a></li><li><a href="screens_PickScreen.html">screens:PickScreen</a></li><li><a href="screens_ProfileScreen.html">screens:ProfileScreen</a></li><li><a href="screens_resultscreen.html">screens:resultscreen</a></li><li><a href="screens_screen.html">screens:screen</a></li><li><a href="screens_screens.html">screens:screens</a></li><li><a href="screens_settingsscreen.html">screens:settingsscreen</a></li><li><a href="screens_testscreen.html">screens:testscreen</a></li><li><a href="settings_initialize.html">settings:initialize</a></li><li><a href="settings_types.html">settings:types</a></li><li><a href="utils_code.html">utils:code</a></li></ul><h3>Classes</h3><ul><li><a href="screens_AuthScreen-AuthScreen.html">AuthScreen</a></li><li><a href="screens_PickScreen-PickScreen.html">PickScreen</a></li><li><a href="screens_ProfileScreen-ProfileScreen.html">ProfileScreen</a></li><li><a href="screens_resultscreen-ResultScreen.html">ResultScreen</a></li><li><a href="screens_screen-Screen.html">Screen</a></li><li><a href="screens_settingsscreen-SettingsScreen.html">SettingsScreen</a></li><li><a href="screens_testscreen-TestScreen.html">TestScreen</a></li><li><a href="settings_types-CheckboxSetting.html">CheckboxSetting</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a>
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
