@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: events/bus.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: events/bus.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module events:bus
+ * @license GPL-3.0-only
+ */
+
+/**
+ * CHANGE_SCREEN is used to indicate that the application should change the displayed screen.
+ * @const
+ * @type {string}
+ */
+const CHANGE_SCREEN = "changeScreen";
+/**
+ * GITHUB_LIMIT_WARNING is used to indicate that the user is getting close to hitting the GitHub API limit.
+ * @const
+ * @type {string}
+ */
+const GITHUB_LIMIT_WARNING = "githubLimitWarning";
+/**
+ * SETTINGS_CHANGED is used to indicate that the user changed one of their settings.
+ * @const
+ * @type {string}
+ */
+const SETTINGS_CHANGED = "settingsChanged";
+
+/**
+ * SUBSCRIBERS is an object which maps event names to a lists of subscribers to the events. Every event has to be added to this object before it can be used.
+ * @const
+ * @type {object}
+ */
+const SUBSCRIBERS = {};
+SUBSCRIBERS[CHANGE_SCREEN] = [];
+SUBSCRIBERS[GITHUB_LIMIT_WARNING] = [];
+SUBSCRIBERS[SETTINGS_CHANGED] = [];
+
+/**
+ * Adds a new subscriber to a specific function. When an event of type event is fired the handler function is called.
+ * @param {string} event 
+ * @param {function} handler 
+ * @throws Will throw an error if event is not a valid event.
+ */
+function addSubscriber(event, handler) {
+	if (SUBSCRIBERS[event] !== undefined) {
+		SUBSCRIBERS[event].push(handler);
+	} else {
+		throw (
+			"Tried adding handler to event that does not exist: " +
+			event
+		);
+	}
+}
+
+/**
+ * Removes a handler function from the event.
+ * @param {string} event 
+ * @param {function} handler 
+ * @returns {boolean} true if the handler was removed, false if it did not exist.
+ */
+function removeSubscriber(event, handler) {
+	if (
+		SUBSCRIBERS[event] !== undefined &amp;&amp;
+		SUBSCRIBERS[event].includes(handler)
+	) {
+		SUBSCRIBERS[event].splice(
+			SUBSCRIBERS[event].indexOf(handler),
+			1
+		);
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Triggers an event with the specified payload.
+ * @param {string} event 
+ * @param {object} payload 
+ * @throws Will throw an error if event is not a valid event.
+ */
+function fireEvent(event, payload) {
+	if (SUBSCRIBERS[event] !== undefined) {
+		for (let i = 0; i &lt; SUBSCRIBERS[event].length; i++) {
+			SUBSCRIBERS[event][i](payload);
+		}
+	} else {
+		throw "Fired event that does not exist: " + event;
+	}
+}
+
+export {
+	CHANGE_SCREEN,
+	GITHUB_LIMIT_WARNING,
+	SETTINGS_CHANGED,
+	addSubscriber,
+	removeSubscriber,
+	fireEvent,
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="events_bus.html">events:bus</a></li><li><a href="firebase_initialize.html">firebase:initialize</a></li><li><a href="firebase_service.html">firebase:service</a></li><li><a href="github_api.html">github:api</a></li><li><a href="github_service.html">github:service</a></li><li><a href="module-index.html">index</a></li><li><a href="screens_AuthScreen.html">screens:AuthScreen</a></li><li><a href="screens_PickScreen.html">screens:PickScreen</a></li><li><a href="screens_ProfileScreen.html">screens:ProfileScreen</a></li><li><a href="screens_resultscreen.html">screens:resultscreen</a></li><li><a href="screens_screen.html">screens:screen</a></li><li><a href="screens_screens.html">screens:screens</a></li><li><a href="screens_settingsscreen.html">screens:settingsscreen</a></li><li><a href="screens_testscreen.html">screens:testscreen</a></li><li><a href="settings_initialize.html">settings:initialize</a></li><li><a href="settings_types.html">settings:types</a></li><li><a href="utils_code.html">utils:code</a></li></ul><h3>Classes</h3><ul><li><a href="screens_AuthScreen-AuthScreen.html">AuthScreen</a></li><li><a href="screens_PickScreen-PickScreen.html">PickScreen</a></li><li><a href="screens_ProfileScreen-ProfileScreen.html">ProfileScreen</a></li><li><a href="screens_resultscreen-ResultScreen.html">ResultScreen</a></li><li><a href="screens_screen-Screen.html">Screen</a></li><li><a href="screens_settingsscreen-SettingsScreen.html">SettingsScreen</a></li><li><a href="screens_testscreen-TestScreen.html">TestScreen</a></li><li><a href="settings_types-CheckboxSetting.html">CheckboxSetting</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat Jun 11 2022 13:38:18 GMT+0200 (sentraleuropeisk sommertid)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

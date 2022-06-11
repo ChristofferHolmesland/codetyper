@@ -1,5 +1,15 @@
+/**
+ * @module screens:resultscreen
+ * @requires screens:screen
+ * @license GPL-3.0-only
+ */
+
 import Screen from "./screen.js";
 
+/**
+ * ResultScreen is used to show the result of a test to the user.
+ * @class
+ */
 class ResultScreen extends Screen {
 	constructor(element) {
 		super("Result!", element, RESULT_SCREEN_HTML);

@@ -1,17 +1,84 @@
+/**
+ * @module settings:types
+ * @requires events:bus
+ * @license GPL-3.0-only
+ */
+
 import { SETTINGS_CHANGED, fireEvent } from "../events/bus.js";
 
+/**
+ * Container for the label and input elements.
+ * @typedef {object} SettingElement
+ * @property {HTMLElement} label - The label element.
+ * @property {HTMLElement} input - The input element.
+ */
+
+/**
+ * Creates a setting that can be changed with a checkbox.
+ * @class
+ */
 class CheckboxSetting {
+	/**
+	 * Name of the setting.
+	 * @type {string}
+	 * @access public
+	 */
 	name;
+	/**
+	 * Text description of the setting.
+	 * @type {string}
+	 * @access public
+	 */
 	description;
+	/**
+	 * The group that the setting belongs to.
+	 * @type {string}
+	 * @access public
+	 */
 	settingsGroup;
 
+	/**
+	 * The current value of the setting.
+	 * @type {*}
+	 * @access private
+	 */
 	#value;
+	/**
+	 * The possible values that the setting can have.
+	 * @type {array<*>}
+	 * @access private
+	 */
 	#names;
 
+	/**
+	 * Object containing both the label and the input element.
+	 * @type {SettingElement}
+	 * @access private
+	 */
 	#element;
+	/**
+	 * Label element with the setting description.
+	 * @type {HTMLElement}
+	 * @access private
+	 */
 	#labelElement;
+	/**
+	 * Input element of type checkbox that can be used to change the value of the setting.
+	 * @type {HTMLElement}
+	 * @access private
+	 */
 	#inputElement;
 
+	/**
+	 * Creates a new setting.
+	 * @param {string} name - Name of the setting.
+	 * @param {string} description - Text description of the setting.
+	 * @param {*} value - Current value of the setting. Default: false.
+	 * @param {array<*>} names  - Array of length two that has the possible values of the setting. The first value is the unchecked value, the second value is the checked value. Default: [false, true].
+	 * @param {string} settingsGroup - Name of the group this setting belongs to.
+	 * @throws Error if value is not in names.
+	 * @throws Error if names it not an array of length 2.
+	 */
 	constructor(
 		name,
 		description,
@@ -69,10 +136,18 @@ class CheckboxSetting {
 		};
 	}
 
+	/**
+	 * Gets the value of the setting.
+	 * @returns {*} The current value.
+	 */
 	getValue() {
 		return this.#value;
 	}
 
+	/**
+	 * 
+	 * @returns {SettingElement} The input and label elements: {@link SettingElement}
+	 */
 	getHTMLElements() {
 		return this.#element;
 	}

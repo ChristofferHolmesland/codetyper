@@ -5,7 +5,8 @@
   "main": "index.html",
   "scripts": {
     "prettier": "npx prettier --write static/ && npx prettier --write index.html",
-    "tests": "npx cypress open"
+    "tests": "npx cypress open",
+    "generate-docs": "npx jsdoc -c ./jsdoc.json"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,7 @@
   "homepage": "https://github.com/ChristofferHolmesland/codetyper#readme",
   "devDependencies": {
     "cypress": "^8.5.0",
+    "jsdoc": "~3.6.10",
     "prettier": "^2.3.2"
   }
 }

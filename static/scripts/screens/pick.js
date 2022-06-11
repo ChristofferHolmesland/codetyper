@@ -1,8 +1,21 @@
+/**
+ * @module screens:PickScreen
+ * @requires screens:screens
+ * @requires screen:screen
+ * @requires events:bus
+ * @requires github:service
+ * @license GPL-3.0-only
+ */
+
 import Screen from "./screen.js";
 import { getScreenObject, TEST_SCREEN } from "./screens.js";
 import { fireEvent, CHANGE_SCREEN } from "../events/bus.js";
 import { getRandomGist } from "../github/service.js";
 
+/**
+ * PickScreen is used to let the user pick which test they want to do.
+ * @class
+ */
 class PickScreen extends Screen {
 	constructor(element) {
 		super("Pick!", element, PICK_SCREEN_HTML);

@@ -1,0 +1,23 @@
+{
+	"plugins": [],
+	"recurseDepth": 50,
+	"source": {
+		"include": ["static/scripts/"],
+		"includePattern": ".+\\.js(doc|x)?$",
+		"excludePattern": "(^|\\/|\\\\)_"
+	},
+	"sourceType": "module",
+	"tags": {
+		"allowUnknownTags": true,
+		"dictionaries": ["jsdoc","closure"]
+	},
+	"templates": {
+		"cleverLinks": false,
+		"monospaceLinks": false
+	},
+	"opts": {
+		"destination": "./docs",
+		"recurse": true,
+		"readme": "./README.md"
+	}
+    }

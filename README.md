@@ -36,8 +36,10 @@ $ python3 -m http.server
 ```bash
 # Format the code
 $ npm run prettier
+# Generate documentation
+$ npm run generate-docs
 # Run tests
 $ npm run tests
 ```
 
-Pull requests are only accepted if they pass every test and the code formatting is consistent.
+Pull requests are only accepted if they pass every test, the code formatting is consistent, and the documentation has been updated.
