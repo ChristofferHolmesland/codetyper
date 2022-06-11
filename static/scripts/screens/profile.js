@@ -9,7 +9,6 @@ class ProfileScreen extends Screen {
 	}
 
 	enter(payload) {
-
 		if (getUser() === undefined) {
 			fireEvent(CHANGE_SCREEN, getScreenObject(AUTH_SCREEN));
 			return;

@@ -1,273 +1,347 @@
 import { CHANGE_SCREEN, fireEvent } from "../events/bus.js";
-import { githubSignInWithPopup, googleSignInWithPopup, resetPassword, signIn, signUp } from "../firebase/service.js";
+import {
+	githubSignInWithPopup,
+	googleSignInWithPopup,
+	resetPassword,
+	signIn,
+	signUp,
+} from "../firebase/service.js";
 import Screen from "./screen.js";
 import { getScreenObject, PROFILE_SCREEN } from "./screens.js";
 
 class AuthScreen extends Screen {
+	constructor(element) {
+		super("Auth", element, AUTH_HTML);
+	}
 
-        constructor(element) {
-                super("Auth", element, AUTH_HTML);
-        }
+	enter() {
+		this.screenContainer =
+			document.getElementById("screenContainer");
+		this.screenContainer.innerHTML += AUTH_HTML;
 
-        enter() {
+		this.modal = document.getElementById("authModal");
+		this.closeModalButton =
+			document.getElementById("authModalCancel");
 
-                this.screenContainer = document.getElementById("screenContainer");
-                this.screenContainer.innerHTML += AUTH_HTML;
+		this.authMode = document.getElementById("authMode");
+		this.modeTitle = document.getElementById("authModeTitle");
+		this.modeSwitchText =
+			document.getElementById("authModeSwitchText");
+		this.modeSwitchButton = document.getElementById(
+			"authModeSwitchButton"
+		);
 
-                this.modal = document.getElementById("authModal");
-                this.closeModalButton = document.getElementById("authModalCancel");
+		this.authButton = document.getElementById("authButton");
+		this.authForgotCredentials = document.getElementById(
+			"authForgotCredential"
+		);
 
-                this.authMode = document.getElementById("authMode");
-                this.modeTitle = document.getElementById("authModeTitle");
-                this.modeSwitchText = document.getElementById("authModeSwitchText");
-                this.modeSwitchButton = document.getElementById("authModeSwitchButton");
+		this.authSpinner = document.createElement("DIV");
+		this.authSpinner.classList.add("auth-button-spinner");
+		this.authSpinner.setAttribute("id", "loadingSpinner");
 
-                this.authButton = document.getElementById("authButton");
-                this.authForgotCredentials = document.getElementById("authForgotCredential");
+		this.errorText = document.getElementById("errorText");
 
-                this.authSpinner = document.createElement("DIV");
-                this.authSpinner.classList.add("auth-button-spinner");
-                this.authSpinner.setAttribute("id", "loadingSpinner");
+		this.password = document.getElementById("passwordInput");
+		this.email = document.getElementById("emailInput");
 
-                this.errorText = document.getElementById("errorText");
+		this.googleProviderButton = document.getElementById(
+			"googleAuthProviderButton"
+		);
+		this.githubProviderButton = document.getElementById(
+			"githubAuthProviderButton"
+		);
 
-                this.password = document.getElementById("passwordInput");
-                this.email = document.getElementById("emailInput");
+		this.authForgotCredentials = document.getElementById(
+			"authForgotCredential"
+		);
 
-                this.googleProviderButton = document.getElementById("googleAuthProviderButton");
-                this.githubProviderButton = document.getElementById("githubAuthProviderButton");
+		this.registerEventListeners();
+	}
 
-                this.authForgotCredentials = document.getElementById("authForgotCredential");
+	registerEventListeners() {
+		this.authForgotCredentials.addEventListener("click", () =>
+			this.openResetModal()
+		);
 
-                this.registerEventListeners();
-        }
+		this.modeSwitchButton.addEventListener("click", () =>
+			this.changeAuthenticationMode()
+		);
+		this.closeModalButton.addEventListener("click", () =>
+			this.leave()
+		);
+		this.authButton.addEventListener("click", () =>
+			this.emailPasswordAuth()
+		);
+		this.googleProviderButton.addEventListener("click", () =>
+			this.googleAuthProvider()
+		);
+		this.githubProviderButton.addEventListener("click", () =>
+			this.githubAuthProvider()
+		);
+	}
 
-        registerEventListeners() {
-                this.authForgotCredentials.addEventListener(
-                        "click",
-                        () => this.openResetModal()
-                );
+	googleAuthProvider() {
+		errorText.innerText = "";
+		this.toggleAuthProviderSpinner(this.googleProviderButton);
+		googleSignInWithPopup()
+			.then((_) => {
+				fireEvent(
+					CHANGE_SCREEN,
+					getScreenObject(PROFILE_SCREEN)
+				);
+			})
+			.catch((error) => {
+				this.displayFirebaseMessage(
+					error,
+					this.errorText
+				);
+				this.toggleAuthProviderSpinner(
+					this.googleProviderButton
+				);
+			});
+	}
 
-                this.modeSwitchButton.addEventListener(
-                        "click",
-                        () => this.changeAuthenticationMode()
-                );
-                this.closeModalButton.addEventListener(
-                        "click",
-                        () => this.leave()
-                );
-                this.authButton.addEventListener(
-                        "click",
-                        () => this.emailPasswordAuth()
-                );
-                this.googleProviderButton.addEventListener(
-                        "click",
-                        () => this.googleAuthProvider()
-                );
-                this.githubProviderButton.addEventListener(
-                        "click",
-                        () => this.githubAuthProvider()
-                );
-        }
+	githubAuthProvider() {
+		errorText.innerText = "";
+		this.toggleAuthProviderSpinner(this.githubProviderButton);
+		githubSignInWithPopup()
+			.then((_) => {
+				fireEvent(
+					CHANGE_SCREEN,
+					getScreenObject(PROFILE_SCREEN)
+				);
+			})
+			.catch((error) => {
+				this.displayFirebaseMessage(
+					error,
+					this.errorText
+				);
+				this.toggleAuthProviderSpinner(
+					this.githubProviderButton
+				);
+			});
+	}
 
-        googleAuthProvider() {
-                errorText.innerText = "";
-                this.toggleAuthProviderSpinner(this.googleProviderButton);
-                googleSignInWithPopup().then((_) => {
-                        fireEvent(
-                                CHANGE_SCREEN,
-                                getScreenObject(PROFILE_SCREEN)
-                        );
-                })
-                        .catch((error) => {
-                                this.displayFirebaseMessage(error, this.errorText);
-                                this.toggleAuthProviderSpinner(this.googleProviderButton);
-                        });
-        }
+	emailPasswordAuth() {
+		errorText.innerText = "";
+		const buttonText =
+			this.authMode.value == "login" ? "Log in" : "Sign up";
+		this.toggleSpinnerVisibility(this.authButton, buttonText);
+		if (!this.validatePassword())
+			this.toggleSpinnerVisibility(
+				this.authButton,
+				buttonText
+			);
+		if (this.authMode.value == "login") {
+			signIn(this.email.value, this.password.value)
+				.then((_) => {
+					fireEvent(
+						CHANGE_SCREEN,
+						getScreenObject(PROFILE_SCREEN)
+					);
+				})
+				.catch((error) => {
+					this.displayFirebaseMessage(
+						error,
+						this.errorText
+					);
+					this.toggleSpinnerVisibility(
+						this.authButton,
+						buttonText
+					);
+				});
+		} else if (this.authMode.value == "signup") {
+			signUp(this.email.value, this.password.value)
+				.then((_) => {
+					fireEvent(
+						CHANGE_SCREEN,
+						getScreenObject(PROFILE_SCREEN)
+					);
+				})
+				.catch((error) => {
+					this.displayFirebaseMessage(
+						error,
+						this.errorText
+					);
+					this.toggleSpinnerVisibility(
+						this.authButton,
+						buttonText
+					);
+				});
+		} else {
+			this.displayFirebaseMessage(
+				"Unknown mode",
+				this.errorText
+			);
+			this.toggleSpinnerVisibility(
+				this.authButton,
+				buttonText
+			);
+		}
+	}
 
-        githubAuthProvider() {
-                errorText.innerText = "";
-                this.toggleAuthProviderSpinner(this.githubProviderButton);
-                githubSignInWithPopup().then((_) => {
-                        fireEvent(
-                                CHANGE_SCREEN,
-                                getScreenObject(PROFILE_SCREEN)
-                        );
-                })
-                        .catch((error) => {
-                                this.displayFirebaseMessage(error, this.errorText);
-                                this.toggleAuthProviderSpinner(this.githubProviderButton);
-                        });
-        }
+	changeAuthenticationMode() {
+		// changes the mode between login & signup
+		if (this.authMode.value == "login") {
+			this.authMode.value = "signup";
+			this.modeTitle.innerText = "Sign up to Codetyper";
+			this.modeSwitchText.innerText =
+				"Already have an account?";
+			this.modeSwitchButton.innerText = "Login";
+			this.authButton.innerText = "Sign up";
+			this.authForgotCredentials.style.display = "none";
+		} else {
+			this.authMode.value = "login";
+			this.modeTitle.innerText = "Login to Codetyper";
+			this.modeSwitchText.innerText =
+				"Don't have an account?";
+			this.modeSwitchButton.innerText = "Signup";
+			this.authButton.innerText = "Log in";
+			this.authForgotCredentials.style.display = "block";
+		}
+	}
 
-        emailPasswordAuth() {
-                errorText.innerText = "";
-                const buttonText = this.authMode.value == "login" ? "Log in" : "Sign up";
-                this.toggleSpinnerVisibility(this.authButton, buttonText);
-                if (!this.validatePassword()) this.toggleSpinnerVisibility(this.authButton, buttonText);
-                if (this.authMode.value == "login") {
-                        signIn(this.email.value, this.password.value)
-                                .then((_) => {
-                                        fireEvent(
-                                                CHANGE_SCREEN,
-                                                getScreenObject(PROFILE_SCREEN)
-                                        );
-                                })
-                                .catch((error) => {
-                                        this.displayFirebaseMessage(error, this.errorText);
-                                        this.toggleSpinnerVisibility(this.authButton, buttonText);
-                                }
-                                );
+	toggleAuthProviderSpinner(element) {
+		// adds or removes the loading spinner
+		if (
+			element.firstElementChild.classList.contains(
+				"auth-button-spinner"
+			)
+		) {
+			element.firstElementChild.classList.remove(
+				"auth-button-spinner"
+			);
+			element.lastElementChild.style.display = "block";
+		} else {
+			element.firstElementChild.classList.add(
+				"auth-button-spinner"
+			);
+			element.lastElementChild.style.display = "none";
+		}
+	}
 
-                } else if (this.authMode.value == "signup") {
-                        signUp(this.email.value, this.password.value)
-                                .then((_) => {
-                                        fireEvent(
-                                                CHANGE_SCREEN,
-                                                getScreenObject(PROFILE_SCREEN)
-                                        );
-                                })
-                                .catch((error) => {
-                                        this.displayFirebaseMessage(error, this.errorText);
-                                        this.toggleSpinnerVisibility(this.authButton, buttonText);
-                                });
-                } else {
-                        this.displayFirebaseMessage("Unknown mode", this.errorText);
-                        this.toggleSpinnerVisibility(this.authButton, buttonText);
-                }
-        }
+	toggleSpinnerVisibility(element, text) {
+		if (!document.getElementById("loadingSpinner")) {
+			element.innerText = "";
+			element.insertAdjacentElement(
+				"afterbegin",
+				this.authSpinner
+			);
+		} else {
+			element.removeChild(element.lastChild);
+			element.innerText = text;
+		}
+	}
 
-        changeAuthenticationMode() {
-                // changes the mode between login & signup
-                if (this.authMode.value == "login") {
-                        this.authMode.value = "signup";
-                        this.modeTitle.innerText = "Sign up to Codetyper";
-                        this.modeSwitchText.innerText = "Already have an account?";
-                        this.modeSwitchButton.innerText = "Login";
-                        this.authButton.innerText = "Sign up";
-                        this.authForgotCredentials.style.display = 'none';
-                } else {
-                        this.authMode.value = "login";
-                        this.modeTitle.innerText = "Login to Codetyper";
-                        this.modeSwitchText.innerText = "Don't have an account?";
-                        this.modeSwitchButton.innerText = "Signup";
-                        this.authButton.innerText = "Log in";
-                        this.authForgotCredentials.style.display = 'block';
-                }
-        }
+	displayFirebaseMessage(error, element) {
+		// displays a firebase message in the given element innerText
+		try {
+			var error = error.code
+				.replace("auth/", "")
+				.split("-")
+				.join(" ");
+			element.innerText =
+				error.charAt(0).toUpperCase() + error.slice(1);
+		} catch {
+			console.log(error);
+		}
+	}
 
-        toggleAuthProviderSpinner(element) {
-                // adds or removes the loading spinner
-                if (element.firstElementChild.classList.contains("auth-button-spinner")) {
-                        element.firstElementChild.classList.remove("auth-button-spinner");
-                        element.lastElementChild.style.display = 'block';
-                } else {
-                        element.firstElementChild.classList.add("auth-button-spinner");
-                        element.lastElementChild.style.display = 'none';
-                }
+	displayError(error) {
+		// displays any text in the errorText's innerHTML
+		this.errorText.innerHTML = error;
+	}
 
-        }
+	validatePassword() {
+		if (this.password.value.length < 8) {
+			this.displayError(
+				"Your password must be at least 8 characters"
+			);
+			return false;
+		}
+		if (this.password.value.search(/[a-z]/i) < 0) {
+			this.displayError(
+				"Your password must contain at least one letter."
+			);
+			return false;
+		}
+		if (this.password.value.search(/[0-9]/) < 0) {
+			this.displayError(
+				"Your password must contain at least one digit."
+			);
+			return false;
+		}
+		return true;
+	}
 
-        toggleSpinnerVisibility(element, text) {
-                if (!document.getElementById("loadingSpinner")) {
-                        element.innerText = "";
-                        element.insertAdjacentElement('afterbegin', this.authSpinner);
-                } else {
-                        element.removeChild(element.lastChild);
-                        element.innerText = text;
-                }
-        }
+	openResetModal() {
+		// removes the auth modal
+		this.modal.remove();
+		this.screenContainer.innerHTML += RESET_HTML;
 
-        displayFirebaseMessage(error, element) {
-                // displays a firebase message in the given element innerText
-                try {
-                        var error = error.code.replace("auth/", "").split("-").join(" ");
-                        element.innerText = error.charAt(0).toUpperCase() + error.slice(1);
-                } catch {
-                        console.log(error);
-                }
-        }
+		this.resetModal = document.getElementById("resetModal");
 
-        displayError(error) {
-                // displays any text in the errorText's innerHTML
-                this.errorText.innerHTML = error;
-        }
+		this.resetPasswordEmailInput = document.getElementById(
+			"resetPasswordEmailInput"
+		);
 
-        validatePassword() {
-                if (this.password.value.length < 8) {
-                        this.displayError("Your password must be at least 8 characters");
-                        return false;
-                }
-                if (this.password.value.search(/[a-z]/i) < 0) {
-                        this.displayError("Your password must contain at least one letter.");
-                        return false;
-                }
-                if (this.password.value.search(/[0-9]/) < 0) {
-                        this.displayError("Your password must contain at least one digit.");
-                        return false;
-                }
-                return true;
-        }
+		// in case we had an email filled in the email input we directoy refill it here
+		this.resetPasswordEmailInput.value = this.email.value;
 
-        openResetModal() {
-                // removes the auth modal
-                this.modal.remove();
-                this.screenContainer.innerHTML += RESET_HTML;
+		this.resetButton = document.getElementById("resetButton");
+		this.resetMessage = document.getElementById("resetMessage");
 
-                this.resetModal = document.getElementById("resetModal");
+		this.resetCancelButton =
+			document.getElementById("resetModalCancel");
+		this.backToLoginButton =
+			document.getElementById("resetBackToLogin");
 
-                this.resetPasswordEmailInput = document.getElementById("resetPasswordEmailInput");
+		this.registerResetEventListeners();
+	}
 
-                // in case we had an email filled in the email input we directoy refill it here
-                this.resetPasswordEmailInput.value = this.email.value;
+	registerResetEventListeners() {
+		this.resetButton.addEventListener("click", () =>
+			this.sendResetEmail()
+		);
 
-                this.resetButton = document.getElementById("resetButton");
-                this.resetMessage = document.getElementById("resetMessage");
+		this.backToLoginButton.addEventListener("click", () => {
+			this.resetModal.remove();
+			this.enter();
+		});
 
-                this.resetCancelButton = document.getElementById("resetModalCancel");
-                this.backToLoginButton = document.getElementById("resetBackToLogin");
+		this.resetCancelButton.addEventListener("click", () => {
+			this.resetModal.remove();
+		});
+	}
 
-                this.registerResetEventListeners();
-        }
-        
-        registerResetEventListeners() {
-                this.resetButton.addEventListener(
-                        "click",
-                        () => this.sendResetEmail()
-                )
+	sendResetEmail() {
+		this.toggleSpinnerVisibility(this.resetButton, "Send Email");
+		resetPassword(this.resetPasswordEmailInput.value)
+			.then(() => {
+				this.resetMessage.innerText =
+					"Email Sent Successfully";
+				this.toggleSpinnerVisibility(
+					this.resetButton,
+					"Sent"
+				);
+			})
+			.catch((error) => {
+				this.displayFirebaseMessage(
+					error,
+					this.resetMessage
+				);
+				this.toggleSpinnerVisibility(
+					this.resetButton,
+					"Send Email"
+				);
+			});
+	}
 
-                this.backToLoginButton.addEventListener(
-                        "click",
-                        () => {
-                                this.resetModal.remove();
-                                this.enter();
-                        });
-
-                this.resetCancelButton.addEventListener(
-                        "click",
-                        () => {
-                                this.resetModal.remove();
-                        });
-        }
-        
-        sendResetEmail() {
-
-                this.toggleSpinnerVisibility(this.resetButton, "Send Email");
-                        resetPassword(this.resetPasswordEmailInput.value).then(() => {
-                                this.resetMessage.innerText = "Email Sent Successfully";
-                                this.toggleSpinnerVisibility(this.resetButton, "Sent");
-                        }
-                        )
-                                .catch((error) => {
-                                        this.displayFirebaseMessage(error, this.resetMessage);
-                                        this.toggleSpinnerVisibility(this.resetButton, "Send Email");
-                                });
-        }
-
-        leave() {
-                this.modal.remove();
-                return;
-        }
+	leave() {
+		this.modal.remove();
+		return;
+	}
 }
 
 const AUTH_HTML = `

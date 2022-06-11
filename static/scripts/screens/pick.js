@@ -101,12 +101,23 @@ class PickScreen extends Screen {
 		document.getElementById("random-gist-btn").addEventListener(
 			"click",
 			async () => {
-                                // indicate loading
-                                document.getElementById("github-btn").classList.add("is-loading");
-                                // removing the span
-                                document.getElementById("random-gist-btn").classList.add("is-loading");
-                                // disabling inputs
-                                [...document.querySelectorAll('[id=line_limit]'),  document.getElementById("github-input")].forEach(element => element.setAttribute("disabled",""),);
+				// indicate loading
+				document.getElementById(
+					"github-btn"
+				).classList.add("is-loading");
+				// removing the span
+				document.getElementById(
+					"random-gist-btn"
+				).classList.add("is-loading");
+				// disabling inputs
+				[
+					...document.querySelectorAll(
+						"[id=line_limit]"
+					),
+					document.getElementById("github-input"),
+				].forEach((element) =>
+					element.setAttribute("disabled", "")
+				);
 				const gist = await getRandomGist();
 
 				console.log(gist);
@@ -125,10 +136,21 @@ class PickScreen extends Screen {
 						);
 					});
 				});
-                                // regainging old state
-                                document.getElementById("github-btn").classList.remove("is-loading");
-                                document.getElementById("random-gist-btn").classList.remove("is-loading");
-                                [...document.querySelectorAll('[id=line_limit]'), document.getElementById("github-input")].forEach(element => element.removeAttribute("disabled"),);
+				// regainging old state
+				document.getElementById(
+					"github-btn"
+				).classList.remove("is-loading");
+				document.getElementById(
+					"random-gist-btn"
+				).classList.remove("is-loading");
+				[
+					...document.querySelectorAll(
+						"[id=line_limit]"
+					),
+					document.getElementById("github-input"),
+				].forEach((element) =>
+					element.removeAttribute("disabled")
+				);
 			}
 		);
 	}
