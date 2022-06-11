@@ -1,6 +1,6 @@
 import Screen from "./screen.js";
 import { getUser, signOut } from "../firebase/service.js";
-import { getScreenObject, LOGIN_SCREEN } from "./screens.js";
+import { getScreenObject, AUTH_SCREEN, PICK_SCREEN } from "./screens.js";
 import { fireEvent, CHANGE_SCREEN } from "../events/bus.js";
 
 class ProfileScreen extends Screen {
@@ -9,12 +9,13 @@ class ProfileScreen extends Screen {
 	}
 
 	enter(payload) {
-		super.enter(payload);
 
 		if (getUser() === undefined) {
-			fireEvent(CHANGE_SCREEN, getScreenObject(LOGIN_SCREEN));
+			fireEvent(CHANGE_SCREEN, getScreenObject(AUTH_SCREEN));
 			return;
 		}
+
+		super.enter(payload);
 
 		document.getElementById("userEmail").innerHTML =
 			getUser().email;
@@ -26,7 +27,7 @@ class ProfileScreen extends Screen {
 
 	doSignOut() {
 		signOut();
-		fireEvent(CHANGE_SCREEN, getScreenObject(LOGIN_SCREEN));
+		fireEvent(CHANGE_SCREEN, getScreenObject(PICK_SCREEN));
 	}
 
 	leave() {
