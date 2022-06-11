@@ -96,6 +96,11 @@ class ResultScreen extends Screen {
 		graphCanvasDOM.style.width = "20vw";
 	}
 
+	/**
+	 * Generates data for the chart.
+	 * @param {*} payload
+	 * @returns {object} The chart data.
+	 */
 	getChartConfig(payload) {
 		const data = {
 			labels: payload.wpmData.labels,
