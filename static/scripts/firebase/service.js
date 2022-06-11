@@ -17,8 +17,8 @@ import { auth } from "./initialize.js";
 /**
  * Logs the user in to Firebase.
  * @async
- * @param {string} email 
- * @param {string} password 
+ * @param {string} email
+ * @param {string} password
  * @returns {Promise<*>} Promise that resolves when the user is logged in.
  */
 async function signIn(email, password) {
@@ -28,8 +28,8 @@ async function signIn(email, password) {
 /**
  * Creates the user in Firebase.
  * @async
- * @param {string} email 
- * @param {string} password 
+ * @param {string} email
+ * @param {string} password
  * @returns {Promise<*>} Promise that resolves when the user is logged in.
  */
 async function signUp(email, password) {
@@ -46,7 +46,7 @@ async function signOut() {
 
 /**
  * Sends an email to the user where they can reset their password.
- * @param {string} email 
+ * @param {string} email
  * @returns {Promise<*>} Promise that resolves when the email is sent.
  */
 async function resetPassword(email) {

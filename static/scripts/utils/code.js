@@ -89,8 +89,8 @@ function decodeHtml(html) {
 
 /**
  * Checks if two arrays contain the same elements and are the same length.
- * @param {array<*>} a1 
- * @param {array<*>} a2 
+ * @param {array<*>} a1
+ * @param {array<*>} a2
  * @returns {boolean} true if they are equal, false otherwise.
  */
 function isArrayEqual(a1, a2) {

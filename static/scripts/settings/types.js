@@ -145,7 +145,7 @@ class CheckboxSetting {
 	}
 
 	/**
-	 * 
+	 *
 	 * @returns {SettingElement} The input and label elements: {@link SettingElement}
 	 */
 	getHTMLElements() {

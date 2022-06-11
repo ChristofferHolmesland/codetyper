@@ -34,8 +34,8 @@ SUBSCRIBERS[SETTINGS_CHANGED] = [];
 
 /**
  * Adds a new subscriber to a specific function. When an event of type event is fired the handler function is called.
- * @param {string} event 
- * @param {function} handler 
+ * @param {string} event
+ * @param {function} handler
  * @throws Will throw an error if event is not a valid event.
  */
 function addSubscriber(event, handler) {
@@ -51,8 +51,8 @@ function addSubscriber(event, handler) {
 
 /**
  * Removes a handler function from the event.
- * @param {string} event 
- * @param {function} handler 
+ * @param {string} event
+ * @param {function} handler
  * @returns {boolean} true if the handler was removed, false if it did not exist.
  */
 function removeSubscriber(event, handler) {
@@ -72,8 +72,8 @@ function removeSubscriber(event, handler) {
 
 /**
  * Triggers an event with the specified payload.
- * @param {string} event 
- * @param {object} payload 
+ * @param {string} event
+ * @param {object} payload
  * @throws Will throw an error if event is not a valid event.
  */
 function fireEvent(event, payload) {

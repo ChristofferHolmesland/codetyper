@@ -25,7 +25,7 @@ import { getScreenObject, PROFILE_SCREEN } from "./screens.js";
 class AuthScreen extends Screen {
 	/**
 	 * Creates a new auth screen.
-	 * @param {HTMLElement} element - Root element 
+	 * @param {HTMLElement} element - Root element
 	 */
 	constructor(element) {
 		super("Auth", element, AUTH_HTML);
@@ -103,7 +103,7 @@ class AuthScreen extends Screen {
 			this.githubAuthProvider()
 		);
 	}
-	
+
 	/**
 	 * Handles authentication with Google.
 	 */
