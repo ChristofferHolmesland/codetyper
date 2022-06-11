@@ -44,6 +44,7 @@ import {
 	avgWordLength,
 	decodeHtml,
 } from "../utils/code.js";
+import Settings from "../settings/initialize.js";
 
 /**
  * TestScreen is used to show a coding test to the user.
@@ -315,7 +316,28 @@ class TestScreen extends Screen {
 			"active"
 		);
 
+		if (!Settings.codeWrapping.getValue()) {
+			this.scrollCharactersIntoView();
+		}
+
 		return false;
+	}
+
+	/**
+	 * Updates the characters that are shown on the current line so that more of them are visible to the user.
+	 */
+	scrollCharactersIntoView() {
+		let element = this.allCharacters[this.characterProgress];
+		for (
+			let i = 0;
+			i &lt; Settings.codeWrappingCharacters.getValue();
+			i++
+		) {
+			if (element.nextSibling === null) break;
+			element = element.nextSibling;
+		}
+
+		element.scrollIntoView();
 	}
 
 	handleBackspaceKey() {
@@ -498,7 +520,7 @@ export default TestScreen;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="events_bus.html">events:bus</a></li><li><a href="firebase_initialize.html">firebase:initialize</a></li><li><a href="firebase_service.html">firebase:service</a></li><li><a href="github_api.html">github:api</a></li><li><a href="github_service.html">github:service</a></li><li><a href="module-index.html">index</a></li><li><a href="screens_AuthScreen.html">screens:AuthScreen</a></li><li><a href="screens_PickScreen.html">screens:PickScreen</a></li><li><a href="screens_ProfileScreen.html">screens:ProfileScreen</a></li><li><a href="screens_resultscreen.html">screens:resultscreen</a></li><li><a href="screens_screen.html">screens:screen</a></li><li><a href="screens_screens.html">screens:screens</a></li><li><a href="screens_settingsscreen.html">screens:settingsscreen</a></li><li><a href="screens_testscreen.html">screens:testscreen</a></li><li><a href="settings_initialize.html">settings:initialize</a></li><li><a href="settings_types.html">settings:types</a></li><li><a href="utils_code.html">utils:code</a></li></ul><h3>Classes</h3><ul><li><a href="screens_AuthScreen-AuthScreen.html">AuthScreen</a></li><li><a href="screens_PickScreen-PickScreen.html">PickScreen</a></li><li><a href="screens_ProfileScreen-ProfileScreen.html">ProfileScreen</a></li><li><a href="screens_resultscreen-ResultScreen.html">ResultScreen</a></li><li><a href="screens_screen-Screen.html">Screen</a></li><li><a href="screens_settingsscreen-SettingsScreen.html">SettingsScreen</a></li><li><a href="screens_testscreen-TestScreen.html">TestScreen</a></li><li><a href="settings_types-CheckboxSetting.html">CheckboxSetting</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="events_bus.html">events:bus</a></li><li><a href="firebase_initialize.html">firebase:initialize</a></li><li><a href="firebase_service.html">firebase:service</a></li><li><a href="github_api.html">github:api</a></li><li><a href="github_service.html">github:service</a></li><li><a href="module-index.html">index</a></li><li><a href="screens_AuthScreen.html">screens:AuthScreen</a></li><li><a href="screens_PickScreen.html">screens:PickScreen</a></li><li><a href="screens_ProfileScreen.html">screens:ProfileScreen</a></li><li><a href="screens_resultscreen.html">screens:resultscreen</a></li><li><a href="screens_screen.html">screens:screen</a></li><li><a href="screens_screens.html">screens:screens</a></li><li><a href="screens_settingsscreen.html">screens:settingsscreen</a></li><li><a href="screens_testscreen.html">screens:testscreen</a></li><li><a href="settings_initialize.html">settings:initialize</a></li><li><a href="settings_types.html">settings:types</a></li><li><a href="utils_code.html">utils:code</a></li></ul><h3>Classes</h3><ul><li><a href="screens_AuthScreen-AuthScreen.html">AuthScreen</a></li><li><a href="screens_PickScreen-PickScreen.html">PickScreen</a></li><li><a href="screens_ProfileScreen-ProfileScreen.html">ProfileScreen</a></li><li><a href="screens_resultscreen-ResultScreen.html">ResultScreen</a></li><li><a href="screens_screen-Screen.html">Screen</a></li><li><a href="screens_settingsscreen-SettingsScreen.html">SettingsScreen</a></li><li><a href="screens_testscreen-TestScreen.html">TestScreen</a></li><li><a href="settings_types-CheckboxSetting.html">CheckboxSetting</a></li><li><a href="settings_types-IntegerSetting.html">IntegerSetting</a></li></ul>
 </nav>
 
 <br class="clear">

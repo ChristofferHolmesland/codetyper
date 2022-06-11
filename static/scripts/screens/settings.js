@@ -111,6 +111,10 @@ const SETTINGS_HTML = `
 		display: flex;
 		align-items: center;
 	}
+
+	.settings-row input[type=number] {
+		width: 50px;
+	}
 </style>
 `;
 

@@ -108,6 +108,10 @@ class CheckboxSetting {
 		this.#inputElement.setAttribute("type", "checkbox");
 		this.#inputElement.setAttribute("id", "setting-" + this.name);
 		this.#inputElement.setAttribute("name", this.name);
+		/**
+		 * @todo Make it possible to trigger boolean settings.
+		 */
+		this.#inputElement.setAttribute("disabled", true);
 
 		if (this.#value === names[1]) {
 			this.#inputElement.setAttribute("checked", "");
@@ -153,4 +157,146 @@ class CheckboxSetting {
 	}
 }
 
-export { CheckboxSetting };
+/**
+ * Creates an integer setting that can be changed by a number input box.
+ * @class
+ */
+class IntegerSetting {
+	/**
+	 * Name of the setting.
+	 * @type {string}
+	 * @access public
+	 */
+	name;
+	/**
+	 * Text description of the setting.
+	 * @type {string}
+	 * @access public
+	 */
+	description;
+	/**
+	 * The group that the setting belongs to.
+	 * @type {string}
+	 * @access public
+	 */
+	settingsGroup;
+
+	/**
+	 * The current value of the setting.
+	 * @type {integer}
+	 * @access private
+	 */
+	#value;
+	/**
+	 * The minimum value that the setting can have.
+	 * @type {integer}
+	 * @access private
+	 */
+	#minimumValue;
+	/**
+	 * The maximum value that the setting can have.
+	 * @type {integer}
+	 * @access private
+	 */
+	#maximumValue;
+
+	/**
+	 * Object containing both the label and the input element.
+	 * @type {SettingElement}
+	 * @access private
+	 */
+	#element;
+	/**
+	 * Label element with the setting description.
+	 * @type {HTMLElement}
+	 * @access private
+	 */
+	#labelElement;
+	/**
+	 * Input element of type checkbox that can be used to change the value of the setting.
+	 * @type {HTMLElement}
+	 * @access private
+	 */
+	#inputElement;
+
+	/**
+	 * Creates a new setting.
+	 * @param {string} name - Name of the setting.
+	 * @param {string} description - Text description of the setting.
+	 * @param {integer} value - Current value of the setting. Default: 1.
+	 * @param {integer} minimumValue - Minimum value for this setting. Default: 1.
+	 * @param {integer} maximumValue - Maximum value for this setting. Default: 100.
+	 * @param {string} settingsGroup - Name of the group this setting belongs to.
+	 * @throws Error if value is outside the bounds defined by minimum and maximum.
+	 * @throws Error if the minimum value is greater than the maximum value.
+	 */
+	constructor(
+		name,
+		description,
+		value = 1,
+		minimumValue = 1,
+		maximumValue = 100,
+		settingsGroup = "General"
+	) {
+		if (value < minimumValue || value > maximumValue) {
+			throw "Got value that is outside the bounds: " + value;
+		}
+
+		if (minimumValue > maximumValue) {
+			throw "Got minimum value that is greater than the maximum value";
+		}
+
+		this.name = name;
+		this.description = description;
+		this.settingsGroup = settingsGroup;
+
+		this.#value = value;
+		this.#minimumValue = minimumValue;
+		this.#maximumValue = maximumValue;
+
+		this.#inputElement = document.createElement("input");
+		this.#inputElement.setAttribute("type", "number");
+		this.#inputElement.setAttribute("id", "setting-" + this.name);
+		this.#inputElement.setAttribute("name", this.name);
+		this.#inputElement.setAttribute("min", this.#minimumValue);
+		this.#inputElement.setAttribute("max", this.#maximumValue);
+		this.#inputElement.setAttribute("step", 1);
+		this.#inputElement.setAttribute("value", this.#value);
+
+		this.#inputElement.addEventListener("change", (e) => {
+			this.#value = parseInt(e.target.value);
+
+			fireEvent(SETTINGS_CHANGED, {
+				name: this.name,
+				value: this.#value,
+			});
+		});
+
+		this.#labelElement = document.createElement("label");
+		this.#labelElement.setAttribute("for", this.name);
+		this.#labelElement.innerHTML = this.description;
+
+		this.#element = {
+			label: this.#labelElement,
+			input: this.#inputElement,
+		};
+	}
+
+	/**
+	 * Gets the value of the setting.
+	 * @returns {integer} The current value.
+	 */
+	getValue() {
+		return this.#value;
+	}
+
+	/**
+	 *
+	 * @returns {SettingElement} The input and label elements: {@link SettingElement}
+	 */
+	getHTMLElements() {
+		return this.#element;
+	}
+}
+
+export { CheckboxSetting, IntegerSetting };
