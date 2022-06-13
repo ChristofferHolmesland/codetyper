@@ -147,7 +147,7 @@ class TestScreen extends Screen {
 
 		key.preventDefault();
 
-		let registeredKey = key.key; // key.key is the character
+		let registeredKey = key.key;
 
 		if (
 			this.allCharacters[this.characterProgress].innerHTML ===
@@ -162,7 +162,7 @@ class TestScreen extends Screen {
 
 		let decodedCharacter = decodeHtml(
 			this.allCharacters[this.characterProgress].innerHTML
-		); // 
+		);
 
 		if (
 			registeredKey != "Backspace" &&
@@ -171,8 +171,12 @@ class TestScreen extends Screen {
 			this.startTimer();
 		}
 
-		if (registeredKey === "Tab" && decodedCharacter !== "\t") { // when decodedCharacter is equal to " ",it prevents the tab from being registered to solve this we convert decodedCharacter to "   "
+		if (registeredKey === "Tab" && decodedCharacter !== "\t") {
+<<<<<<< HEAD
 			decodedCharacter = "    ";
+=======
+			registeredKey = "    ";
+>>>>>>> 86d6e6dd635f25f4d82e0bc869bd312a3a629e5e
 		}
 
 		if (
@@ -182,12 +186,15 @@ class TestScreen extends Screen {
 			return false;
 		}
 
+<<<<<<< HEAD
 		if (
 			registeredKey.length > 1 &&
 			registeredKey != "    " &&
 			registeredKey != "Tab"
-		) { // When someone presses a key that isn't a character like "Escape" or "Insert", that is detected here and the key is ignored.
-
+		) {
+=======
+		if (registeredKey.length > 1 && registeredKey != "    ") {
+>>>>>>> 86d6e6dd635f25f4d82e0bc869bd312a3a629e5e
 			return false;
 		}
 
