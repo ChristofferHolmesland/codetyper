@@ -186,7 +186,8 @@ class TestScreen extends Screen {
 		}
 
 		if (registeredKey === "Tab" && decodedCharacter !== "\t") {
-			registeredKey = "    ";
+			decodedCharacter = "    "; // when decodedCharacter is equal to " ",it prevents the tab from being registered to solve this we convert decodedCharacter to "   "
+
 		}
 
 		if (
@@ -196,9 +197,15 @@ class TestScreen extends Screen {
 			return false;
 		}
 
-		if (registeredKey.length > 1 && registeredKey != "    ") {
+		if (
+			registeredKey.length > 1 &&
+			registeredKey != "    " &&
+			registeredKey != "Tab"
+		) { // When someone presses a key that isn't a character like "Escape" or "Insert", that is detected here and the key is ignored.
+
 			return false;
 		}
+
 
 		if (decodedCharacter === String(registeredKey)) {
 			this.addCharacterState(
