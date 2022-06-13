@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: github/service.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: github/service.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module github:service
+ * @requires events:bus
+ * @requires fireabse:api
+ * @license GPL-3.0-only
+ */
+
+import { fireEvent, GITHUB_LIMIT_WARNING } from "../events/bus.js";
+import * as API from "./api.js";
+
+/**
+ * List of languages that are not accepted as code.
+ * @const
+ * @type {array&lt;string|null>}
+ */
+const INVALID_LANGUAGES = [
+	null,
+	"Markdown",
+	"Text",
+	"SVG",
+	"Jupyter Notebook",
+	"CSV",
+	"JSON",
+	"XML",
+	"YAML",
+	"INI",
+	"Diff",
+];
+
+/**
+ * Details about a gist from Github.
+ * @typedef {object} GithubGist
+ * @property {string} filename - Name of the uploaded file.
+ * @property {string} language - Name of the language that is used in the file.
+ * @property {string} raw_url - URL to where the code can be downloaded from.
+ * @property {integer} size - Size of the code in bytes.
+ * @property {string} type - MIME type of the content in the file.
+ */
+
+/**
+ * List of gists that have been retrieved from Github, but not used yet.
+ * @const
+ * @type {array&lt;GithubGist>}
+ */
+const gistBuffer = [];
+
+/**
+ * Checks how many requests that can be made to the Github API. Fires the GITHUB_LIMIT_WARNING event if the number is &lt;= 10.
+ * @async
+ * @returns {integer} The number of requests that is left before the limit is reached.
+ */
+async function checkRateLimit() {
+	const limit = await API.rateLimit()
+		.then((resp) => resp.json())
+		.then((resp) => resp.rate.remaining)
+		.catch((err) => 0);
+
+	if (limit &lt;= 10) {
+		fireEvent(GITHUB_LIMIT_WARNING, limit);
+	}
+
+	return limit;
+}
+
+/**
+ * Generates a random date.
+ * @returns {string} Date in ISO format.
+ */
+function getRandomTimestamp() {
+	const firstTime = new Date().getTime() - 2 * 365 * 24 * 60 * 60 * 1000;
+	const lastTime = new Date().getTime() - 14 * 24 * 60 * 60 * 1000;
+
+	const randomDate = new Date(
+		firstTime + Math.random() * (lastTime - firstTime)
+	);
+
+	return randomDate.toISOString();
+}
+
+/**
+ * Gets the next gist from the buffer, if the buffer is empty then it retrieves new gists from Github.
+ * @async
+ * @returns {GithubGist} A Github gist.
+ */
+async function getRandomGist() {
+	if (gistBuffer.length > 0) {
+		return gistBuffer.shift();
+	}
+
+	const limit = await checkRateLimit();
+	if (limit &lt;= 0) {
+		return;
+	}
+
+	return API.gistsPublic({
+		since: getRandomTimestamp(),
+		per_page: 100,
+		page: 1 + Math.floor(Math.random() * 30),
+	})
+		.then((resp) => resp.json())
+		.then((resp) => {
+			for (let i = 0; i &lt; resp.length; i++) {
+				const files = resp[i].files;
+				for (const file in files) {
+					if (!files.hasOwnProperty(file))
+						continue;
+					if (files[file].size &lt;= 50) continue;
+					if (
+						INVALID_LANGUAGES.includes(
+							files[file].language
+						)
+					)
+						continue;
+					gistBuffer.push(files[file]);
+				}
+			}
+		})
+		.then(() => {
+			return gistBuffer.shift();
+		});
+}
+
+export { getRandomGist };
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="events_bus.html">events:bus</a></li><li><a href="firebase_initialize.html">firebase:initialize</a></li><li><a href="firebase_service.html">firebase:service</a></li><li><a href="github_api.html">github:api</a></li><li><a href="github_service.html">github:service</a></li><li><a href="module-index.html">index</a></li><li><a href="screens_AuthScreen.html">screens:AuthScreen</a></li><li><a href="screens_PickScreen.html">screens:PickScreen</a></li><li><a href="screens_ProfileScreen.html">screens:ProfileScreen</a></li><li><a href="screens_resultscreen.html">screens:resultscreen</a></li><li><a href="screens_screen.html">screens:screen</a></li><li><a href="screens_screens.html">screens:screens</a></li><li><a href="screens_settingsscreen.html">screens:settingsscreen</a></li><li><a href="screens_testscreen.html">screens:testscreen</a></li><li><a href="settings_initialize.html">settings:initialize</a></li><li><a href="settings_types.html">settings:types</a></li><li><a href="utils_code.html">utils:code</a></li></ul><h3>Classes</h3><ul><li><a href="screens_AuthScreen-AuthScreen.html">AuthScreen</a></li><li><a href="screens_PickScreen-PickScreen.html">PickScreen</a></li><li><a href="screens_ProfileScreen-ProfileScreen.html">ProfileScreen</a></li><li><a href="screens_resultscreen-ResultScreen.html">ResultScreen</a></li><li><a href="screens_screen-Screen.html">Screen</a></li><li><a href="screens_settingsscreen-SettingsScreen.html">SettingsScreen</a></li><li><a href="screens_testscreen-TestScreen.html">TestScreen</a></li><li><a href="settings_types-CheckboxSetting.html">CheckboxSetting</a></li><li><a href="settings_types-ColorSetting.html">ColorSetting</a></li><li><a href="settings_types-IntegerSetting.html">IntegerSetting</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a>
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

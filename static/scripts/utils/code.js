@@ -1,5 +1,20 @@
+/**
+ * @module utils:code
+ * @license GPL-3.0-only
+ */
+
+/**
+ * String representation of the enter character.
+ * @const
+ * @type {string}
+ */
 const ENTER_CHARACTER = "↩";
 
+/**
+ * Calculates the difficulty of typing code.
+ * @param {...string} lines - The program code where each element in the array is one line.
+ * @returns {string} The code difficulty: "Easy", "Medium", "Hard", "Impossible".
+ */
 function determineDifficulty(lines) {
 	// When the code is longer the fingers get tired. Assume that maximum tiredness is achieved at 100 lines.
 	var maxLength = 100;
@@ -28,6 +43,11 @@ function determineDifficulty(lines) {
 	}
 }
 
+/**
+ * Calculates the average world length in the code.
+ * @param {string} code - All of the code as one string.
+ * @returns {number} The average length.
+ */
 function avgWordLength(code) {
 	let desired = code.replace(/[^\w\s]/gi, " ");
 	let code_lists = desired.split(" ");
@@ -41,6 +61,12 @@ function avgWordLength(code) {
 	return wordLengthAvg;
 }
 
+/**
+ * Creates a copy of the array without any instance of value.
+ * @param {*} value - Value to be removed
+ * @param {array<*>} arr - Array to remove values from.
+ * @returns {array<*>} A copy of the array without the value.
+ */
 function removeAllValues(value, arr) {
 	let outArr = [];
 	arr.forEach((i) => {
@@ -52,12 +78,21 @@ function removeAllValues(value, arr) {
 	return outArr;
 }
 
+/**
+ * @todo Document this function
+ */
 function decodeHtml(html) {
 	let txt = document.createElement("textarea");
 	txt.innerHTML = html;
 	return txt.value;
 }
 
+/**
+ * Checks if two arrays contain the same elements and are the same length.
+ * @param {array<*>} a1
+ * @param {array<*>} a2
+ * @returns {boolean} true if they are equal, false otherwise.
+ */
 function isArrayEqual(a1, a2) {
 	if (a1.length !== a2.length) return false;
 
