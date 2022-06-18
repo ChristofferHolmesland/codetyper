@@ -17,7 +17,10 @@ import { fireEvent, CHANGE_SCREEN } from "../events/bus.js";
  */
 class ProfileScreen extends Screen {
 	constructor(element) {
-		super("Profile", element, PROFILE_HTML);
+		super("Profile", element, PROFILE_HTML, {
+			userEmail: "",
+			numberOfTests: 0,
+		});
 	}
 
 	enter(payload) {
@@ -31,12 +34,11 @@ class ProfileScreen extends Screen {
 		getUserStats().then((data) => {
 			if (data === undefined) return;
 
-			document.getElementById("numberOfTests").innerHTML =
-				data.numberOfTests;
+			this.volatileData.numberOfTests = data.numberOfTests;
 		});
 
-		document.getElementById("userEmail").innerHTML =
-			getUser().email;
+		this.volatileData.userEmail = getUser().email;
+
 		document.getElementById("signOutButton").addEventListener(
 			"click",
 			() => this.doSignOut()
@@ -56,8 +58,8 @@ class ProfileScreen extends Screen {
 const PROFILE_HTML = `
 <div id="profile">
 	<h1>Profile</h1>
-	<p>Profile for: <span id="userEmail"></span></p>
-	<p>Number of tests: <span id="numberOfTests"></span></p>
+	<p>Profile for: <span>{{ userEmail }}</span></p>
+	<p>Number of tests: <span>{{ numberOfTests }}</span></p>
 	<button type="button" id="signOutButton">Sign out</button>
 </div>
 
