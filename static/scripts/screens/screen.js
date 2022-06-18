@@ -19,6 +19,7 @@ class Screen {
 		this.title = title;
 		this.rootElement = rootElement;
 		this.html = html;
+		this.volatileData = volatileData;
 
 		this.connectedElements = {};
 
@@ -46,13 +47,26 @@ class Screen {
 						i < elements.length;
 						i++
 					) {
-						elements[i].innerHTML = value;
+						if (
+							elements[i].setter ===
+							undefined
+						) {
+							elements[
+								i
+							].element.innerHTML = value;
+						} else {
+							elements[i].setter(
+								newValue
+							);
+						}
 					}
 				},
 			});
-		}
 
-		this.volatileData = volatileData;
+			if (Array.isArray(volatileData[key])) {
+				this.setArrayWatchers(key);
+			}
+		}
 	}
 
 	/**
@@ -63,6 +77,55 @@ class Screen {
 		document.title = "codetyper - " + this.title;
 		this.rootElement.innerHTML = this.html;
 		this.generateConnectedElements();
+	}
+
+	/**
+	 * Updates volatileData property when one of the array functions are used.
+	 * @param {string} key - Name of volatileData property.
+	 */
+	setArrayWatchers(key) {
+		const that = this;
+		const arr = this.volatileData[key];
+
+		const funcNames = [
+			"fill",
+			"pop",
+			"push",
+			"reverse",
+			"shift",
+			"sort",
+			"splice",
+			"unshift",
+		];
+
+		for (let i = 0; i < funcNames.length; i++) {
+			arr[funcNames[i]] = function () {
+				const ret = Array.prototype[funcNames[i]].apply(
+					this,
+					arguments
+				);
+				that.volatileData[key] = arr;
+				return ret;
+			};
+		}
+	}
+
+	/**
+	 * Tries to find a volatileData key binding inside the text of an element.
+	 * @param {HTMLElement} element - Element to find key in.
+	 * @returns {string|undefined} Returns the property name if it exists, undefined otherwise.
+	 */
+	getElementKey(element) {
+		let text = element.innerText;
+		if (!text.startsWith("{{") && !text.endsWith("}}"))
+			return undefined;
+
+		text = text
+			.replaceAll("{{", "")
+			.replaceAll("}}", "")
+			.replaceAll(" ", "");
+
+		return text;
 	}
 
 	/**
@@ -77,18 +140,27 @@ class Screen {
 		const elements = [this.rootElement];
 		while (elements.length > 0) {
 			const element = elements.shift();
+
+			const iterateAttribute =
+				element.getAttribute("ct-iterate");
+			if (
+				iterateAttribute !== null &&
+				iterateAttribute !== ""
+			) {
+				this.handleIterateElement(
+					element,
+					iterateAttribute
+				);
+				continue;
+			}
+
 			elements.push(...element.children);
 
 			if (element.children.length !== 0) continue;
 
-			let text = element.innerText;
-			if (!text.startsWith("{{") && !text.endsWith("}}"))
-				continue;
+			const text = this.getElementKey(element);
+			if (text === undefined) continue;
 
-			text = text
-				.replaceAll("{{", "")
-				.replaceAll("}}", "")
-				.replaceAll(" ", "");
 			if (this.connectedElements[text] === undefined) {
 				throw (
 					"Found element binding which does not exist in volatile data, key: " +
@@ -97,7 +169,89 @@ class Screen {
 			}
 
 			element.innerText = this.volatileData[text];
-			this.connectedElements[text].push(element);
+			this.connectedElements[text].push({
+				element: element,
+			});
+		}
+	}
+
+	/**
+	 * Converts a HTML element to a container for a volatileData array.
+	 * @param {HTMLElement} element - Iterate container.
+	 * @param {string} context - Name of volatileData property to bind to.
+	 */
+	handleIterateElement(element, context) {
+		if (this.connectedElements[context] === undefined) {
+			throw (
+				"Found iterate binding which does not exist in volatile data, key: " +
+				context
+			);
+		}
+
+		if (element.children.length !== 1) {
+			console.error(element);
+			throw "Found element with number of children !== 1";
+		}
+
+		const model = element.children[0];
+		const dataContext = this.volatileData[context];
+
+		this.setIterateElements(element, model, dataContext);
+
+		this.connectedElements[context].push({
+			setter: (newValue) => {
+				this.setIterateElements(
+					element,
+					model,
+					newValue
+				);
+			},
+		});
+	}
+
+	/**
+	 * Sets the content of a HTML element to the values in a volatileData array.
+	 * @param {HTMLElement} container - Element that list elements should be added to.
+	 * @param {HTMLElement} model - Element that represents one list item.
+	 * @param {Array<object>} dataContext - Array of values that should be displayed in the list.
+	 */
+	setIterateElements(container, model, dataContext) {
+		container.innerHTML = "";
+
+		for (let i = 0; i < dataContext.length; i++) {
+			const clone = model.cloneNode(true);
+
+			const elements = [clone];
+			while (elements.length > 0) {
+				const cloneElement = elements.shift();
+				elements.push(...cloneElement.children);
+
+				const cloneElementId =
+					cloneElement.getAttribute("id");
+				const explicitId =
+					cloneElement.getAttribute("explicitId");
+				if (
+					cloneElementId !== null &&
+					cloneElementId !== "" &&
+					(explicitId === null ||
+						explicitId === "")
+				) {
+					throw (
+						"Found cloned element with id that does not have the explicitId attribute, id: " +
+						cloneElementId
+					);
+				}
+
+				if (cloneElement.children.length !== 0)
+					continue;
+
+				const text = this.getElementKey(cloneElement);
+				if (text === undefined) continue;
+
+				cloneElement.innerText = dataContext[i][text];
+			}
+
+			container.appendChild(clone);
 		}
 	}
 
