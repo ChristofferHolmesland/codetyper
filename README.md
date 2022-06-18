@@ -8,7 +8,7 @@ Code: https://github.com/ChristofferHolmesland/codetyper
 
 Discord: https://discord.gg/S6VfJ8jzey
 
-Code documentation can be found in the [docs](./docs) folder, and online [here](https://christofferholmesland.github.io/codetyper/docs/index.html).
+Code documentation can be found in the [docs](./docs) folder after running `npm run generate-docs`.
 
 ## Setup
 
