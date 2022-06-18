@@ -21,6 +21,11 @@ import {
 	increment,
 	addDoc,
 	collection,
+	query,
+	orderBy,
+	limit,
+	startAfter,
+	getDocs,
 } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-firestore.js";
 import { TEST_COMPLETED, addSubscriber } from "../events/bus.js";
 
@@ -158,6 +163,38 @@ async function getUserStats() {
 }
 
 /**
+ * Pagination function to get the tests of a user. Results are ordered by timestamp, the newest are first.
+ * @async
+ * @param {integer} snapshotLimit - Maximum number of documents to return.
+ * @param {DocumentSnapshot} lastSeenSnapshot - DocumentSnapshot to return documents after. Used for pagination.
+ * @returns {object} - Firestore document snapshots
+ */
+async function getUserTests(snapshotLimit, lastSeenSnapshot = undefined) {
+	if (limit > 25) {
+		throw "Limit cannot be above 25 to prevent using all of the firestore free tier quota";
+	}
+
+	let q;
+
+	if (lastSeenSnapshot !== undefined) {
+		q = query(
+			collection(db, `/users/${getUser().uid}/tests`),
+			orderBy("timestamp", "desc"),
+			startAfter(lastSeenSnapshot),
+			limit(snapshotLimit)
+		);
+	} else {
+		q = query(
+			collection(db, `/users/${getUser().uid}/tests`),
+			orderBy("timestamp", "desc"),
+			limit(snapshotLimit)
+		);
+	}
+
+	return await getDocs(q);
+}
+
+/**
  * Saves the result of a test if the user is logged in.
  * @async
  * @param {TestResult} payload - See {@link TestResult}.
@@ -192,6 +229,7 @@ export {
 	signUp,
 	getUser,
 	getUserStats,
+	getUserTests,
 	resetPassword,
 	githubSignInWithPopup,
 	googleSignInWithPopup,
