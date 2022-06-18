@@ -21,6 +21,12 @@ const GITHUB_LIMIT_WARNING = "githubLimitWarning";
  * @type {string}
  */
 const SETTINGS_CHANGED = "settingsChanged";
+/**
+ * TEST_COMPLETED is used to indicate that the user finished a test.
+ * @const
+ * @type {string}
+ */
+const TEST_COMPLETED = "testCompleted";
 
 /**
  * SUBSCRIBERS is an object which maps event names to a lists of subscribers to the events. Every event has to be added to this object before it can be used.
@@ -31,6 +37,7 @@ const SUBSCRIBERS = {};
 SUBSCRIBERS[CHANGE_SCREEN] = [];
 SUBSCRIBERS[GITHUB_LIMIT_WARNING] = [];
 SUBSCRIBERS[SETTINGS_CHANGED] = [];
+SUBSCRIBERS[TEST_COMPLETED] = [];
 
 /**
  * Adds a new subscriber to a specific function. When an event of type event is fired the handler function is called.
@@ -90,6 +97,7 @@ export {
 	CHANGE_SCREEN,
 	GITHUB_LIMIT_WARNING,
 	SETTINGS_CHANGED,
+	TEST_COMPLETED,
 	addSubscriber,
 	removeSubscriber,
 	fireEvent,

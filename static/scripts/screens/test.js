@@ -9,7 +9,7 @@
 
 import Screen from "./screen.js";
 import { getScreenObject, RESULT_SCREEN } from "./screens.js";
-import { fireEvent, CHANGE_SCREEN } from "../events/bus.js";
+import { fireEvent, CHANGE_SCREEN, TEST_COMPLETED } from "../events/bus.js";
 import {
 	ENTER_CHARACTER,
 	determineDifficulty,
@@ -17,6 +17,23 @@ import {
 	decodeHtml,
 } from "../utils/code.js";
 import Settings from "../settings/initialize.js";
+
+/**
+ * Container for test result.
+ * @typedef {object} TestResult
+ * @property {number} cpm - Correct characters per minute.
+ * @property {number} wpm - Correct words per minute.
+ * @property {number} length - Length of test as number of characters.
+ * @property {number} rawCpm - Correct and incorrect characters per minute.
+ * @property {number} rawWpm - Correct and incorrect words per minute.
+ * @property {number} accuracy - Accuracy of typing as percentage [0, 100].
+ * @property {string} source - Source of the code
+ * @property {object} wpmData - Used to track wpm over time.
+ * @property {string} language - Code language.
+ * @property {string} codeDifficulty - Estimated code difficulty.
+ * @property {number} averageWordLength - The average length of every word in the code.
+ * @property {boolean} completedTest - true if the test was performed until the end of the code or until the time limit, false otherwise.
+ */
 
 /**
  * TestScreen is used to show a coding test to the user.
@@ -36,6 +53,7 @@ class TestScreen extends Screen {
 		this.isTimerRunning = false;
 		this.elapsedTime = 0;
 		this.elapsedTimeInSeconds = 0;
+		this.completedTest = false;
 
 		this.wpmData = {
 			labels: [],
@@ -57,6 +75,9 @@ class TestScreen extends Screen {
 		this.generateCode();
 	}
 
+	/**
+	 * @returns {TestResult} Test result.
+	 */
 	leave() {
 		const averageWordLength = avgWordLength(this.code);
 		const length = this.code.replaceAll("\n", "").length;
@@ -73,7 +94,7 @@ class TestScreen extends Screen {
 		);
 		const rawWpm = Math.round(rawCpm / averageWordLength);
 
-		return {
+		const payload = {
 			cpm: cpm,
 			wpm: wpm,
 			length: length,
@@ -85,7 +106,12 @@ class TestScreen extends Screen {
 			language: this.language,
 			codeDifficulty: this.codeDifficulty,
 			averageWordLength: averageWordLength,
+			completedTest: this.completedTest,
 		};
+
+		fireEvent(TEST_COMPLETED, payload);
+
+		return payload;
 	}
 
 	writingDone() {
@@ -96,6 +122,7 @@ class TestScreen extends Screen {
 			this.onKeyDownHandler
 		);
 
+		this.completedTest = true;
 		fireEvent(CHANGE_SCREEN, getScreenObject(RESULT_SCREEN));
 	}
 
@@ -187,7 +214,6 @@ class TestScreen extends Screen {
 
 		if (registeredKey === "Tab" && decodedCharacter !== "\t") {
 			decodedCharacter = "    "; // when decodedCharacter is equal to " ",it prevents the tab from being registered to solve this we convert decodedCharacter to "   "
-
 		}
 
 		if (
@@ -201,11 +227,11 @@ class TestScreen extends Screen {
 			registeredKey.length > 1 &&
 			registeredKey != "    " &&
 			registeredKey != "Tab"
-		) { // When someone presses a key that isn't a character like "Escape" or "Insert", that is detected here and the key is ignored.
+		) {
+			// When someone presses a key that isn't a character like "Escape" or "Insert", that is detected here and the key is ignored.
 
 			return false;
 		}
-
 
 		if (decodedCharacter === String(registeredKey)) {
 			this.addCharacterState(

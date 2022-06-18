@@ -12,7 +12,17 @@ import {
 	signInWithEmailAndPassword,
 	signInWithPopup,
 } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-auth.js";
-import { auth } from "./initialize.js";
+import { auth, db } from "./initialize.js";
+import {
+	getDoc,
+	setDoc,
+	doc,
+	updateDoc,
+	increment,
+	addDoc,
+	collection,
+} from "https://www.gstatic.com/firebasejs/9.8.2/firebase-firestore.js";
+import { TEST_COMPLETED, addSubscriber } from "../events/bus.js";
 
 /**
  * Logs the user in to Firebase.
@@ -46,6 +56,7 @@ async function signOut() {
 
 /**
  * Sends an email to the user where they can reset their password.
+ * @async
  * @param {string} email
  * @returns {Promise<*>} Promise that resolves when the email is sent.
  */
@@ -57,6 +68,7 @@ async function resetPassword(email) {
 
 /**
  * Shows a popup to the user that lets them sign in with their Github account.
+ * @async
  * @returns {Promise<*>} Promise that resolves when the user is logged in.
  */
 async function githubSignInWithPopup() {
@@ -67,6 +79,7 @@ async function githubSignInWithPopup() {
 
 /**
  * Shows a popup to the user that lets them sign in with their Google account.
+ * @async
  * @returns {Promise<*>} Promise that resolves when the user is logged in.
  */
 async function googleSignInWithPopup() {
@@ -86,11 +99,99 @@ function getUser() {
 	return auth.currentUser;
 }
 
+/**
+ * Gets the firestore document for the logged in user. If it does not exist a new document is created.
+ * @async
+ * @returns {DocumentReference|undefined} Document reference or undefined if an error occurs.
+ */
+async function getUserDoc() {
+	const user = getUser();
+	if (user === undefined) return undefined;
+
+	let document;
+	const docRef = await doc(db, "users", user.uid);
+
+	try {
+		document = await getDoc(docRef);
+	} catch (e) {
+		console.error(e);
+		return undefined;
+	}
+
+	if (document.exists()) return document;
+
+	const initialUserData = {
+		numberOfTests: 0,
+	};
+
+	try {
+		await setDoc(docRef, initialUserData);
+		return await getDoc(docRef);
+	} catch (e) {
+		console.error(e);
+		return undefined;
+	}
+}
+
+/**
+ * Container for values that are stored in a user document in firestore.
+ * @typedef {object} UserStats
+ * @property {integer} numberOfTests - The number of tests that the user has completed.
+ */
+
+/**
+ * Returns the data of this users firestore document.
+ * @async
+ * @returns {UserStats|undefined} User stats object, see {@link UserStats}. Undefined if an error occurs.
+ */
+async function getUserStats() {
+	const userDoc = await getUserDoc();
+	if (userDoc === undefined) return undefined;
+
+	try {
+		const data = userDoc.data();
+		return data;
+	} catch (e) {
+		console.error(e);
+		return undefined;
+	}
+}
+
+/**
+ * Saves the result of a test if the user is logged in.
+ * @async
+ * @param {TestResult} payload - See {@link TestResult}.
+ */
+async function processTestCompleted(payload) {
+	if (
+		payload === undefined ||
+		payload.completedTest === undefined ||
+		payload.completedTest !== true
+	) {
+		return;
+	}
+
+	const userDoc = await getUserDoc();
+	if (userDoc === undefined) return;
+
+	updateDoc(userDoc.ref, {
+		numberOfTests: increment(1),
+	}).catch((e) => console.error(e));
+
+	payload.timestamp = new Date().getTime();
+	addDoc(collection(db, `/users/${getUser().uid}/tests`), payload).catch(
+		(e) => console.error(e)
+	);
+}
+
+addSubscriber(TEST_COMPLETED, processTestCompleted);
+
 export {
 	signIn,
 	signOut,
 	signUp,
 	getUser,
+	getUserStats,
 	resetPassword,
 	githubSignInWithPopup,
 	googleSignInWithPopup,
