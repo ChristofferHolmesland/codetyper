@@ -7,7 +7,7 @@
  */
 
 import Screen from "./screen.js";
-import { getUser, signOut } from "../firebase/service.js";
+import { getUser, signOut, getUserStats } from "../firebase/service.js";
 import { getScreenObject, AUTH_SCREEN, PICK_SCREEN } from "./screens.js";
 import { fireEvent, CHANGE_SCREEN } from "../events/bus.js";
 
@@ -27,6 +27,13 @@ class ProfileScreen extends Screen {
 		}
 
 		super.enter(payload);
+
+		getUserStats().then((data) => {
+			if (data === undefined) return;
+
+			document.getElementById("numberOfTests").innerHTML =
+				data.numberOfTests;
+		});
 
 		document.getElementById("userEmail").innerHTML =
 			getUser().email;
@@ -50,6 +57,7 @@ const PROFILE_HTML = `
 <div id="profile">
 	<h1>Profile</h1>
 	<p>Profile for: <span id="userEmail"></span></p>
+	<p>Number of tests: <span id="numberOfTests"></span></p>
 	<button type="button" id="signOutButton">Sign out</button>
 </div>
 

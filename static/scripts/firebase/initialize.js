@@ -6,6 +6,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-analytics.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-firestore.js";
 
 /**
  * Contains the Firebase configuration settings.
@@ -30,12 +31,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 /**
  * Firebase analytics object.
- * @const
  * @type {object}
  */
 let analytics;
 if (window.location.hostname === "christofferholmesland.github.io") {
-	analytics = getAnalytics(app);	
+	analytics = getAnalytics(app);
 }
 /**
  * Firebase auth object.
@@ -44,4 +44,11 @@ if (window.location.hostname === "christofferholmesland.github.io") {
  */
 const auth = getAuth(app);
 
-export { app, analytics, auth };
+/**
+ * Firebase firestore object.
+ * @const
+ * @type {object}
+ */
+const db = getFirestore(app);
+
+export { app, analytics, auth, db };
