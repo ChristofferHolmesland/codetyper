@@ -33,7 +33,10 @@ const app = initializeApp(firebaseConfig);
  * @const
  * @type {object}
  */
-const analytics = getAnalytics(app);
+let analytics;
+if (window.location.hostname === "christofferholmesland.github.io") {
+	analytics = getAnalytics(app);	
+}
 /**
  * Firebase auth object.
  * @const
