@@ -25,12 +25,12 @@ $ cd codetyper
 $ npm install
 ```
 
-Note: Because we are using javascript modules you need a web server set up to serve the files. A simple server you can use is the one that is included with python. Example:
+Note: Because we are using javascript modules you need a web server set up to serve the files. A simple server you can use is the one included in the [server](./server) folder. Example:
 ```bash
 # Navigate to the project folder
 $ cd codetyper
 # Start http server
-$ python3 -m http.server
+$ npm run dev
 # You can access the app from a browser at http://localhost:8000
 ```
 
