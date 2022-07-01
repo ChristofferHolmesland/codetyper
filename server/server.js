@@ -11,6 +11,9 @@ const injectHTML = `
 </head>
 `;
 
+const updateLog = {};
+const parentDir = path.join(__dirname, "..");
+
 app.use("/", (req, res, next) => {
 	if (req.url !== "/") {
 		return next();
@@ -25,8 +28,36 @@ app.use("/", (req, res, next) => {
 app.use(express.static(path.join(__dirname, "..")))
 
 chokidar.watch(path.join(__dirname, "../static/styles/")).on("change", (event, path) => {
-	console.log(event);
+	const webPath = event.replace(parentDir, "").replaceAll("\\", "/");
+	console.log("Detected change in file: " + webPath);
+	updateLog[webPath] = Date.now();
 });
+
+app.get("/api/changes", (req, res) => {
+	let since = parseInt(req.query.since);
+	if (isNaN(since)) {
+		return res.status(400).send();
+	}
+
+	const response = {
+		ts: 0,
+		files: []
+	};
+
+	for (const webPath in updateLog) {
+		const ts = updateLog[webPath];
+
+		if (ts > since) {
+			response.files.push(webPath);
+			
+			if (ts > response.ts) {
+				response.ts = ts;
+			}
+		}
+	}
+
+	res.status(200).json(response);
+})
 
 app.listen(port, () => {
 	console.log(`CodeTyper dev server listening on ${port}`);
