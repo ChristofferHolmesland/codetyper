@@ -27,11 +27,14 @@ app.use("/", (req, res, next) => {
 
 app.use(express.static(path.join(__dirname, "..")))
 
-chokidar.watch(path.join(__dirname, "../static/styles/")).on("change", (event, path) => {
+function handleFileChange(event, path) {
 	const webPath = event.replace(parentDir, "").replaceAll("\\", "/");
 	console.log("Detected change in file: " + webPath);
 	updateLog[webPath] = Date.now();
-});
+}
+
+chokidar.watch(path.join(__dirname, "../static/styles/")).on("change", handleFileChange);
+chokidar.watch(path.join(__dirname, "../static/scripts/")).on("change", handleFileChange);
 
 app.get("/api/changes", (req, res) => {
 	let since = parseInt(req.query.since);
