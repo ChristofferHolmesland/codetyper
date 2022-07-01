@@ -4,7 +4,7 @@
   "description": "This is a project by members of the KalleTech discord server. We are making a website where you can practice your programming speed.",
   "main": "index.html",
   "scripts": {
-    "dev": "node server/server.js",
+    "dev": "node server/start.js",
     "prettier": "npx prettier --write static/ && npx prettier --write index.html && npx prettier --write server/",
     "tests": "npx cypress open",
     "generate-docs": "npx jsdoc -c ./jsdoc.json"
@@ -25,6 +25,7 @@
     "prettier": "^2.3.2"
   },
   "dependencies": {
+    "chokidar": "^3.5.3",
     "express": "^4.18.1"
   }
 }
