@@ -1,5 +1,9 @@
 let codeTime = Date.now();
 
+/**
+ * Contains every file that is being watched.
+ * string -> HTMLElement
+ */
 const watchedFiles = {};
 const baseURI = window.location.href;
 
@@ -10,31 +14,35 @@ window.addEventListener("load", function () {
 			continue;
 		}
 
-		watchedFiles["/" + cssFiles[i].href.replace(baseURI, "")] = cssFiles[i];
+		watchedFiles["/" + cssFiles[i].href.replace(baseURI, "")] =
+			cssFiles[i];
 	}
-	
+
 	const jsFiles = document.getElementsByTagName("script");
 	for (let i = 0; i < jsFiles.length; i++) {
 		if (!jsFiles[i].src.includes(baseURI)) {
 			continue;
 		}
 
-		watchedFiles["/" + jsFiles[i].src.replace(baseURI, "")] = jsFiles[i];
+		watchedFiles["/" + jsFiles[i].src.replace(baseURI, "")] =
+			jsFiles[i];
 	}
-	
+
 	setInterval(async () => {
-		const changes = await fetch(`/api/changes?since=${codeTime}`).then(resp => resp.json());
+		const changes = await fetch(
+			`/api/changes?since=${codeTime}`
+		).then((resp) => resp.json());
 		if (changes.ts === 0) return;
-	
+
 		codeTime = changes.ts;
-		
+
 		for (let i = 0; i < changes.files.length; i++) {
 			const fileName = changes.files[i];
-	
+
 			if (watchedFiles[fileName] === undefined) {
 				continue;
 			}
-	
+
 			console.log("Reloading file: " + fileName);
 
 			switch (watchedFiles[fileName].nodeName) {
@@ -45,13 +53,27 @@ window.addEventListener("load", function () {
 					const file = watchedFiles[fileName];
 
 					const parent = file.parentNode;
-					const newScript = document.createElement("script");
-					newScript.setAttribute("type", file.getAttribute("type"));
+					const newScript =
+						document.createElement(
+							"script"
+						);
+					newScript.setAttribute(
+						"type",
+						file.getAttribute("type")
+					);
 
 					if (file.src.lastIndexOf("?") > -1) {
-						newScript.src = file.src.substring(0, file.src.lastIndexOf("?")) + `?v=${Date.now()}`;
+						newScript.src =
+							file.src.substring(
+								0,
+								file.src.lastIndexOf(
+									"?"
+								)
+							) + `?v=${Date.now()}`;
 					} else {
-						newScript.src = file.src + `?v=${Date.now()}`;
+						newScript.src =
+							file.src +
+							`?v=${Date.now()}`;
 					}
 
 					parent.removeChild(file);
@@ -60,8 +82,10 @@ window.addEventListener("load", function () {
 					watchedFiles[fileName] = newScript;
 					break;
 				default:
-					console.log("Reloading of this filetype is not implemented");
+					console.log(
+						"Reloading of this filetype is not implemented"
+					);
 			}
 		}
-	}, 1000);
+	}, 100);
 });
