@@ -7,7 +7,7 @@ const app = express();
 const port = 3000;
 
 const injectHTML = `
-<script src="/server/inject.js"></script>
+<script src="web-app/server/inject.js"></script>
 </head>
 `;
 
@@ -27,14 +27,14 @@ app.use("/", (req, res, next) => {
 	}
 
 	let content = fs
-		.readFileSync(path.join(__dirname, "../index.html"))
+		.readFileSync(path.join(__dirname, "../../index.html"))
 		.toString();
 	content = content.replace("</head>", injectHTML);
 
 	res.status(200).send(content);
 });
 
-app.use(express.static(path.join(__dirname, "..")));
+app.use(express.static(path.join(__dirname, "../..")));
 
 /**
  * Registers the timestamp of every file change.
@@ -42,7 +42,7 @@ app.use(express.static(path.join(__dirname, "..")));
  * @param {object} path - Extra details about the file that was modified.
  */
 function handleFileChange(event, path) {
-	const webPath = event.replace(parentDir, "").replaceAll("\\", "/");
+	const webPath = "/web-app" + event.replace(parentDir, "").replaceAll("\\", "/");
 	console.log("Detected change in file: " + webPath);
 	updateLog[webPath] = Date.now();
 }
