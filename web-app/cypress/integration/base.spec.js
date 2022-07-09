@@ -1,5 +1,5 @@
 const path = require("path");
-const index = path.join(__dirname, "..", "..", "index.html");
+const index = "index.html";
 
 describe("Test language buttons", () => {
 	it("Buttons are visible", () => {
