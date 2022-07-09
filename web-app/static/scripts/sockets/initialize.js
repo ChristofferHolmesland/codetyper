@@ -3,7 +3,17 @@
  * @license GPL-3.0-only
  */
 
-const socket = new WebSocket("ws://localhost:8080");
+let websocketHost;
+
+if (window.location.hostname === "localhost") {
+	websocketHost = "ws://localhost:8080";
+} else if (window.location.hostname === "christofferholmesland.github.io") {
+	websocketHost = "wss://cholytics.com:443";
+} else {
+	console.log("No known WebSocket server for this host.");
+}
+
+const socket = new WebSocket(websocketHost);
 
 export const version = "v1";
 export const CREATE_LOBBY = `/${version}/lobby/create`;
