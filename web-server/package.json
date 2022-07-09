@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "node server.js",
-    "prettier": "npx prettier",
+    "prettier": "npx prettier --write ./",
     "generate-docs": "npx jsdoc -c ./jsdoc.json"
   },
   "repository": {

@@ -8,7 +8,7 @@
  */
 
 import Screen from "./screen.js";
-import { getScreenObject, TEST_SCREEN } from "./screens.js";
+import { getScreenObject, TEST_SCREEN, TEST_LOBBY_SCREEN } from "./screens.js";
 import { fireEvent, CHANGE_SCREEN } from "../events/bus.js";
 import { getRandomGist } from "../github/service.js";
 
@@ -32,7 +32,7 @@ class PickScreen extends Screen {
 		this.setupButtons();
 		this.addGitHubLinkHandler();
 		this.addRandomGistHandler();
-		this.checkForTestParameter();
+		this.checkURLParameters();
 	}
 
 	leave() {
@@ -59,22 +59,51 @@ class PickScreen extends Screen {
 			language: this.language,
 			lineLimit: lineLimit,
 			timeLimit: timeLimit,
+			lobbyId: this.lobbyId,
 		};
 	}
 
-	checkForTestParameter() {
+	checkURLParameters() {
 		const urlParams = new URLSearchParams(window.location.search);
 		const params = Object.fromEntries(urlParams.entries());
 
-		if (params.test === undefined) return;
+		if (params.test !== undefined) {
+			this.code = decodeURIComponent(
+				escape(window.atob(params.test))
+			);
+			this.source = "External";
+			this.language = "Unknown";
 
-		this.code = decodeURIComponent(
-			escape(window.atob(params.test))
-		);
-		this.source = "External";
-		this.language = "Unknown";
+			fireEvent(CHANGE_SCREEN, getScreenObject(TEST_SCREEN));
+			return;
+		}
 
-		fireEvent(CHANGE_SCREEN, getScreenObject(TEST_SCREEN));
+		if (params.lobbyId !== undefined) {
+			this.lobbyId = params.lobbyId;
+			fireEvent(
+				CHANGE_SCREEN,
+				getScreenObject(TEST_LOBBY_SCREEN)
+			);
+		}
+	}
+
+	goToTestScreen() {
+		if (this.experimental === false) {
+			fireEvent(CHANGE_SCREEN, getScreenObject(TEST_SCREEN));
+			return;
+		}
+
+		const singlePlayer =
+			document.getElementById("singleplayer").checked;
+		if (singlePlayer) {
+			fireEvent(CHANGE_SCREEN, getScreenObject(TEST_SCREEN));
+		} else {
+			this.lobbyId = undefined;
+			fireEvent(
+				CHANGE_SCREEN,
+				getScreenObject(TEST_LOBBY_SCREEN)
+			);
+		}
 	}
 
 	addClearListener(element) {
@@ -89,7 +118,7 @@ class PickScreen extends Screen {
 		this.source = "Codetyper";
 		this.code = CODE_SNIPPETS[index].code;
 		this.language = CODE_SNIPPETS[index].language;
-		fireEvent(CHANGE_SCREEN, getScreenObject(TEST_SCREEN));
+		this.goToTestScreen();
 	}
 
 	setupButtons() {
@@ -141,12 +170,7 @@ class PickScreen extends Screen {
 				fetch(gist.raw_url).then((response) => {
 					response.text().then((data) => {
 						this.code = data;
-						fireEvent(
-							CHANGE_SCREEN,
-							getScreenObject(
-								TEST_SCREEN
-							)
-						);
+						this.goToTestScreen();
 					});
 				});
 				// regainging old state
@@ -223,12 +247,7 @@ class PickScreen extends Screen {
 				fetch(link).then((response) => {
 					response.text().then((data) => {
 						this.code = data;
-						fireEvent(
-							CHANGE_SCREEN,
-							getScreenObject(
-								TEST_SCREEN
-							)
-						);
+						this.goToTestScreen();
 					});
 				});
 			}
@@ -240,6 +259,12 @@ const PICK_SCREEN_HTML = `
 <div id="selectDiv">
 <div id="lang-buttons" class="lang-buttons">
 	<p>Choose a language to start with</p>
+	<div class="experimental">
+		<input type="radio" id="singleplayer" name="mode" value="singleplayer">
+		<label for="singleplayer">Singleplayer</label>
+		<input type="radio" id="multiplayer" name="mode" value="multiplayer" checked>
+		<label for="multiplayer">Multiplayer</label>
+	</div>
 	<br />
 	<span id="actual-buttons" class="flex-row"></span>
 </div>

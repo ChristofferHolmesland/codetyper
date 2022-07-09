@@ -20,6 +20,7 @@ class Screen {
 		this.rootElement = rootElement;
 		this.html = html;
 		this.volatileData = volatileData;
+		this.experimental = false;
 
 		this.connectedElements = {};
 
@@ -77,6 +78,14 @@ class Screen {
 		document.title = "codetyper - " + this.title;
 		this.rootElement.innerHTML = this.html;
 		this.generateConnectedElements();
+
+		if (this.experimental === true) {
+			const elements =
+				document.getElementsByClassName("experimental");
+			for (let i = 0; i < elements.length; i++) {
+				elements[i].classList.remove("experimental");
+			}
+		}
 	}
 
 	/**
