@@ -12,6 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Cypress run
-        working-directory: ./web-app
         uses: cypress-io/github-action@v2
+        with:
+          working-directory: web-app
 
