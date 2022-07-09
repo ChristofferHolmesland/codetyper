@@ -10,6 +10,7 @@ export const CREATE_LOBBY = `/${version}/lobby/create`;
 export const JOIN_LOBBY = `/${version}/lobby/join`;
 export const DELETE_LOBBY = `/${version}/lobby/delete`;
 export const START_LOBBY = `/${version}/lobby/start`;
+export const UPDATE_LOBBY = `/${version}/lobby/update`;
 
 const handlers = {};
 
