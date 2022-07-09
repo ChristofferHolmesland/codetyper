@@ -28,6 +28,10 @@ class TestLobbyScreen extends Screen {
 		super("Test Lobby", element, PROFILE_HTML, {
 			lobbyId: "Creating lobby...",
 			numberOfPlayers: 0,
+			language: "",
+			source: "",
+			lineLimit: "",
+			timeLimit: ""
 		});
 	}
 
@@ -38,6 +42,10 @@ class TestLobbyScreen extends Screen {
 		this.isInLobby = false;
 		this.isHost = false;
 		this.testStarting = false;
+
+		console.log(payload);
+
+		this.setVolatileDataFromPayload(payload);
 
 		addHandler(CREATE_LOBBY, this.onCreateLobby);
 		addHandler(JOIN_LOBBY, this.onJoinLobby);
@@ -51,6 +59,10 @@ class TestLobbyScreen extends Screen {
 			this.volatileData.lobbyId = payload.lobbyId;
 			sendMessage(JOIN_LOBBY, payload.lobbyId);
 		}
+
+		document.getElementById("copyId").addEventListener("click", (event) => {
+			navigator.clipboard.writeText(`${window.location.href}&lobbyId=${this.volatileData.lobbyId}`);
+		});
 	}
 
 	leave() {
@@ -72,11 +84,39 @@ class TestLobbyScreen extends Screen {
 		this.isHost = true;
 		this.volatileData.lobbyId = payload;
 		this.volatileData.numberOfPlayers = 1;
+
+		const elements = document.getElementsByClassName("show-to-host");
+		for (let i = 0; i < elements.length; i++) {
+			elements[i].classList.remove("show-to-host");
+		}
 	}
 
 	onJoinLobby(socket, payload) {
 		this.isInLobby = true;
+		this.setVolatileDataFromPayload(payload);
+
+		const elements = document.getElementsByClassName("show-to-player");
+		for (let i = 0; i < elements.length; i++) {
+			elements[i].classList.remove("show-to-player");
+		}
+	}
+
+	setVolatileDataFromPayload(payload) {
 		this.volatileData.numberOfPlayers = payload.numberOfPlayers;
+		this.volatileData.language = payload.language;
+		this.volatileData.source = payload.source;
+
+		if (payload.timeLimit === false) {
+			this.volatileData.timeLimit = "none";
+		} else {
+			this.volatileData.timeLimit = `${payload.timeLimit} second(s)`;
+		}
+
+		if (payload.lineLimit === -1) {
+			this.volatileData.lineLimit = "none";
+		} else {
+			this.volatileData.lineLimit = `${payload.lineLimit} line(s)`;
+		}
 	}
 
 	onDeleteLobby(socket, payload) {
@@ -105,11 +145,48 @@ class TestLobbyScreen extends Screen {
 const PROFILE_HTML = `
 <div id="testLobby">
 	<h1>Test lobby</h1>
-	<h3>ID: <span>{{ lobbyId }}</span></h3>
-	<h3>Players: <span>{{ numberOfPlayers }}</span></h3>
+
+	<div class="flex-column">
+		<div class="flex-row-between">
+			<h3>ID: <span>{{ lobbyId }}</span><span id="copyId" class="material-icons-round">content_copy</span></h3>
+			<h3>Players: <span>{{ numberOfPlayers }}</span></h3>
+		</div>
+		<div class="flex-row-between">
+			<h3>Language: <span>{{ language }}</span><h3>
+			<h3>Source: <span>{{ source }}</span></h3>
+		</div>
+		<div class="flex-row-between">
+			<h3>Time limit: <span>{{ timeLimit }}</span><h3>
+			<h3>Line limit: <span>{{ lineLimit }}</span></h3>
+		</div>
+		<div class="flex-row-evenly">
+			<h3 class="show-to-player">Waiting for host to start test</h3>
+			<button id="startTestButton" type="button" class="show-to-host">Start test</button>
+		</div>
+	</div>
 </div>
 
 <style>
+
+#testLobby {
+	width: 50%;
+	margin: 0 auto;
+}
+
+#copyId {
+	cursor: pointer;
+	margin-left: 15px;
+	user-select: none;
+}
+
+.show-to-player {
+	display: none;
+}
+
+.show-to-host {
+	display: none;
+}
+
 </style>
 `;
 

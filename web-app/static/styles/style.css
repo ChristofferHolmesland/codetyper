@@ -566,6 +566,11 @@ sup {
 	color: var(--button-hover-bg);
 }
 
+.flex-column {
+	display: flex;
+	flex-direction: column;
+}
+
 .flex-row {
 	display: flex;
 	width: 100%;
@@ -576,6 +581,12 @@ sup {
 	display: flex;
 	width: 100%;
 	justify-content: space-evenly;
+}
+
+.flex-row-between {
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
 }
 
 .results-left {
