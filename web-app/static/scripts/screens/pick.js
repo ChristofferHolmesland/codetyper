@@ -80,7 +80,15 @@ class PickScreen extends Screen {
 
 		if (params.lobbyId !== undefined) {
 			this.lobbyId = params.lobbyId;
-			window.history.pushState("", "", "/?experimental=true");
+
+			let path;
+			if (window.location.hostname === "localhost") {
+				path = "/?experimental=true";
+			} else if (window.location.hostname === "christofferholmesland.github.io") {
+				path = "/codetyper/?experimental=true";
+			}
+
+			window.history.pushState("", "", path);
 			fireEvent(
 				CHANGE_SCREEN,
 				getScreenObject(TEST_LOBBY_SCREEN)
