@@ -80,6 +80,7 @@ class PickScreen extends Screen {
 
 		if (params.lobbyId !== undefined) {
 			this.lobbyId = params.lobbyId;
+			window.history.pushState("", "", "/?experimental=true");
 			fireEvent(
 				CHANGE_SCREEN,
 				getScreenObject(TEST_LOBBY_SCREEN)

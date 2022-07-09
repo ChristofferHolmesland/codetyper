@@ -46,8 +46,10 @@ const CREATE_LOBBY = `/${version}/lobby/create`;
 const JOIN_LOBBY = `/${version}/lobby/join`;
 const DELETE_LOBBY = `/${version}/lobby/delete`;
 const START_LOBBY = `/${version}/lobby/start`;
+const UPDATE_LOBBY = `/${version}/lobby/update`;
 
 const lobbies = {};
+const socketToLobbyId = {};
 
 function generateLobby() {
 	while (true) {
@@ -78,6 +80,8 @@ function createLobby(socket, payload) {
 	lobby.lineLimit = payload.lineLimit;
 	lobby.timeLimit = payload.timeLimit;
 
+	socket.lobbyId = lobby.id;
+
 	socket.send(
 		JSON.stringify({
 			topic: CREATE_LOBBY,
@@ -95,6 +99,8 @@ function joinLobby(socket, payload) {
 
 	const playerId = lobby.sockets.push(socket);
 
+	socket.lobbyId = lobby.id;
+
 	socket.send(
 		JSON.stringify({
 			topic: JOIN_LOBBY,
@@ -109,15 +115,63 @@ function joinLobby(socket, payload) {
 			},
 		})
 	);
+
+	for (let i = 0; i < lobby.sockets.length; i++) {
+		const sock = lobby.sockets[i];
+		if (sock === socket) continue;
+
+		sock.send(JSON.stringify({
+			topic: UPDATE_LOBBY,
+			payload: {
+				numberOfPlayers: lobby.sockets.length
+			}
+		}));
+	}
 }
 
-function deleteLobby(socket, payload) {}
+function deleteLobby(socket, payload) {
+	if (socket.lobbyId === undefined) return;
+
+	const lobby = lobbies[socket.lobbyId];
+	if (lobby === undefined) return;
+
+	let message;
+	if (lobby.host === socket) {
+		message = JSON.stringify({
+			topic: DELETE_LOBBY
+		})
+	} else {
+		const index = lobby.sockets.indexOf(socket);
+		lobby.sockets.splice(index, 1);
+
+		message = JSON.stringify({
+			topic: UPDATE_LOBBY,
+			payload: {
+				numberOfPlayers: lobby.sockets.length
+			}
+		});
+	}
+
+	for (let i = 0; i < lobby.sockets.length; i++) {
+		const sock = lobby.sockets[i];
+		if (sock === socket) continue;
+
+		sock.send(message);
+	}
+
+	delete lobbies[socket.lobbyId];
+	delete socket.lobbyId;
+}
 
 function startLobby(socket, payload) {}
 
 wss.on("connection", function connection(socket) {
 	socket.isAlive = true;
 	socket.on("pong", heartbeat);
+
+	socket.on("close", function (event) {
+		deleteLobby(socket, "");
+	});
 
 	socket.on("message", function message(data) {
 		try {
