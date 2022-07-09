@@ -26,9 +26,9 @@ let httpsServer;
 
 if (use_tls) {
 	const httpsOptions = {
-		key: fs.readFileSync(TLS_KEY_FILE),
-		cert: fs.readFileSync(TLS_CERT_FILE),
-		ca: fs.readFileSync(TLS_CA_FILE),
+		key: fs.readFileSync(process.env.TLS_KEY_FILE),
+		cert: fs.readFileSync(process.env.TLS_CERT_FILE),
+		ca: fs.readFileSync(process.env.TLS_CA_FILE),
 	};
 
 	httpsServer = https.createServer(httpsOptions);
