@@ -88,7 +88,8 @@ class TestLobbyScreen extends Screen {
 
 	onUpdateLobby(socket, payload) {
 		if (payload.numberOfPlayers !== undefined) {
-			this.volatileData.numberOfPlayers = payload.numberOfPlayers;
+			this.volatileData.numberOfPlayers =
+				payload.numberOfPlayers;
 		}
 	}
 

@@ -160,11 +160,15 @@ class AuthScreen extends Screen {
 		const buttonText =
 			this.authMode.value == "login" ? "Log in" : "Sign up";
 		this.toggleSpinnerVisibility(this.authButton, buttonText);
-		if (!this.validatePassword())
+		if (!this.validatePassword()) {
 			this.toggleSpinnerVisibility(
 				this.authButton,
 				buttonText
 			);
+
+			return;
+		}
+
 		if (this.authMode.value == "login") {
 			signIn(this.email.value, this.password.value)
 				.then((_) => {
