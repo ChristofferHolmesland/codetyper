@@ -84,7 +84,10 @@ class PickScreen extends Screen {
 			let path;
 			if (window.location.hostname === "localhost") {
 				path = "/?experimental=true";
-			} else if (window.location.hostname === "christofferholmesland.github.io") {
+			} else if (
+				window.location.hostname ===
+				"christofferholmesland.github.io"
+			) {
 				path = "/codetyper/?experimental=true";
 			}
 

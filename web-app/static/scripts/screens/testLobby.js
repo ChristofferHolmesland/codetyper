@@ -32,7 +32,7 @@ class TestLobbyScreen extends Screen {
 			source: "",
 			lineLimit: "",
 			timeLimit: "",
-                        startCountdownStep: 3
+			startCountdownStep: 3,
 		});
 	}
 
@@ -40,12 +40,12 @@ class TestLobbyScreen extends Screen {
 		super.enter(payload);
 		this.bindFunctions();
 
-                this.hasClickedOnStart = false;
+		this.hasClickedOnStart = false;
 		this.isInLobby = false;
 		this.isHost = false;
 		this.testStarting = false;
-                this.joiningGame = false;
-                this.testPayload = undefined;
+		this.joiningGame = false;
+		this.testPayload = undefined;
 
 		this.setVolatileDataFromPayload(payload);
 
@@ -62,9 +62,14 @@ class TestLobbyScreen extends Screen {
 			sendMessage(JOIN_LOBBY, payload.lobbyId);
 		}
 
-		document.getElementById("copyId").addEventListener("click", (event) => {
-			navigator.clipboard.writeText(`${window.location.href}&lobbyId=${this.volatileData.lobbyId}`);
-		});
+		document.getElementById("copyId").addEventListener(
+			"click",
+			(event) => {
+				navigator.clipboard.writeText(
+					`${window.location.href}&lobbyId=${this.volatileData.lobbyId}`
+				);
+			}
+		);
 	}
 
 	leave() {
@@ -78,9 +83,9 @@ class TestLobbyScreen extends Screen {
 		removeHandler(START_LOBBY, this.onStartLobby);
 		removeHandler(UPDATE_LOBBY, this.onUpdateLobby);
 
-                if (this.joiningGame) {
-                        return this.testPayload;
-                }
+		if (this.joiningGame) {
+			return this.testPayload;
+		}
 
 		return {};
 	}
@@ -91,24 +96,29 @@ class TestLobbyScreen extends Screen {
 		this.volatileData.lobbyId = payload;
 		this.volatileData.numberOfPlayers = 1;
 
-		const elements = document.getElementsByClassName("show-to-host");
+		const elements =
+			document.getElementsByClassName("show-to-host");
 		for (let i = 0; i < elements.length; i++) {
 			elements[i].classList.remove("show-to-host");
 		}
 
-                document.getElementById("startTestButton").addEventListener("click", () => {
-                        if (this.hasClickedOnStart) return;
-                        
-                        this.hasClickedOnStart = true;
-                        sendMessage(START_LOBBY, {});
-                });
+		document.getElementById("startTestButton").addEventListener(
+			"click",
+			() => {
+				if (this.hasClickedOnStart) return;
+
+				this.hasClickedOnStart = true;
+				sendMessage(START_LOBBY, {});
+			}
+		);
 	}
 
 	onJoinLobby(socket, payload) {
 		this.isInLobby = true;
 		this.setVolatileDataFromPayload(payload);
 
-		const elements = document.getElementsByClassName("show-to-player");
+		const elements =
+			document.getElementsByClassName("show-to-player");
 		for (let i = 0; i < elements.length; i++) {
 			elements[i].classList.remove("show-to-player");
 		}
@@ -138,23 +148,32 @@ class TestLobbyScreen extends Screen {
 	}
 
 	onStartLobby(socket, payload) {
-                if (payload.status === "START_COUNTDOWN") {
-                        document.getElementById("lobbyView").classList.add("hidden");
-                        document.getElementById("countdownView").classList.remove("hidden");
-                        const intervalId = setInterval(() => {
-                                if (this.volatileData.startCountdownStep === 0) {
-                                        clearInterval(intervalId);
-                                        return;
-                                }
+		if (payload.status === "START_COUNTDOWN") {
+			this.testStarting = true;
 
-                                this.volatileData.startCountdownStep--;
-                        }, 1000);
-                } else if (payload.status === "START_TEST") {
-                        this.joiningGame = true;
-                        this.testPayload = payload.testObject;
-                        fireEvent(CHANGE_SCREEN, getScreenObject(TEST_SCREEN));
-                }
-        }
+			document.getElementById("lobbyView").classList.add(
+				"hidden"
+			);
+			document.getElementById(
+				"countdownView"
+			).classList.remove("hidden");
+			const intervalId = setInterval(() => {
+				if (
+					this.volatileData.startCountdownStep ===
+					0
+				) {
+					clearInterval(intervalId);
+					return;
+				}
+
+				this.volatileData.startCountdownStep--;
+			}, 1000);
+		} else if (payload.status === "START_TEST") {
+			this.joiningGame = true;
+			this.testPayload = payload.testObject;
+			fireEvent(CHANGE_SCREEN, getScreenObject(TEST_SCREEN));
+		}
+	}
 
 	onUpdateLobby(socket, payload) {
 		if (payload.numberOfPlayers !== undefined) {
