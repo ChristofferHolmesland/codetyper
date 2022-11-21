@@ -8,7 +8,7 @@ let websocketHost;
 if (window.location.hostname === "localhost") {
 	websocketHost = "ws://localhost:8080";
 } else if (window.location.hostname === "christofferholmesland.github.io") {
-	websocketHost = "wss://cholytics.com:443";
+	websocketHost = "wss://qv.gl:443";
 } else {
 	console.log("No known WebSocket server for this host.");
 }
