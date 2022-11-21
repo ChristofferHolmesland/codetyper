@@ -16,6 +16,7 @@ import ProfileScreen from "./profile.js";
 import AuthScreen from "./auth.js";
 import SettingsScreen from "./settings.js";
 import TestLobbyScreen from "./testLobby.js";
+import MultiplayerResultScreen from "./multiplayerResult.js";
 
 const ROOT_ELEMENT = document.getElementById("screenContainer");
 
@@ -26,6 +27,7 @@ const PROFILE_SCREEN = "PROFILE_SCREEN";
 const AUTH_SCREEN = "AUTH_SCREEN";
 const SETTINGS_SCREEN = "SETTINGS_SCREEN";
 const TEST_LOBBY_SCREEN = "TEST_LOBBY_SCREEN";
+const MULTIPLAYER_RESULT_SCREEN = "MULTIPLAYER_RESULT_SCREEN";
 
 /**
  * Array with every screen that is in the application. New screens must be added to this array to be included.
@@ -40,6 +42,7 @@ const ALL_SCREENS = [
 	AUTH_SCREEN,
 	SETTINGS_SCREEN,
 	TEST_LOBBY_SCREEN,
+	MULTIPLAYER_RESULT_SCREEN,
 ];
 
 const SCREENS = {};
@@ -73,6 +76,8 @@ function getScreenObject(name) {
 		SCREENS[name] = new SettingsScreen(ROOT_ELEMENT);
 	} else if (name === TEST_LOBBY_SCREEN) {
 		SCREENS[name] = new TestLobbyScreen(ROOT_ELEMENT);
+	} else if (name === MULTIPLAYER_RESULT_SCREEN) {
+		SCREENS[name] = new MultiplayerResultScreen(ROOT_ELEMENT);
 	}
 
 	return SCREENS[name];
@@ -86,5 +91,6 @@ export {
 	AUTH_SCREEN,
 	SETTINGS_SCREEN,
 	TEST_LOBBY_SCREEN,
+	MULTIPLAYER_RESULT_SCREEN,
 	getScreenObject,
 };

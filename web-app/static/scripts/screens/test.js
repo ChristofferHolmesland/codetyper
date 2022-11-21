@@ -8,7 +8,11 @@
  */
 
 import Screen from "./screen.js";
-import { getScreenObject, RESULT_SCREEN } from "./screens.js";
+import {
+	getScreenObject,
+	MULTIPLAYER_RESULT_SCREEN,
+	RESULT_SCREEN,
+} from "./screens.js";
 import { fireEvent, CHANGE_SCREEN, TEST_COMPLETED } from "../events/bus.js";
 import {
 	ENTER_CHARACTER,
@@ -46,6 +50,12 @@ class TestScreen extends Screen {
 
 	enter(payload) {
 		super.enter(payload);
+
+		if (payload.lobbyId !== undefined) {
+			this.isMultiplayer = true;
+		} else {
+			this.isMultiplayer = false;
+		}
 
 		this.numCorrect = 0;
 		this.numErrors = 0;
@@ -123,7 +133,18 @@ class TestScreen extends Screen {
 		);
 
 		this.completedTest = true;
-		fireEvent(CHANGE_SCREEN, getScreenObject(RESULT_SCREEN));
+
+		if (this.isMultiplayer) {
+			fireEvent(
+				CHANGE_SCREEN,
+				getScreenObject(MULTIPLAYER_RESULT_SCREEN)
+			);
+		} else {
+			fireEvent(
+				CHANGE_SCREEN,
+				getScreenObject(RESULT_SCREEN)
+			);
+		}
 	}
 
 	startTimer() {

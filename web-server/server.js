@@ -47,6 +47,9 @@ const JOIN_LOBBY = `/${version}/lobby/join`;
 const DELETE_LOBBY = `/${version}/lobby/delete`;
 const START_LOBBY = `/${version}/lobby/start`;
 const UPDATE_LOBBY = `/${version}/lobby/update`;
+const FINISHED_TEST = `/${version}/test/finished`;
+const UPDATE_TEST_RESULT = `/${version}/test/update-result`;
+
 
 const lobbies = {};
 const socketToLobbyId = {};
@@ -196,6 +199,38 @@ function startLobby(socket, payload) {
         }, 3000)
 }
 
+function userFinishedTest(socket, payload) {
+        if (socket.lobbyId === undefined) return;
+
+        const lobby = lobbies[socket.lobbyId];
+        if (lobby === undefined) return;
+
+        socket.testResult = {
+                wpm: payload.wpm,
+                accuracy: payload.accuracy
+        }
+
+        const collectedResult = [];
+        const socketsToNotify = [];
+
+        for (let i = 0; i < lobby.sockets.length; i++) {
+                const sock = lobby.sockets[i];
+                if (sock.testResult === undefined) continue;
+
+                collectedResult.push(sock.testResult);
+                socketsToNotify.push(sock);
+        }
+
+        const toClients = JSON.stringify({
+                topic: UPDATE_TEST_RESULT,
+                payload: collectedResult
+        });
+
+        for (let i = 0; i < socketsToNotify.length; i++) {
+                socketsToNotify[i].send(toClients);
+        }
+}
+
 wss.on("connection", function connection(socket) {
 	socket.isAlive = true;
 	socket.on("pong", heartbeat);
@@ -228,6 +263,9 @@ wss.on("connection", function connection(socket) {
 			case START_LOBBY:
 				startLobby(socket, data.payload);
 				break;
+                        case FINISHED_TEST:
+                                userFinishedTest(socket, data.payload);
+                                break;
 		}
 	});
 });
