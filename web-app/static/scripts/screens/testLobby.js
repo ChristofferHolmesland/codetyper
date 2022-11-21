@@ -17,7 +17,7 @@ import {
 	UPDATE_LOBBY,
 } from "../sockets/initialize.js";
 import { CHANGE_SCREEN, fireEvent } from "../events/bus.js";
-import { getScreenObject, PICK_SCREEN } from "./screens.js";
+import { getScreenObject, PICK_SCREEN, TEST_SCREEN } from "./screens.js";
 
 /**
  * TestLobbyScreen is used to manage multiplayer games.
@@ -31,7 +31,8 @@ class TestLobbyScreen extends Screen {
 			language: "",
 			source: "",
 			lineLimit: "",
-			timeLimit: ""
+			timeLimit: "",
+                        startCountdownStep: 3
 		});
 	}
 
@@ -39,11 +40,12 @@ class TestLobbyScreen extends Screen {
 		super.enter(payload);
 		this.bindFunctions();
 
+                this.hasClickedOnStart = false;
 		this.isInLobby = false;
 		this.isHost = false;
 		this.testStarting = false;
-
-		console.log(payload);
+                this.joiningGame = false;
+                this.testPayload = undefined;
 
 		this.setVolatileDataFromPayload(payload);
 
@@ -76,6 +78,10 @@ class TestLobbyScreen extends Screen {
 		removeHandler(START_LOBBY, this.onStartLobby);
 		removeHandler(UPDATE_LOBBY, this.onUpdateLobby);
 
+                if (this.joiningGame) {
+                        return this.testPayload;
+                }
+
 		return {};
 	}
 
@@ -89,6 +95,13 @@ class TestLobbyScreen extends Screen {
 		for (let i = 0; i < elements.length; i++) {
 			elements[i].classList.remove("show-to-host");
 		}
+
+                document.getElementById("startTestButton").addEventListener("click", () => {
+                        if (this.hasClickedOnStart) return;
+                        
+                        this.hasClickedOnStart = true;
+                        sendMessage(START_LOBBY, {});
+                });
 	}
 
 	onJoinLobby(socket, payload) {
@@ -124,7 +137,24 @@ class TestLobbyScreen extends Screen {
 		fireEvent(CHANGE_SCREEN, getScreenObject(PICK_SCREEN));
 	}
 
-	onStartLobby(socket, payload) {}
+	onStartLobby(socket, payload) {
+                if (payload.status === "START_COUNTDOWN") {
+                        document.getElementById("lobbyView").classList.add("hidden");
+                        document.getElementById("countdownView").classList.remove("hidden");
+                        const intervalId = setInterval(() => {
+                                if (this.volatileData.startCountdownStep === 0) {
+                                        clearInterval(intervalId);
+                                        return;
+                                }
+
+                                this.volatileData.startCountdownStep--;
+                        }, 1000);
+                } else if (payload.status === "START_TEST") {
+                        this.joiningGame = true;
+                        this.testPayload = payload.testObject;
+                        fireEvent(CHANGE_SCREEN, getScreenObject(TEST_SCREEN));
+                }
+        }
 
 	onUpdateLobby(socket, payload) {
 		if (payload.numberOfPlayers !== undefined) {
@@ -144,26 +174,31 @@ class TestLobbyScreen extends Screen {
 
 const PROFILE_HTML = `
 <div id="testLobby">
-	<h1>Test lobby</h1>
+        <span id="lobbyView">
+                <h1>Test lobby</h1>
 
-	<div class="flex-column">
-		<div class="flex-row-between">
-			<h3>ID: <span>{{ lobbyId }}</span><span id="copyId" class="material-icons-round">content_copy</span></h3>
-			<h3>Players: <span>{{ numberOfPlayers }}</span></h3>
-		</div>
-		<div class="flex-row-between">
-			<h3>Language: <span>{{ language }}</span><h3>
-			<h3>Source: <span>{{ source }}</span></h3>
-		</div>
-		<div class="flex-row-between">
-			<h3>Time limit: <span>{{ timeLimit }}</span><h3>
-			<h3>Line limit: <span>{{ lineLimit }}</span></h3>
-		</div>
-		<div class="flex-row-evenly">
-			<h3 class="show-to-player">Waiting for host to start test</h3>
-			<button id="startTestButton" type="button" class="show-to-host">Start test</button>
-		</div>
-	</div>
+                <div class="flex-column">
+                        <div class="flex-row-between">
+                                <h3>ID: <span>{{ lobbyId }}</span><span id="copyId" class="material-icons-round">content_copy</span></h3>
+                                <h3>Players: <span>{{ numberOfPlayers }}</span></h3>
+                        </div>
+                        <div class="flex-row-between">
+                                <h3>Language: <span>{{ language }}</span><h3>
+                                <h3>Source: <span>{{ source }}</span></h3>
+                        </div>
+                        <div class="flex-row-between">
+                                <h3>Time limit: <span>{{ timeLimit }}</span><h3>
+                                <h3>Line limit: <span>{{ lineLimit }}</span></h3>
+                        </div>
+                        <div class="flex-row-evenly">
+                                <h3 class="show-to-player">Waiting for host to start test</h3>
+                                <button id="startTestButton" type="button" class="show-to-host">Start test</button>
+                        </div>
+                </div>
+        </span>
+        <span id="countdownView" class="hidden">
+                <div>{{ startCountdownStep }}</div>
+        </span>
 </div>
 
 <style>
@@ -185,6 +220,10 @@ const PROFILE_HTML = `
 
 .show-to-host {
 	display: none;
+}
+
+.hidden {
+        display: none;
 }
 
 </style>

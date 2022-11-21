@@ -51,6 +51,18 @@ const UPDATE_LOBBY = `/${version}/lobby/update`;
 const lobbies = {};
 const socketToLobbyId = {};
 
+function broadcast(sockets, topic, payload, excluded=undefined) {
+        for (let i = 0; i < sockets.length; i++) {
+		const sock = sockets[i];
+                if (sock === excluded) continue;
+
+		sock.send(JSON.stringify({
+			topic: topic,
+			payload: payload
+		}));
+	}
+}
+
 function generateLobby() {
 	while (true) {
 		const min = 100000000;
@@ -163,7 +175,26 @@ function deleteLobby(socket, payload) {
 	delete socket.lobbyId;
 }
 
-function startLobby(socket, payload) {}
+function startLobby(socket, payload) {
+        if (socket.lobbyId === undefined) return;
+
+        const lobby = lobbies[socket.lobbyId];
+        if (lobby === undefined) return;
+        if (lobby.host !== socket) return;
+
+        broadcast(lobby.sockets, START_LOBBY, { status: "START_COUNTDOWN" });
+
+        setTimeout(() => {
+                broadcast(lobby.sockets, START_LOBBY, { status: "START_TEST", testObject: {
+                        code: lobby.code,
+                        source: lobby.source,
+                        language: lobby.language,
+                        lineLimit: lobby.lineLimit,
+                        timeLimit: lobby.timeLimit,
+                        lobbyId: lobby.id
+                }});
+        }, 3000)
+}
 
 wss.on("connection", function connection(socket) {
 	socket.isAlive = true;
