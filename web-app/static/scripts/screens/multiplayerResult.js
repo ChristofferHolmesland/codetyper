@@ -19,14 +19,16 @@ import Screen from "./screen.js";
  */
 class MultiplayerResultScreen extends Screen {
 	constructor(element) {
-		super("Result!", element, RESULT_SCREEN_HTML, {
-			multiplayerResults: "",
-		});
+		super("Result!", element, RESULT_SCREEN_HTML);
 	}
 
 	enter(payload) {
 		super.enter(payload);
 		this.bindFunctions();
+
+		this.clientTempId =
+			window.sessionStorage.getItem("clientTempId");
+		window.sessionStorage.removeItem("clientTempId");
 
 		document.getElementById("restartButton").addEventListener(
 			"click",
@@ -114,7 +116,30 @@ class MultiplayerResultScreen extends Screen {
 	}
 
 	onUpdateTestResult(socket, payload) {
-		this.volatileData.multiplayerResults = JSON.stringify(payload);
+		payload.sort((a, b) => (a.wpm > b.wpm ? -1 : 1));
+
+		const table = document.getElementById("resultTable");
+		table.innerHTML =
+			"<tr><th>User</th><th>WPM</th><th>Accuracy</th></tr>";
+
+		for (let i = 0; i < payload.length; i++) {
+			const p = payload[i];
+
+			const row = document.createElement("tr");
+			const name = document.createElement("td");
+			name.innerHTML = p.displayName;
+			row.appendChild(name);
+
+			const wpm = document.createElement("td");
+			wpm.innerHTML = p.wpm;
+			row.appendChild(wpm);
+
+			const acc = document.createElement("td");
+			acc.innerHTML = p.accuracy;
+			row.appendChild(acc);
+
+			table.appendChild(row);
+		}
 	}
 
 	bindFunctions() {
@@ -178,7 +203,7 @@ const RESULT_SCREEN_HTML = `
  
         <div>
                 <h3>Multiplayer results</h3>
-                <span>{{ multiplayerResults }}</span>
+                <table id="resultTable"></table>
         </div>
 
          <div class="resultButtons">
@@ -190,6 +215,16 @@ const RESULT_SCREEN_HTML = `
                  </button>
          </div>
  </div>
+
+ <style>
+        table {
+                margin: 0 auto;
+        }
+
+        th {
+                width: 150px;
+        }
+ </style>
  `;
 
 export default MultiplayerResultScreen;

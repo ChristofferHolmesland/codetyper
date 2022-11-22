@@ -18,6 +18,7 @@ import {
 } from "../sockets/initialize.js";
 import { CHANGE_SCREEN, fireEvent } from "../events/bus.js";
 import { getScreenObject, PICK_SCREEN, TEST_SCREEN } from "./screens.js";
+import { getUser, getUserStats } from "../firebase/service.js";
 
 /**
  * TestLobbyScreen is used to manage multiplayer games.
@@ -112,6 +113,8 @@ class TestLobbyScreen extends Screen {
 				sendMessage(START_LOBBY, {});
 			}
 		);
+
+		this.sendNameToServer();
 	}
 
 	onJoinLobby(socket, payload) {
@@ -123,6 +126,39 @@ class TestLobbyScreen extends Screen {
 		for (let i = 0; i < elements.length; i++) {
 			elements[i].classList.remove("show-to-player");
 		}
+
+		this.sendNameToServer();
+	}
+
+	async sendNameToServer() {
+		let displayName = "";
+
+		const min = 100000000;
+		const max = 2000000001;
+		const rnd = Math.floor(Math.random() * (max - min)) + min;
+		const clientTempId = rnd.toString(36);
+
+		if (getUser() !== undefined) {
+			let data = await getUserStats();
+			if (
+				data.displayName !== undefined &&
+				data.displayName !== ""
+			) {
+				displayName = data.displayName;
+			}
+		}
+
+		if (displayName === "") {
+			displayName = clientTempId;
+		}
+
+		window.sessionStorage.setItem("clientTempId", clientTempId);
+
+		sendMessage(UPDATE_LOBBY, {
+			status: "NEW_DISPLAY_NAME",
+			displayName: displayName,
+			clientTempId: clientTempId,
+		});
 	}
 
 	setVolatileDataFromPayload(payload) {

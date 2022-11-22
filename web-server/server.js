@@ -207,8 +207,10 @@ function userFinishedTest(socket, payload) {
 
         socket.testResult = {
                 wpm: payload.wpm,
-                accuracy: payload.accuracy
-        }
+                accuracy: payload.accuracy,
+                displayName: socket.displayName,
+                clientTempId: socket.clientTempId
+        };
 
         const collectedResult = [];
         const socketsToNotify = [];
@@ -228,6 +230,13 @@ function userFinishedTest(socket, payload) {
 
         for (let i = 0; i < socketsToNotify.length; i++) {
                 socketsToNotify[i].send(toClients);
+        }
+}
+
+function updateLobby(socket, payload) {
+        if (payload.status === "NEW_DISPLAY_NAME") {
+                socket.displayName = payload.displayName;
+                socket.clientTempId = payload.clientTempId;
         }
 }
 
@@ -257,6 +266,9 @@ wss.on("connection", function connection(socket) {
 			case JOIN_LOBBY:
 				joinLobby(socket, data.payload);
 				break;
+                        case UPDATE_LOBBY:
+                                updateLobby(socket, data.payload);
+                                break;
 			case DELETE_LOBBY:
 				deleteLobby(socket, data.payload);
 				break;
