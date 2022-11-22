@@ -48,6 +48,7 @@ class TestLobbyScreen extends Screen {
 		this.testPayload = undefined;
 
 		this.setVolatileDataFromPayload(payload);
+		this.volatileData.startCountdownStep = 3;
 
 		addHandler(CREATE_LOBBY, this.onCreateLobby);
 		addHandler(JOIN_LOBBY, this.onJoinLobby);
