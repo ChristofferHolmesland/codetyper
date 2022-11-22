@@ -221,6 +221,22 @@ async function processTestCompleted(payload) {
 	);
 }
 
+/**
+ * Saves the display name in Firebase.
+ * @async
+ * @param {string} name - New name
+ */
+async function setUserDisplayName(name) {
+	if (name === undefined) return;
+
+	const userDoc = await getUserDoc();
+	if (userDoc === undefined) return;
+
+	updateDoc(userDoc.ref, {
+		displayName: name,
+	}).catch((e) => console.error(e));
+}
+
 addSubscriber(TEST_COMPLETED, processTestCompleted);
 
 export {
@@ -233,4 +249,5 @@ export {
 	resetPassword,
 	githubSignInWithPopup,
 	googleSignInWithPopup,
+	setUserDisplayName,
 };

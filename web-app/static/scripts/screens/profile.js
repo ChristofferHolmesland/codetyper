@@ -12,6 +12,7 @@ import {
 	signOut,
 	getUserStats,
 	getUserTests,
+	setUserDisplayName,
 } from "../firebase/service.js";
 import { getScreenObject, AUTH_SCREEN, PICK_SCREEN } from "./screens.js";
 import { fireEvent, CHANGE_SCREEN } from "../events/bus.js";
@@ -24,6 +25,7 @@ class ProfileScreen extends Screen {
 	constructor(element) {
 		super("Profile", element, PROFILE_HTML, {
 			userEmail: "",
+			displayName: "",
 			numberOfTests: 0,
 			tests: [
 				{
@@ -49,6 +51,16 @@ class ProfileScreen extends Screen {
 		getUserStats().then((data) => {
 			if (data === undefined) return;
 
+			if (
+				data.displayName === undefined ||
+				data.displayName === ""
+			) {
+				this.volatileData.displayName = "name not set";
+			} else {
+				this.volatileData.displayName =
+					data.displayName;
+			}
+
 			this.volatileData.numberOfTests = data.numberOfTests;
 		});
 
@@ -72,6 +84,46 @@ class ProfileScreen extends Screen {
 			"click",
 			() => this.doSignOut()
 		);
+
+		document.getElementById("editNameButton").addEventListener(
+			"click",
+			this.showEditName
+		);
+		document.getElementById("cancelNameButton").addEventListener(
+			"click",
+			this.hideEditName
+		);
+
+		document.getElementById("saveNameButton").addEventListener(
+			"click",
+			() => {
+				const newName =
+					document.getElementById(
+						"newNameInput"
+					).value;
+
+				if (newName === undefined || newName === "") {
+					this.volatileData.displayName =
+						"name not set";
+				} else {
+					this.volatileData.displayName = newName;
+				}
+
+				setUserDisplayName(newName);
+
+				this.hideEditName();
+			}
+		);
+	}
+
+	hideEditName() {
+		document.getElementById("name").classList.remove("hidden");
+		document.getElementById("editName").classList.add("hidden");
+	}
+
+	showEditName() {
+		document.getElementById("name").classList.add("hidden");
+		document.getElementById("editName").classList.remove("hidden");
 	}
 
 	doSignOut() {
@@ -88,6 +140,11 @@ const PROFILE_HTML = `
 <div id="profile">
 	<h1>Profile</h1>
 	<p>Profile for: <span>{{ userEmail }}</span></p>
+        <p id="name">Display name: <span>{{ displayName }}</span> <button id="editNameButton" type="button">Edit</button></p>
+        <p id="editName" class="hidden">Display name: <input id="newNameInput" type="text" /> 
+                <button id="saveNameButton" type="button">Save</button>
+                <button id="cancelNameButton" type="button">Cancel</button>
+        </p>
 	<p>Number of tests: <span>{{ numberOfTests }}</span></p>
 	<br />
 	<h3>Last 5 tests</h3>
@@ -115,6 +172,10 @@ const PROFILE_HTML = `
 		width: 100%;
 		justify-content: space-between;
 	}
+
+        .hidden {
+                display: none;
+        }
 </style>
 `;
 
